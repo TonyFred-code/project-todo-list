@@ -7,7 +7,6 @@ export class ToDoItem {
   #dueDate;
   #priority;
   #subTasks = [];
-  #id = Date.now();
   #done = false;
 
   #isValidString(string) {
@@ -94,13 +93,10 @@ export class ToDoItem {
     this.#subTasks.push(subtask);
   }
 
-  get id() {
-    return this.#id;
-  }
-
   get done() {
     return this.#done;
   }
+
 
   toggleDone() {
     this.#done = !this.#done;

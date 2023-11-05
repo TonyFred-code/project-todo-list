@@ -9,3 +9,23 @@ import { ToDoItem } from "./todo-item";
 creating new todos, setting todos as complete, changing todo priority
 
 */
+export class ToDoList {
+    #id = Date.now();
+
+    #todoList = [];
+
+    get id() {
+        return this.#id;
+    }
+
+    get todoList() {
+        return this.#todoList;
+    }
+
+    createToDo() {
+        let todoItem = new ToDoItem();
+        this.#todoList.push(todoItem);
+        return todoItem;
+    }
+
+}
