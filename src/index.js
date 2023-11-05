@@ -1,7 +1,10 @@
-// import { ToDoItem } from "./todo-item";
 import { ToDoList } from "./todo-list";
+import "./style.css";
 
-const todo1 = new ToDoList();
+const todo1 = new ToDoList("Project");
+const work = new ToDoList("Work");
+
+console.log(work === todo1)
 // todo1.title = "Wash the car";
 // todo1.note = "This is  some notes that i figured should be useful";
 // todo1.dueDate = "2023";
@@ -22,7 +25,4 @@ item1.markDone();
 let item2 = todo1.createToDo();
 item2.priority = "high";
 
-console.log(item1);
-console.log(todo1.todoList);
-
-// console.log(item1.id === item2.id);
+console.log(todo1.todoList[0]);
