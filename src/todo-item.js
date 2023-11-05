@@ -1,10 +1,12 @@
 import { isValid } from "date-fns";
+import { SubTaskItem } from "./subtask-item";
 
 export class ToDoItem {
   #title;
   #notes;
   #dueDate;
   #priority;
+  #subTasks = [];
 
   #isValidString(string) {
     if (typeof string !== "string") return false;
@@ -74,5 +76,19 @@ export class ToDoItem {
     }
 
     this.#priority = priorityVal;
+  }
+
+  get subtasks() {
+    return this.#subTasks;
+  }
+
+  addSubtask(title) {
+    if (!this.#isValidString(title)) {
+        throw new TypeError("Invalid title input. Must be a non-empty string")
+    }
+
+    let subtask = new SubTaskItem();
+    subtask.title = title;
+    this.#subTasks.push(subtask);
   }
 }
