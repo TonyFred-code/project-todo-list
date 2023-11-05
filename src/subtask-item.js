@@ -30,6 +30,14 @@ export class SubTaskItem {
     this.#done = !this.#done;
   }
 
+  markDone() {
+    this.#done = true;
+  }
+
+  markNotDone() {
+    this.#done = false;
+  }
+
   get id() {
     return this.#id;
   }

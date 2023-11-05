@@ -105,4 +105,12 @@ export class ToDoItem {
   toggleDone() {
     this.#done = !this.#done;
   }
+
+  markDone() {
+    this.#done = true;
+  }
+
+  markNotDone() {
+    this.#done = false;
+  }
 }
