@@ -8,6 +8,7 @@ export class ToDoItem {
   #priority;
   #subTasks = [];
   #id = Date.now();
+  #done = false;
 
   #isValidString(string) {
     if (typeof string !== "string") return false;
@@ -95,5 +96,13 @@ export class ToDoItem {
 
   get id() {
     return this.#id;
+  }
+
+  get done() {
+    return this.#done;
+  }
+
+  toggleDone() {
+    this.#done = !this.#done;
   }
 }
