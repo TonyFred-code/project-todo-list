@@ -1,6 +1,7 @@
 export class SubTaskItem {
   #title;
   #done = false;
+  #id = Date.now();
 
   #isValidString(string) {
     if (typeof string !== "string") return false;
@@ -27,5 +28,9 @@ export class SubTaskItem {
 
   toggleDone() {
     this.#done = !this.#done;
+  }
+
+  get id() {
+    return this.#id;
   }
 }

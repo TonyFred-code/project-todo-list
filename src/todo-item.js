@@ -7,6 +7,7 @@ export class ToDoItem {
   #dueDate;
   #priority;
   #subTasks = [];
+  #id = Date.now();
 
   #isValidString(string) {
     if (typeof string !== "string") return false;
@@ -43,7 +44,7 @@ export class ToDoItem {
 
   set dueDate(dateValue) {
     if (!isValid(new Date(dateValue))) {
-      throw new TypeError("Invalid date value");
+      throw new TypeError("Invalid date value. Must be a date object or a valid date string format");
     }
 
     this.#dueDate = dateValue;
@@ -90,5 +91,9 @@ export class ToDoItem {
     let subtask = new SubTaskItem();
     subtask.title = title;
     this.#subTasks.push(subtask);
+  }
+
+  get id() {
+    return this.#id;
   }
 }

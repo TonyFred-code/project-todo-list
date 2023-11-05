@@ -1,5 +1,4 @@
 import { ToDoItem } from "./todo-item";
-// import { isValid } from "date-fns";
 
 const todo1 = new ToDoItem();
 todo1.title = "Wash the car";
