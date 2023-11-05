@@ -8,24 +8,57 @@
   <body>
     <div id="container">
       <nav>
-        <div class="filters">
-          <button type="button" data-show="today">Today</button>
-          <button type="button" data-show="upcoming">Upcoming</button>
-          <button type="button" data-show="current-week">Current Week</button>
-          <button type="button" data-show="prioritized">Prioritized</button>
-          <button type="button" data-show="overdue">Overdue</button>
+        <div>
+          <h1>Filters</h1>
+          <div class="filters">
+            <button type="button" data-show="today">Today</button>
+            <button type="button" data-show="upcoming">Upcoming</button>
+            <button type="button" data-show="current-week">Current Week</button>
+            <button type="button" data-show="prioritized">Prioritized</button>
+            <button type="button" data-show="overdue">Overdue</button>
+          </div>
         </div>
-        <div class="lists">
+        <div>
+          <h1>Lists</h1>
+          <div class="lists">
             <button class="list-item" data-list-name="project">Project</button>
             <button class="create-list-item" type="button">New List</button>
+          </div>
         </div>
       </nav>
       <div class="current-screen">
         <h1 class="current-screen-title">PROJECT</h1>
         <ul class="todo-items">
-            <li></li>
+          <li>
+            <span class="marker" data-done="false"></span>
+            <div class="todo-details">
+              <div class="todo-title">Wash the garden</div>
+              <div class="todo-date-view">Today</div>
+            </div>
+            <span class="priority"></span>
+          </li>
+
+          <li>
+            <span class="marker" data-done="false"></span>
+            <div class="todo-details">
+              <div class="todo-title">Wash the garden</div>
+              <div class="todo-date-view">Today</div>
+            </div>
+            <span class="priority"></span>
+          </li>
+
+          <li>
+            <span class="marker" data-done="false"></span>
+            <div class="todo-details">
+              <div class="todo-title">Wash the garden</div>
+              <div class="todo-date-view">Today</div>
+            </div>
+            <span class="priority"></span>
+          </li>
         </ul>
-        <button type="button" class="add-task" data-active-list="project">Add</button>
+        <button type="button" class="add-task" data-active-list="project">
+          Add
+        </button>
       </div>
     </div>
   </body>
