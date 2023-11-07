@@ -1,32 +1,34 @@
 // import { ToDoList } from "./todo-list";
 import "./style.css";
 import { ToDo } from "./todo";
+import { nextDay, lastDayOfMonth } from "date-fns";
 
 const toDo = new ToDo();
+// create a list
 toDo.createList("Project");
-console.log(toDo.lists);
-// const todo1 = new ToDoList("Project");
-// const work = new ToDoList("Work");
+// create another list;
+toDo.createList("Tutorial");
+let title1 = "Wash the car";
+let note1 = "This is  some notes that i figured should be useful";
+let dueDate1 = lastDayOfMonth(Date.now());
+let priority1 = "none";
+// create a toDo item in a particular list; ('PROJECT')
+// toDo.createToDo(0, title1, note1, dueDate1, priority1);
+// get toDo items in a particular list;
+console.log(toDo.getListToDo(0));
 
-// console.log(work === todo1)
-// todo1.title = "Wash the car";
-// todo1.note = "This is  some notes that i figured should be useful";
-// todo1.dueDate = "2023";
-// todo1.priority = "none";
-// console.log(todo1);
-// todo1.addSubtask("wash the tires");
-// todo1.addSubtask("wash the car mats");
-// todo1.addSubtask("wash the cup holder area carefully");
-// console.log(todo1.subtasks)
-// for (let subtask of todo1.subtasks) {
-//     console.log(subtask);
-// }
+let title2 = "Using The App";
+let note2 = "Complete the below toDos";
+let dueDate2 = Date.now();
+let priority2 = "high";
+// create a toDo item in another list;
+// toDo.createToDo(1, title2, note2, dueDate2, priority2, false)
 
-// let item1 = todo1.createToDo();
-// item1.note = "This is  some notes that i figured should be useful";
-// item1.markDone();
+console.log(toDo.lists); // get the lists created
+console.log(toDo.dueToday)
 
-// let item2 = todo1.createToDo();
-// item2.priority = "high";
+// create a list;
+// create toDo item(s) in a list;
+// can edit, delete, and view toDo item(s) in a list;
 
-// console.log(todo1.todoList[0]);
+// can create multiple lists

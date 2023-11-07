@@ -97,6 +97,14 @@ export class ToDoItem {
     return this.#done;
   }
 
+  set done(state) {
+    if (state !== false && state !== true) {
+      throw new TypeError("Invalid state")
+    }
+
+    this.#done = state;
+  }
+
 
   toggleDone() {
     this.#done = !this.#done;
