@@ -93,6 +93,21 @@ export class ToDoItem {
     this.#subTasks.push(subtask);
   }
 
+  deleteSubtask(taskIndex) {
+    let len = this.#subTasks.length;
+    if (len === 0) {
+      throw new Error("Cannot delete what hasn't been created");
+    }
+
+    if (typeof taskIndex !== "number" ||
+    taskIndex < 0 ||
+    taskIndex >= len) {
+      throw new Error("Invalid index number");
+    }
+
+    this.#subTasks.splice(taskIndex, 1);
+  }
+
   get done() {
     return this.#done;
   }
