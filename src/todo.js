@@ -1,5 +1,12 @@
 import { ToDoList } from "./todo-list";
-import { toDate, isToday, startOfWeek, endOfWeek , addDays, isSameDay} from "date-fns";
+import {
+  toDate,
+  isToday,
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  isSameDay,
+} from "date-fns";
 
 export class ToDo {
   #lists = []; // all created tasks
@@ -127,11 +134,25 @@ export class ToDo {
           if (isSameDay(day, toDo.dueDate)) {
             this.#dueNextSevenDays.push(toDo);
           }
-        })
-      })
+        });
+      });
     }
 
     return this.#dueNextSevenDays;
+  }
+
+  get prioritized() {
+    let list = this.#lists;
+
+    list.forEach((list) => {
+      list.todoList.forEach((toDo) => {
+        if (toDo.priority !== "none") {
+          this.#prioritized.push(toDo);
+        }
+      });
+    });
+
+    return this.#prioritized;
   }
 }
 
