@@ -4,31 +4,22 @@ import { ToDo } from "./todo";
 import { nextDay, lastDayOfMonth } from "date-fns";
 
 const toDo = new ToDo();
-// create a list
-toDo.createList("Project");
-// create another list;
-toDo.createList("Tutorial");
-let title1 = "Wash the car";
-let note1 = "This is  some notes that i figured should be useful";
-let dueDate1 = lastDayOfMonth(Date.now());
-let priority1 = "none";
-// create a toDo item in a particular list; ('PROJECT')
-// toDo.createToDo(0, title1, note1, dueDate1, priority1);
-// get toDo items in a particular list;
-console.log(toDo.getListToDo(0));
-
-let title2 = "Using The App";
-let note2 = "Complete the below toDos";
-let dueDate2 = Date.now();
-let priority2 = "high";
-// create a toDo item in another list;
-// toDo.createToDo(1, title2, note2, dueDate2, priority2, false)
-
-console.log(toDo.lists); // get the lists created
-console.log(toDo.dueToday)
-
 // create a list;
-// create toDo item(s) in a list;
-// can edit, delete, and view toDo item(s) in a list;
-
-// can create multiple lists
+toDo.createList("Tutorial");
+// get lists created in each instance;
+// console.log(toDo.lists);
+// view list even if nothing was created in it;
+// console.log(toDo.getListToDo(0));
+// create toDo in a list;
+let title1 = "Create a list by clicking on 'new list' button in the side bar";
+let note1 = "Creating a list is essential to usage of this software.";
+let priority1 = "high";
+let done1 = false;
+let dueDate1 = Date.now();
+let subtasks = ["click a button", "click that button","fill the form that pops up", "click the done button and voila you have created a todo"]
+// add getting due time;
+toDo.createToDo(0,title1, note1, dueDate1, priority1,[...subtasks], done1);
+console.log(toDo.getListToDo(0));
+console.log(toDo.dueToday); // viewing due today;
+console.log(toDo.dueNextSevenDays); // viewing tasks due over the next seven days;
+console.log(toDo.prioritized);
