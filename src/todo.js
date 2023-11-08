@@ -1,9 +1,11 @@
 import { ToDoList } from "./todo-list";
-import { toDate, isToday } from "date-fns";
+import { toDate, isToday, startOfWeek, endOfWeek , addDays, isSameDay} from "date-fns";
 
 export class ToDo {
-  #lists = [];
-  #dueToday = [];
+  #lists = []; // all created tasks
+  #dueToday = []; // only tasks due today
+  #dueNextSevenDays = []; // only tasks due this particular week;
+  #prioritized = []; // tasks with a priority flag not 'none';
   #today = Date.now();
 
   get lists() {
@@ -68,7 +70,7 @@ export class ToDo {
     todoDueDate,
     todoPriority,
     [...subtasks],
-    todoDone  = false
+    todoDone = false
   ) {
     if (
       typeof listIndex !== "number" ||
@@ -86,7 +88,7 @@ export class ToDo {
       todoPriority,
       [...subtasks],
       todoDone
-      );
+    );
   }
 
   get dueToday() {
@@ -105,16 +107,31 @@ export class ToDo {
     // }
 
     lists.forEach((list) => {
-
-
       list.todoList.forEach((toDo) => {
-       if (isToday(toDo.dueDate)) {
-        this.#dueToday.push(toDo);
-       }
-      })
-    })
+        if (isToday(toDo.dueDate)) {
+          this.#dueToday.push(toDo);
+        }
+      });
+    });
 
     return this.#dueToday;
+  }
+
+  get dueNextSevenDays() {
+    let today = Date.now();
+    let list = this.#lists;
+    for (let j = 0; j < 7; j++) {
+      let day = addDays(today, j);
+      list.forEach((list) => {
+        list.todoList.forEach((toDo) => {
+          if (isSameDay(day, toDo.dueDate)) {
+            this.#dueNextSevenDays.push(toDo);
+          }
+        })
+      })
+    }
+
+    return this.#dueNextSevenDays;
   }
 }
 
