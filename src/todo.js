@@ -24,7 +24,7 @@ export class ToDo {
     return list;
   }
 
-  getListToDo(listIndex) {
+  getListToDo(listIndex = 0) {
     if (this.#lists.length === 0) {
       throw new Error("Create a list first.");
     }
@@ -67,6 +67,7 @@ export class ToDo {
     todoNotes,
     todoDueDate,
     todoPriority,
+    [...subtasks],
     todoDone  = false
   ) {
     if (
@@ -83,6 +84,7 @@ export class ToDo {
       todoNotes,
       todoDueDate,
       todoPriority,
+      [...subtasks],
       todoDone
       );
   }
@@ -115,3 +117,12 @@ export class ToDo {
     return this.#dueToday;
   }
 }
+
+// create list
+// get list
+// get todos in a list
+// rename list;
+// delete list;
+
+// create a todo in a list;
+//
