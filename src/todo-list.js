@@ -15,25 +15,28 @@ creating new todos, setting todos as complete, changing todo priority
 
 */
 export class ToDoList {
-    #todoList = [];
+  #todoList = [];
 
-    constructor(name) {
-        this.name = name;
+  constructor(name) {
+    this.name = name;
+  }
+
+  get todoList() {
+    return this.#todoList;
+  }
+
+  createToDo(title, notes, dueDate, priority, [...subtasks], done = false) {
+    let todoItem = new ToDoItem();
+    todoItem.done = done;
+    todoItem.title = title;
+    todoItem.note = notes;
+    todoItem.dueDate = dueDate;
+    todoItem.priority = priority;
+
+    for (let i = 0; i < subtasks.length; i++) {
+        todoItem.addSubtask(subtasks[i]);
     }
-
-    get todoList() {
-        return this.#todoList;
-    }
-
-    createToDo(title, notes, dueDate, priority, done) {
-        let todoItem = new ToDoItem();
-        todoItem.done = done;
-        todoItem.title = title;
-        todoItem.note = notes;
-        todoItem.dueDate = dueDate;
-        todoItem.priority = priority;
-        this.#todoList.push(todoItem);
-        return todoItem;
-    }
-
+    this.#todoList.push(todoItem);
+    return todoItem;
+  }
 }
