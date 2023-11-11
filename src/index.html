@@ -9,32 +9,76 @@
     <div id="container">
       <header>
         <h1 class="logo">
-          <span class="icon-container">
-            <img src="./icons/format-list-bulleted.svg" />
+          <span class="icon-container header-icon-container">
+            <!-- todo: work out assets loading -->
           </span>
           ToDoIt
         </h1>
       </header>
-      <!-- <nav>
+      <nav>
         <div>
           <h1>Filters</h1>
           <div class="filters">
-            <button type="button" data-show="today">Today</button>
-            <button type="button" data-show="upcoming">Upcoming</button>
-            <button type="button" data-show="next-seven-days">Next 7 Days</button>
-            <button type="button" data-show="prioritized">Prioritized</button>
-            <button type="button" data-show="overdue">Overdue</button>
+            <button type="button" data-show="today">
+              <span class="icon-container icon-today">
+                <!-- <img src="./icons/calendar-today.svg" />  --></span
+              >Today
+            </button>
+            <button type="button" data-show="upcoming">
+              <span class="icon-container icon-upcoming">
+                <!-- <img src="./icons/arrow-top-right.svg" />  --> </span
+              >Upcoming
+            </button>
+            <button type="button" data-show="next-seven-days">
+              <span class="icon-container icon-seven-days">
+                <!-- <img src="./icons/calendar-range.svg" /> -->
+              </span>
+              Next 7 Days
+            </button>
+            <button type="button" data-show="prioritized">
+              <span class="icon-container icon-prioritized">
+                <!-- <img src="./icons/calendar-today.svg" /> -->
+              </span>
+              <!-- todo: change to exclamation svg -->
+              Prioritized
+            </button>
+            <button type="button" class="active" data-show="overdue">
+              <span class="icon-container icon-overdue">
+                <!-- <img src="./icons/layers-triple-outline.svg" />  --> </span
+              >Overdue
+            </button>
           </div>
         </div>
+        <span class="hr"></span>
         <div>
           <h1>Lists</h1>
           <div class="lists">
-            <button class="list-item" data-list-name="project">Project</button>
+            <div class="list-items">
+              <button class="list-item" data-list-name="project">
+                Project
+              </button>
+              <button class="list-item" data-list-name="project">
+                Tutorial
+              </button>
+              <button class="list-item" data-list-name="project">
+                Laundry
+              </button>
+              <button class="list-item" data-list-name="project">Work</button>
+              <button class="list-item" data-list-name="project">
+                Meeting
+              </button>
+              <button class="list-item" data-list-name="project">
+                Meeting
+              </button>
+              <button class="list-item" data-list-name="project">
+                Meeting
+              </button>
+            </div>
             <button class="create-list-item" type="button">New List</button>
           </div>
         </div>
       </nav>
-      <div class="current-screen">
+      <!--  <div class="current-screen">
         <h1 class="current-screen-title">PROJECT</h1>
         <ul class="todo-items">
           <li>
