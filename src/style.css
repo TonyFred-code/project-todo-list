@@ -31,6 +31,7 @@ html {
 body {
   font-size: 1.6rem;
   background-color: #eeeeee;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #container {
@@ -84,7 +85,7 @@ nav button {
 }
 
 nav .filters {
-    margin: 6px 12px;
+  margin: 6px 12px;
 }
 
 nav .filters button {
@@ -126,9 +127,9 @@ nav .lists {
 }
 
 nav .list-items {
-    max-height: 195px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  max-height: 195px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 nav .lists button {
@@ -156,28 +157,188 @@ nav .lists .list-item {
 }
 
 nav .lists .create-list-item {
-    font-size: 1.35rem;
-    background-color: #c38d9e;
-    color: white;
-    font-weight: bolder;
-    letter-spacing: .1rem;
-    align-items: center;
-    justify-content: center;
-    border-width: 2px;
-    border-style: solid;
+  font-size: 1.35rem;
+  background-color: #c38d9e;
+  color: white;
+  font-weight: bolder;
+  letter-spacing: 0.1rem;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-style: solid;
 }
 
 nav .lists .create-list-item:hover {
-   opacity: .85;
+  opacity: 0.85;
 }
 
 nav .lists .create-list-item:active {
-    background-color: #ffffff;
-    border-color: #c38d9e;
-    color: #c38d9e;
+  background-color: #ffffff;
+  border-color: #c38d9e;
+  color: #c38d9e;
 }
 
 .current-screen {
   grid-column: 2 / -1;
   grid-row: 2 / -1;
+  margin: 20px;
+  padding: 12px;
+  background-color: #ffffff;
+  border-radius: 9px;
+  position: relative;
+}
+
+.current-screen .current-screen-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px;
+  margin: 5px;
+}
+
+.current-screen .todo-items {
+  list-style-type: none;
+  display: grid;
+  gap: 10px;
+  max-height: 380px;
+  height: 380px;
+  overflow-y: auto;
+}
+
+.current-screen .todo-items .todo-item {
+  display: flex;
+  background-color: #eee;
+  height: 60px;
+  border-radius: 9px;
+}
+
+.todo-item .marker-label-container {
+  position: relative;
+  width: 50px;
+}
+
+.todo-item .marker-container {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+  width: 25px;
+  height: 25px;
+}
+
+.todo-item .marker-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.todo-item .marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.todo-item .marker-container:hover input ~ .marker {
+  background-color: #ccc;
+}
+
+.todo-item .marker-container input:checked ~ .marker {
+  background-color: green;
+}
+
+.todo-item .marker-container .marker::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.todo-item .marker-container input:checked ~ .marker::after {
+  display: block;
+}
+
+.todo-item .marker-container .marker::after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.todo-item [data-done="false"] {
+}
+
+.todo-item [data-done="true"] {
+}
+
+.todo-item .todo-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding-left: 8px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.todo-item .todo-details:hover {
+  background-color: rgba(182, 175, 175, 0.567);
+}
+
+.todo-item .todo-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
+}
+
+.todo-item .todo-date-view {
+  font-size: .8em;
+}
+
+.todo-item .priority {
+  width: 12px;
+  background-color: red;
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
+}
+
+.current-screen .add-task {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid blue;
+  background-color: blue;
+  color: white;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.current-screen .add-task:hover {
+  background-color: rgba(0, 0, 255, 0.567);
+  border-color: rgba(0, 0, 255, 0.567);
+}
+
+.current-screen .add-task:active {
+  color: blue;
+  background-color: white;
 }
