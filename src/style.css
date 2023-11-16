@@ -128,7 +128,7 @@ nav .lists {
 
 nav .list-items {
   max-height: 195px;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 
@@ -137,8 +137,9 @@ nav .lists button {
 }
 
 nav .lists .list-item:hover {
-  transform: translateX(10px);
+  /* transform: translateX(10px); */
   padding-right: 10px;
+  background-color: #eeeeee;
 }
 
 nav .lists .list-item:active {
@@ -146,7 +147,7 @@ nav .lists .list-item:active {
 }
 
 nav .lists button.active {
-  transform: translateX(10px);
+  /* transform: translateX(10px); */
   background-color: #eeeeee;
   border-left: 3px solid black;
   padding-left: 17px;
@@ -154,6 +155,31 @@ nav .lists button.active {
 
 nav .lists .list-item {
   font-size: 1.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 210px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav .list-item .options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+nav .options .dot {
+  width: 5px;
+  height: 5px;
+  background-color: gray;
+  border-radius: 50%;
+}
+
+nav .list-item .option-content {
+  display: none;
 }
 
 nav .lists .create-list-item {
@@ -307,9 +333,15 @@ nav .lists .create-list-item:active {
   width: 300px;
 }
 
-.todo-item .todo-date-view {
-  font-size: .8em;
+.todo-item .date-subtask-view {
+  font-size: 0.8em;
+  display: flex;
+  gap: 8px;
 }
+
+/* .date-subtask-view > * {
+  font-size: inherit;
+} */
 
 .todo-item .priority {
   width: 12px;
