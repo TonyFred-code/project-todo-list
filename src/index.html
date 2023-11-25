@@ -7,11 +7,9 @@
   </head>
   <body>
     <div id="container">
-      <header>
+      <header class="main-header">
         <h1 class="logo">
-          <span class="icon-container header-icon-container">
-            <!-- todo: work out assets loading -->
-          </span>
+          <span class="icon-container header-icon-container"> </span>
           ToDoIt
         </h1>
       </header>
@@ -53,35 +51,32 @@
         <div>
           <h1>Lists</h1>
           <div class="lists">
-            <div class="list-items">
-              <button class="list-item" data-list-name="project">
-                Project
-                <span class="options">
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                  <span class="dot"></span>
-                </span>
-                <div class="option-content">
-                  <button type="button" class="delete-list">Delete List</button>
-                  <button type="button" class="rename-list">Rename List</button>
-                </div>
-              </button>
-            </div>
+            <ul class="list-items">
+              <li class="list-item title" data-list-name="project">Project</li>
+            </ul>
             <button class="create-list-item" type="button">New List</button>
           </div>
         </div>
       </nav>
       <div class="current-screen">
-        <h1 class="current-screen-title">PROJECT</h1>
+        <header class="list-header">
+          <h1 class="current-screen-title">
+            PROJEC adhfaosdhgoashdfgoashdgahsdgoiahsdighT
+          </h1>
+          <div class="options">
+            <button type="button" class="delete-list">Delete List</button>
+            <button type="button" class="edit-list">Edit List</button>
+          </div>
+        </header>
         <ul class="todo-items">
-          <li class="todo-item">
+          <li class="todo-item" data-priority="none">
             <div class="marker-label-container">
               <label class="marker-container">
                 <input type="checkbox" />
                 <span class="marker" data-done="false"></span>
               </label>
             </div>
-            <div class="todo-details">
+            <div class="todo-details-overview">
               <div class="todo-title">Wash the garden</div>
               <div class="date-subtask-view">
                 <span class="todo-date-view">Thu, 16 Nov</span>
@@ -89,169 +84,8 @@
                 <span class="sub-tasks">0/3</span>
               </div>
             </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
-          </li>
-
-          <li class="todo-item">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
-                <span class="sub-tasks">0/3</span>
-              </div>
-            </div>
-            <span class="priority"></span>
+            <button type="button" class="delete-todo">Delete</button>
+            <button type="button" class="edit-todo">Edit</button>
           </li>
         </ul>
         <button type="button" class="add-task" data-active-list="project">
