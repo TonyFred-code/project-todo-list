@@ -54,18 +54,22 @@
             <ul class="list-items">
               <li class="list-item title" data-list-name="project">Project</li>
             </ul>
-            <button class="create-list-item" type="button">New List</button>
+            <button class="create-list-item" type="button" data-target-dialog="create-list-item-dialog">New List</button>
           </div>
         </div>
       </nav>
-      <div class="current-screen">
+      <div class="current-screen" data-current-list="project">
         <header class="list-header">
-          <h1 class="current-screen-title">
-            PROJEC adhfaosdhgoashdfgoashdgahsdgoiahsdighT
-          </h1>
+          <h1 class="current-screen-title">PROJECT</h1>
           <div class="options">
-            <button type="button" class="delete-list">Delete List</button>
-            <button type="button" class="edit-list">Edit List</button>
+            <button
+              type="button"
+              class="delete-list"
+              data-target-dialog="list-delete-confirm"
+            >
+              Delete List
+            </button>
+            <button type="button" class="rename-list">Rename List</button>
           </div>
         </header>
         <ul class="todo-items">
@@ -93,10 +97,77 @@
         </button>
       </div>
     </div>
-    <!-- |?: create the following dialogs -->
-    <!-- create list item -->
-    <!-- rename list item -->
-    <!-- ToDo-item details view -- will also double as creating new todo item -->
-    <!-- Save (or cancel) changes confirmation  -->
+    <!-- || create the following dialogs -->
+    <!--
+      2. Edit List item (a) 3
+      4. Create List Item (a) 5
+      5. Rename List Item (a) 4
+
+      (a) - takes double role;
+     -->
+
+    <!--
+      1. Delete List Item Confirmation
+      -->
+    <dialog class="list-delete-confirm" data-name="list-delete-confirm">
+      <div class="dialog-content">
+        <h1>Confirm List Deletion</h1>
+        <p>
+          Do you really want to delete the entire list? This will delete all
+          tasks directly belonging to this list.
+        </p>
+
+        <p>This cannot be undone</p>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="list-delete-confirm"
+          >
+            CANCEL
+          </button>
+          <button
+            type="button"
+            class="confirm"
+            data-target-dialog="list-delete-confirm"
+          >
+            YES
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!--
+      3. Create List Item (a)
+     -->
+    <dialog class="create-list-item-dialog" data-name="create-list-item-dialog">
+      <form method="dialog">
+        <h1>Create a new List</h1>
+        <p>Please enter a name:</p>
+        <input
+          type="text"
+          name="list-title"
+          id="list-title"
+          placeholder="List Title"
+        />
+
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="create-list-item-dialog"
+          >
+            CANCEL
+          </button>
+          <button
+            type="submit"
+            class="create"
+            data-target-dialog="create-list-item-dialog"
+          >
+            CREATE
+          </button>
+        </div>
+      </form>
+    </dialog>
   </body>
 </html>
