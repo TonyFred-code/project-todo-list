@@ -41,7 +41,7 @@ body {
   height: 100%;
 }
 
-header {
+.main-header {
   grid-column: 1 / -1;
   background-color: #c38d9e;
   color: white;
@@ -130,15 +130,20 @@ nav .list-items {
   max-height: 195px;
   overflow-y: scroll;
   overflow-x: hidden;
+  list-style-type: none;
 }
 
-nav .lists button {
+nav .list-item {
+  padding: 12px;
+  cursor: pointer;
+}
+
+nav .lists button,
+.list-item {
   display: flex;
 }
 
 nav .lists .list-item:hover {
-  /* transform: translateX(10px); */
-  padding-right: 10px;
   background-color: #eeeeee;
 }
 
@@ -147,28 +152,42 @@ nav .lists .list-item:active {
 }
 
 nav .lists button.active {
-  /* transform: translateX(10px); */
   background-color: #eeeeee;
   border-left: 3px solid black;
   padding-left: 17px;
 }
 
 nav .lists .list-item {
+  height: 40px;
   font-size: 1.75rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 210px;
-  justify-content: space-between;
   align-items: center;
 }
 
+nav .list-item .title {
+  margin-right: auto;
+  padding: 12px;
+  cursor: pointer;
+  min-width: 70%;
+}
+
 nav .list-item .options {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 3px;
+  width: 30px;
+  height: 100%;
+}
+
+nav .list-item .options:hover,
+nav .list-item .title:hover {
+  background-color: rgba(136, 131, 131, 0.549);
 }
 
 nav .options .dot {
@@ -214,12 +233,35 @@ nav .lists .create-list-item:active {
   position: relative;
 }
 
-.current-screen .current-screen-title {
+.current-screen .list-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 9px;
-  margin: 5px;
+  justify-content: space-between;
+  padding: 12px;
+  margin: 4px;
+}
+
+.current-screen .current-screen-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}
+
+.current-screen .options {
+  display: flex;
+  gap: 24px;
+  padding: 8px;
+}
+
+.current-screen .options button {
+  outline: none;
+  border: 1.5px solid white;
+  padding: 8px 12px;
+}
+
+.current-screen .options button:active {
+  background-color: #ccc;
 }
 
 .current-screen .todo-items {
@@ -231,10 +273,27 @@ nav .lists .create-list-item:active {
   overflow-y: auto;
 }
 
-.current-screen .todo-items .todo-item {
+.todo-item {
   display: flex;
   background-color: #eee;
   height: 60px;
+  border-radius: 9px 0px 0px 9px;
+  border-right-style: inset;
+  border-right-width: 6px;
+}
+
+.todo-item[data-priority="high"] {
+  border-right-color: red;
+}
+.todo-item[data-priority="medium"] {
+  border-right-color: rgb(199, 199, 142);
+}
+.todo-item[data-priority="low"] {
+  border-right-color: gray;
+}
+
+.todo-item[data-priority="none"] {
+  border-right: none;
   border-radius: 9px;
 }
 
@@ -311,7 +370,7 @@ nav .lists .create-list-item:active {
 .todo-item [data-done="true"] {
 }
 
-.todo-item .todo-details {
+.todo-item .todo-details-overview {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -322,7 +381,7 @@ nav .lists .create-list-item:active {
   cursor: pointer;
 }
 
-.todo-item .todo-details:hover {
+.todo-item .todo-details-overview:hover {
   background-color: rgba(182, 175, 175, 0.567);
 }
 
@@ -330,6 +389,7 @@ nav .lists .create-list-item:active {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 300px;
   width: 300px;
 }
 
@@ -343,11 +403,27 @@ nav .lists .create-list-item:active {
   font-size: inherit;
 } */
 
+.todo-item > button {
+  padding: 9px 12px;
+  cursor: pointer;
+  align-self: center;
+  margin: 8px;
+}
+
+.todo-item .delete-todo {
+}
+
+.todo-item .edit-todo {
+}
+
 .todo-item .priority {
   width: 12px;
   background-color: red;
   border-top-right-radius: 9px;
   border-bottom-right-radius: 9px;
+}
+
+.todo-item .priority[data-priority="high"] {
 }
 
 .current-screen .add-task {
