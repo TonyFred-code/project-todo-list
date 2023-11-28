@@ -54,7 +54,13 @@
             <ul class="list-items">
               <li class="list-item title" data-list-name="project">Project</li>
             </ul>
-            <button class="create-list-item" type="button" data-target-dialog="create-list-item-dialog">New List</button>
+            <button
+              class="create-list-item"
+              type="button"
+              data-target-dialog="create-list-item-dialog"
+            >
+              New List
+            </button>
           </div>
         </div>
       </nav>
@@ -92,14 +98,18 @@
             <button type="button" class="edit-todo">Edit</button>
           </li>
         </ul>
-        <button type="button" class="add-task" data-active-list="project">
+        <button
+          type="button"
+          class="add-task"
+          data-active-list="project"
+          data-target-dialog="create-todo-item"
+        >
           Add Task
         </button>
       </div>
     </div>
     <!-- || create the following dialogs -->
     <!--
-      2. Edit List item (a) 3
       4. Create List Item (a) 5
       5. Rename List Item (a) 4
 
@@ -163,6 +173,86 @@
             type="submit"
             class="create"
             data-target-dialog="create-list-item-dialog"
+          >
+            CREATE
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- 2. Edit List item (a) 3 -->
+    <dialog class="create-todo-item" data-name="create-todo-item">
+      <form method="dialog">
+        <div class="row">
+          <h2 class="row-title">Title</h2>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter Title"
+            id="title"
+          />
+        </div>
+
+        <div class="row">
+          <h2 class="row-title">Priority</h2>
+          <label>
+            <input type="radio" name="priority" id="priority" value="none" />
+            none
+          </label>
+          <label>
+            <input type="radio" name="priority" id="priority" value="low" />
+            Low
+          </label>
+
+          <label>
+            <input type="radio" name="priority" id="priority" value="Medium" />
+            Medium
+          </label>
+
+          <label>
+            <input type="radio" name="priority" id="priority" value="High" />
+            High
+          </label>
+        </div>
+
+        <div class="row">
+          <h2 class="row-title">Due Date</h2>
+          <label>
+            <input type="date" name="due-date" id="due-date" />
+            Set due date
+          </label>
+        </div>
+
+        <div class="row">
+          <h2 class="row-title">List</h2>
+          <select name="lists" id="lists">
+            <option value="tutorial">Tutorial</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <h2 class="row-title">Notes</h2>
+          <textarea
+            name="Notes"
+            id="Notes"
+            cols="30"
+            rows="10"
+            placeholder="Add some notes!"
+          ></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="create-todo-item"
+          >
+            CANCEL
+          </button>
+          <button
+            type="submit"
+            class="submit"
+            data-target-dialog="create-todo-item"
           >
             CREATE
           </button>
