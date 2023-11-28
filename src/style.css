@@ -456,7 +456,8 @@ dialog.list-delete-confirm {
   width: 300px;
 }
 
-.list-delete-confirm .dialog-content, .create-list-item-dialog form {
+.list-delete-confirm .dialog-content,
+.create-list-item-dialog form {
   display: flex;
   gap: 12px;
   flex-flow: column nowrap;
@@ -464,21 +465,25 @@ dialog.list-delete-confirm {
   width: 100%;
 }
 
-.list-delete-confirm h1, .create-list-item-dialog h1 {
+.list-delete-confirm h1,
+.create-list-item-dialog h1 {
   border-bottom: 1.8px solid gray;
   font-size: 2.2rem;
   padding: 8px 0;
 }
 
-.list-delete-confirm p {}
+.list-delete-confirm p {
+}
 
-.list-delete-confirm .btn-group, .create-list-item-dialog .btn-group {
+.list-delete-confirm .btn-group,
+.create-list-item-dialog .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
 }
 
-.list-delete-confirm button, .create-list-item-dialog button{
+.list-delete-confirm button,
+.create-list-item-dialog button {
   border: 1px solid gray;
   padding: 8px 12px;
 }
@@ -508,4 +513,53 @@ dialog.list-delete-confirm {
   outline: none;
   font-weight: bold;
   font-size: 1.9rem;
+}
+
+.create-todo-item {
+}
+.create-todo-item form {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 350px;
+}
+
+.create-todo-item .row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.create-todo-item .row-title {
+  font-size: 1.9rem;
+}
+
+.create-todo-item input {
+}
+
+.create-todo-item input[type='text'] {
+  height: 25px;
+  padding: 6px;
+}
+
+.create-todo-item select {
+  height: 25px;
+}
+
+.create-todo-item textarea {
+  resize: none;
+  padding: 6px;
+  height: 100px;
+}
+
+.create-todo-item .btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.create-todo-item .btn-group button {
+  padding: 8px 12px;
+  border: 1px solid gray;
 }
