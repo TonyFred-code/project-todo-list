@@ -17,6 +17,11 @@
         <div>
           <h1>Filters</h1>
           <div class="filters">
+            <button type="button" data-show="all">
+              <span class="icon-container icon-all">
+                <!-- <img src="./icons/calendar-today.svg" />  --></span
+              >All
+            </button>
             <button type="button" data-show="today">
               <span class="icon-container icon-today">
                 <!-- <img src="./icons/calendar-today.svg" />  --></span
@@ -26,19 +31,6 @@
               <span class="icon-container icon-upcoming">
                 <!-- <img src="./icons/arrow-top-right.svg" />  --> </span
               >Upcoming
-            </button>
-            <button type="button" data-show="next-seven-days">
-              <span class="icon-container icon-seven-days">
-                <!-- <img src="./icons/calendar-range.svg" /> -->
-              </span>
-              Next 7 Days
-            </button>
-            <button type="button" data-show="prioritized">
-              <span class="icon-container icon-prioritized">
-                <!-- <img src="./icons/calendar-today.svg" /> -->
-              </span>
-              <!-- todo: change to exclamation svg -->
-              Prioritized
             </button>
             <button type="button" class="active" data-show="overdue">
               <span class="icon-container icon-overdue">
@@ -52,7 +44,9 @@
           <h1>Lists</h1>
           <div class="lists">
             <ul class="list-items">
-              <li class="list-item title" data-list-name="project">Project</li>
+              <li class="list-item title" data-list-name="project">
+                <span class="icon-container list-icon"></span>
+                Project</li>
             </ul>
             <button
               class="create-list-item"
@@ -94,7 +88,13 @@
                 <span class="sub-tasks">0/3</span>
               </div>
             </div>
-            <button type="button" class="delete-todo">Delete</button>
+            <button
+              type="button"
+              class="delete-todo"
+              data-target-dialog="todo-delete-confirm"
+            >
+              Delete
+            </button>
             <button type="button" class="edit-todo">Edit</button>
           </li>
         </ul>
@@ -195,10 +195,10 @@
 
         <div class="row">
           <h2 class="row-title">Priority</h2>
-          <label>
+          <!-- <label>
             <input type="radio" name="priority" id="priority" value="none" />
             none
-          </label>
+          </label> -->
           <label>
             <input type="radio" name="priority" id="priority" value="low" />
             Low
@@ -259,5 +259,35 @@
         </div>
       </form>
     </dialog>
+
+    <!--
+      1. Delete Todo Item Confirmation
+      -->
+
+    <dialog class="todo-delete-confirm" data-name="todo-delete-confirm">
+      <div class="dialog-content">
+        <h1>Confirm Task Deletion</h1>
+        <p>
+          Do you really want to delete this task? This action cannot be undone.
+        </p>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="todo-delete-confirm"
+          >
+            CANCEL
+          </button>
+          <button
+            type="button"
+            class="confirm"
+            data-target-dialog="todo-delete-confirm"
+          >
+            YES
+          </button>
+        </div>
+      </div>
+    </dialog>
+
   </body>
 </html>
