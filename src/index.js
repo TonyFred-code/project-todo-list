@@ -19,6 +19,8 @@ import { ta } from "date-fns/locale";
 const TODO = new ToDo();
 // create default list - tutorial
 let index = TODO.createList("Tutorial");
+const displayedList = new Set();
+// displayedList.add(index);
 
 displayListItems();
 changeScreen(index);
@@ -141,9 +143,12 @@ function createList(e) {
 function displayListItems() {
   const lists = TODO.lists;
   const listsContainer = document.querySelector(".list-items");
-  listsContainer.textContent = "";
+  // listsContainer.textContent = "";
 
   for (let i = 0; i < lists.length; i++) {
+    if (displayedList.has(i)) continue;
+
+    displayedList.add(i);
     let title = lists[i].name;
     const listItemLi = document.createElement("li");
     listItemLi.classList.add("list-item", "title");
@@ -161,8 +166,40 @@ function displayListItems() {
     titleContainer.classList.add("text");
     listItemLi.appendChild(iconContainer);
     listItemLi.appendChild(titleContainer);
+    listItemLi.addEventListener("click", displayScreen);
     listsContainer.appendChild(listItemLi);
   }
+}
+
+function removeActiveListContainer() {
+  let activeScreenIndex =
+    document.querySelector(".current-screen").dataset.listIndex;
+
+    if (Number.isNaN(Number(activeScreenIndex))) {
+      activeScreenIndex = 0;
+    }
+  console.log(activeScreenIndex);
+
+  let prevScreenLi = document.querySelector(
+    `.list-item[data-list-index='${activeScreenIndex}']`
+  );
+  prevScreenLi.classList.remove("active");
+}
+
+function addActiveListContainer(index) {
+  let newActiveScreenLi = document.querySelector(
+    `.list-item[data-list-index='${index}']`
+  );
+  newActiveScreenLi.classList.add("active");
+}
+
+function displayScreen(e) {
+  let listContainer = e.currentTarget;
+  let listIndex = listContainer.dataset.listIndex;
+  removeActiveListContainer();
+
+  addActiveListContainer(listIndex);
+  changeScreen(listIndex);
 }
 
 // create screen
@@ -176,6 +213,7 @@ function changeScreen(listIndex) {
   }
 
   const screen = document.querySelector(".current-screen");
+  removeActiveListContainer();
   screen.dataset.listIndex = listIndex;
 
   const listTodo = TODO.getListToDo(listIndex);
@@ -196,6 +234,7 @@ function changeScreen(listIndex) {
   const screenCreateToDoBtn = screen.querySelector(".add-task");
   screenCreateToDoBtn.dataset.activeListIndex = listIndex;
   titleContainer.textContent = list.name;
+  addActiveListContainer(listIndex)
   console.log(listTodo);
   console.log(list);
 }
