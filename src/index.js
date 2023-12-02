@@ -169,6 +169,8 @@ function displayListItems() {
     listItemLi.addEventListener("click", displayScreen);
     listsContainer.appendChild(listItemLi);
   }
+
+  listsContainer.scrollTop = listsContainer.scrollHeight;
 }
 
 function removeActiveListContainer() {
