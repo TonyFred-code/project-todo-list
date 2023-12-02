@@ -1,26 +1,25 @@
 import "./style.css";
 import { ToDo } from "./todo";
-import {
-  nextDay,
-  lastDayOfMonth,
-  lightFormat,
-  daysInWeek,
-  intlFormat,
-  isSameYear,
-} from "date-fns";
+// import {
+//   nextDay,
+//   lastDayOfMonth,
+//   lightFormat,
+//   daysInWeek,
+//   intlFormat,
+//   isSameYear,
+// } from "date-fns";
 import listIconSrc from "./icons/format-list-bulleted.svg";
 // todo import prioritizedIconImgSrc from './icons/';
 import overDueIconImgSrc from "./icons/layers-triple-outline.svg";
 import todayIconSrc from "./icons/calendar-today.svg";
 import allIconSrc from "./icons/calendar-month-outline.svg";
 import upcomingIconSrc from "./icons/arrow-top-right.svg";
-import { ta } from "date-fns/locale";
+// import { ta } from "date-fns/locale";
 
 const TODO = new ToDo();
 // create default list - tutorial
 let index = TODO.createList("Tutorial");
-const displayedList = new Set();
-// displayedList.add(index);
+const displayedList = [];
 
 displayListItems();
 changeScreen(index);
@@ -146,9 +145,9 @@ function displayListItems() {
   // listsContainer.textContent = "";
 
   for (let i = 0; i < lists.length; i++) {
-    if (displayedList.has(i)) continue;
+    if (displayedList.indexOf(i) !== -1) continue;
 
-    displayedList.add(i);
+    displayedList.push(i);
     let title = lists[i].name;
     const listItemLi = document.createElement("li");
     listItemLi.classList.add("list-item", "title");
@@ -174,18 +173,10 @@ function displayListItems() {
 }
 
 function removeActiveListContainer() {
-  let activeScreenIndex =
-    document.querySelector(".current-screen").dataset.listIndex;
-
-    if (Number.isNaN(Number(activeScreenIndex))) {
-      activeScreenIndex = 0;
-    }
-  console.log(activeScreenIndex);
-
-  let prevScreenLi = document.querySelector(
-    `.list-item[data-list-index='${activeScreenIndex}']`
-  );
-  prevScreenLi.classList.remove("active");
+  let listItems = document.querySelectorAll(".list-item");
+  listItems.forEach((listItem) => {
+    listItem.classList.remove("active");
+  });
 }
 
 function addActiveListContainer(index) {
@@ -216,6 +207,9 @@ function changeScreen(listIndex) {
 
   const screen = document.querySelector(".current-screen");
   removeActiveListContainer();
+  screen.classList.remove("hidden");
+  const emptyScreen = document.querySelector(".empty-screen");
+  emptyScreen.classList.add("hidden");
   screen.dataset.listIndex = listIndex;
 
   const listTodo = TODO.getListToDo(listIndex);
@@ -236,7 +230,7 @@ function changeScreen(listIndex) {
   const screenCreateToDoBtn = screen.querySelector(".add-task");
   screenCreateToDoBtn.dataset.activeListIndex = listIndex;
   titleContainer.textContent = list.name;
-  addActiveListContainer(listIndex)
+  addActiveListContainer(listIndex);
   console.log(listTodo);
   console.log(list);
 }
@@ -250,42 +244,40 @@ function createEmptyScreen() {
   toDoContainer.appendChild(li);
 }
 
-/*
+// deleting a list;
+confirmListDelete.addEventListener("click", deleteList);
 
-let date = Date.now();
-let formatted = intlFormat(date, {
-  weekday: "short",
-  //   year: "numeric",
-  month: "short",
-  day: "numeric",
-});
-console.log(formatted);
+function createEmptyListScreen() {
+  const screen = document.querySelector(".current-screen");
+  screen.classList.add("hidden");
+  const emptyScreen = document.querySelector(".empty-screen");
+  emptyScreen.classList.remove("hidden");
+}
 
-const toDo = new ToDo();
-// create a list;
-toDo.createList("Tutorial");
-// get lists created in each instance;
-// console.log(toDo.lists);
-// view list even if nothing was created in it;
-// console.log(toDo.getListToDo(0));
-// create toDo in a list;
-let title1 = "Create a list by clicking on 'new list' button in the side bar";
-let note1 = "Creating a list is essential to usage of this software.";
-let priority1 = "high";
-let done1 = false;
-let dueDate1 = Date.now();
-let subtasks = [
-  "click a button",
-  "click that button",
-  "fill the form that pops up",
-  "click the done button and voila you have created a todo",
-];
-// add getting due time;
-toDo.createToDo(0, title1, note1, dueDate1, priority1, [...subtasks], done1);
-console.log(toDo.getListToDo(0));
-console.log(toDo.dueToday); // viewing due today;
-console.log(toDo.dueNextSevenDays); // viewing tasks due over the next seven days;
-console.log(toDo.prioritized);
+// deleting the current list displayed on the screen
+function deleteList(e) {
+  const screen = document.querySelector(".current-screen");
+  const currentListIndex =
+    document.querySelector(".current-screen").dataset.listIndex;
+  console.log(currentListIndex);
+  const containingLi = document.querySelector(
+    `.list-item[data-list-index='${currentListIndex}']`
+  );
+  const listsContainer = document.querySelector(".list-items");
+  listsContainer.removeChild(containingLi);
+  const lists = listsContainer.querySelectorAll(".list-item");
+  if (lists.length === 0) {
+    createEmptyListScreen();
+    screen.dataset.listIndex = "none";
+  } else {
+    const lastList = lists.item(lists.length - 1);
+    const lastListIndex = lastList.dataset.listIndex;
+    changeScreen(lastListIndex);
+  }
 
 
-*/
+  TODO.deleteList(currentListIndex);
+  let pos = displayedList.indexOf(currentListIndex);
+  displayedList.splice(pos, 1);
+  closeDialog(e);
+}
