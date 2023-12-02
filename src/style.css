@@ -144,7 +144,7 @@ nav .lists button,
 }
 
 nav .lists .list-item:hover {
-  background-color: #eeeeee;
+  background-color: rgba(237, 237, 237, 0.4)
 }
 
 nav .lists .list-item:active {
@@ -165,40 +165,18 @@ nav .lists .list-item {
   white-space: nowrap;
   width: 210px;
   align-items: center;
-}
-
-nav .list-item .title {
-  margin-right: auto;
-  padding: 12px;
-  cursor: pointer;
-  min-width: 70%;
-}
-
-nav .list-item .options {
-  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3px;
-  width: 30px;
-  height: 100%;
+  gap: 12px;
 }
 
-nav .list-item .options:hover,
-nav .list-item .title:hover {
-  background-color: rgba(136, 131, 131, 0.549);
+nav .lists .list-item.active {
+  border-left: 3px inset black;
+  background-color: #eeeeee;
+
 }
 
-nav .options .dot {
-  width: 5px;
-  height: 5px;
-  background-color: gray;
-  border-radius: 50%;
-}
-
-nav .list-item .option-content {
-  display: none;
+nav .lists .list-icon {
+  flex-shrink: 0;
 }
 
 nav .lists .create-list-item {
@@ -425,7 +403,7 @@ nav .lists .create-list-item:active {
 .current-screen .add-task {
   position: absolute;
   bottom: 30px;
-  left: 50%;
+  right: 30px;
   transform: translate(-50%, 50%);
   height: 60px;
   width: 60px;
@@ -452,12 +430,12 @@ dialog {
   border: 2px inset;
 }
 
-dialog.list-delete-confirm {
+dialog.list-delete-confirm, dialog.todo-delete-confirm {
   width: 300px;
 }
 
 .list-delete-confirm .dialog-content,
-.create-list-item-dialog form {
+.create-list-item-dialog form, .todo-delete-confirm .dialog-content {
   display: flex;
   gap: 12px;
   flex-flow: column nowrap;
@@ -466,7 +444,8 @@ dialog.list-delete-confirm {
 }
 
 .list-delete-confirm h1,
-.create-list-item-dialog h1 {
+.create-list-item-dialog h1,
+.todo-delete-confirm h1 {
   border-bottom: 1.8px solid gray;
   font-size: 2.2rem;
   padding: 8px 0;
@@ -476,14 +455,16 @@ dialog.list-delete-confirm {
 }
 
 .list-delete-confirm .btn-group,
-.create-list-item-dialog .btn-group {
+.create-list-item-dialog .btn-group,
+.todo-delete-confirm .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
 }
 
 .list-delete-confirm button,
-.create-list-item-dialog button {
+.create-list-item-dialog button,
+.todo-delete-confirm button {
   border: 1px solid gray;
   padding: 8px 12px;
 }
