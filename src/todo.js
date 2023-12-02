@@ -19,6 +19,22 @@ export class ToDo {
     return this.#lists;
   }
 
+  getListById(id) {
+    if (this.#lists.length === 0) {
+      throw new Error("Create a list first.");
+    }
+
+    let lists = this.#lists;
+
+    for (let list of lists) {
+      if (list.id === id) {
+        return list;
+      }
+    }
+
+    throw new Error("Item not found");
+  }
+
   getList(index) {
     if (this.#lists.length === 0) {
       throw new Error("Create a list first.");
@@ -33,27 +49,24 @@ export class ToDo {
     return list;
   }
 
-  getListToDo(listIndex = 0) {
-    if (this.#lists.length === 0) {
+  getListToDo(listId) {
+    let lists = this.#lists;
+    if (lists.length === 0) {
       throw new Error("Create a list first.");
     }
 
-    let listLength = this.#lists.length;
-    if (listIndex < 0 || listIndex >= listLength) {
-      throw new Error("Invalid index. Must be a zero based index access.");
-    }
-
-    let list = this.#lists[listIndex];
-    return list.todoList;
+    let listTodo = this.getListById(listId).todoList;
+    return listTodo;
   }
 
   createList(title) {
     let list = new ToDoList(title);
     this.#lists.push(list);
+    return list.id;
   }
 
-  renameList(index, newName) {
-    let list = this.#lists[index];
+  renameList(id, newName) {
+    let list = this.getListById(id);
     if (!list) {
       throw new Error("Cannot get item");
     }
@@ -61,13 +74,14 @@ export class ToDo {
     list.name = newName;
   }
 
-  deleteList(index) {
-    let list = this.#lists[index];
+  deleteList(id) {
+    let list = this.getListById(id);
     if (!list) {
       throw new Error("Cannot get item");
     }
+    let pos = this.#lists.indexOf(list);
 
-    this.#lists.splice(index, 1);
+    this.#lists.splice(pos, 1);
   }
 
   createToDo(
