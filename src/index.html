@@ -8,34 +8,23 @@
   <body>
     <div id="container">
       <header class="main-header">
-        <h1 class="logo">
-          <span class="icon-container header-icon-container"> </span>
-          ToDoIt
-        </h1>
+        <h1 class="logo">ToDoIt</h1>
       </header>
       <nav>
         <div>
           <h1>Filters</h1>
           <div class="filters">
             <button type="button" data-show="all">
-              <span class="icon-container icon-all">
-                <!-- <img src="./icons/calendar-today.svg" />  --></span
-              >All
+              <span class="icon-container icon-all"> </span>All
             </button>
             <button type="button" data-show="today">
-              <span class="icon-container icon-today">
-                <!-- <img src="./icons/calendar-today.svg" />  --></span
-              >Today
+              <span class="icon-container icon-today"> </span>Today
             </button>
             <button type="button" data-show="upcoming">
-              <span class="icon-container icon-upcoming">
-                <!-- <img src="./icons/arrow-top-right.svg" />  --> </span
-              >Upcoming
+              <span class="icon-container icon-upcoming"> </span>Upcoming
             </button>
             <button type="button" class="active" data-show="overdue">
-              <span class="icon-container icon-overdue">
-                <!-- <img src="./icons/layers-triple-outline.svg" />  --> </span
-              >Overdue
+              <span class="icon-container icon-overdue"> </span>Overdue
             </button>
           </div>
         </div>
@@ -43,11 +32,7 @@
         <div>
           <h1>Lists</h1>
           <div class="lists">
-            <ul class="list-items">
-              <li class="list-item title" data-list-name="project">
-                <span class="icon-container list-icon"></span>
-                Project</li>
-            </ul>
+            <ul class="list-items"></ul>
             <button
               class="create-list-item"
               type="button"
@@ -58,7 +43,10 @@
           </div>
         </div>
       </nav>
-      <div class="current-screen" data-current-list="project">
+      <div
+        class="current-screen"
+        data-list-index="0"
+      >
         <header class="list-header">
           <h1 class="current-screen-title">PROJECT</h1>
           <div class="options">
@@ -101,7 +89,6 @@
         <button
           type="button"
           class="add-task"
-          data-active-list="project"
           data-target-dialog="create-todo-item"
         >
           Add Task
@@ -288,6 +275,12 @@
         </div>
       </div>
     </dialog>
-
   </body>
 </html>
+
+<!-- <li class="list-item title" data-list-name="project">
+                <span class="icon-container list-icon"></span>
+                <span class="text">
+                  Project
+                </span>
+              </li> -->
