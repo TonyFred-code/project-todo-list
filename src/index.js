@@ -19,7 +19,7 @@ import upcomingIconSrc from "./icons/arrow-top-right.svg";
 const TODO = new ToDo();
 // create default list - tutorial
 let index = TODO.createList("Tutorial");
-const displayedList = [];
+// const displayedList = [];
 
 displayListItems();
 changeScreen(index);
@@ -142,12 +142,12 @@ function createList(e) {
 function displayListItems() {
   const lists = TODO.lists;
   const listsContainer = document.querySelector(".list-items");
-  // listsContainer.textContent = "";
+  listsContainer.textContent = "";
 
   for (let i = 0; i < lists.length; i++) {
-    if (displayedList.indexOf(i) !== -1) continue;
+    // if (displayedList.indexOf(i) !== -1) continue;
 
-    displayedList.push(i);
+    // displayedList.push(i);
     let title = lists[i].name;
     const listItemLi = document.createElement("li");
     listItemLi.classList.add("list-item", "title");
@@ -250,6 +250,12 @@ confirmListDelete.addEventListener("click", deleteList);
 function createEmptyListScreen() {
   const screen = document.querySelector(".current-screen");
   screen.classList.add("hidden");
+  const titleContainer = screen.querySelector(".current-screen-title");
+  const screenCreateToDoBtn = screen.querySelector(".add-task");
+  titleContainer.textContent = "";
+  screenCreateToDoBtn.dataset.activeListIndex = "none"
+  const todoItemContainer = screen.querySelector(".todo-items");
+  todoItemContainer.textContent = "";
   const emptyScreen = document.querySelector(".empty-screen");
   emptyScreen.classList.remove("hidden");
 }
@@ -277,7 +283,7 @@ function deleteList(e) {
 
 
   TODO.deleteList(currentListIndex);
-  let pos = displayedList.indexOf(currentListIndex);
-  displayedList.splice(pos, 1);
+  // let pos = displayedList.indexOf(currentListIndex);
+  // displayedList.splice(pos, 1);
   closeDialog(e);
 }
