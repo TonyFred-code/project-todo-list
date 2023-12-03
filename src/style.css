@@ -179,6 +179,12 @@ nav .lists .list-icon {
   flex-shrink: 0;
 }
 
+nav .lists .text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 nav .lists .create-list-item {
   font-size: 1.35rem;
   background-color: #c38d9e;
@@ -201,7 +207,8 @@ nav .lists .create-list-item:active {
   color: #c38d9e;
 }
 
-.current-screen {
+
+.current-screen, .empty-screen {
   grid-column: 2 / -1;
   grid-row: 2 / -1;
   margin: 20px;
@@ -435,7 +442,7 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 }
 
 .list-delete-confirm .dialog-content,
-.create-list-item-dialog form, .todo-delete-confirm .dialog-content {
+.create-list-item-dialog form, .todo-delete-confirm .dialog-content, .rename-list-item-dialog form {
   display: flex;
   gap: 12px;
   flex-flow: column nowrap;
@@ -445,7 +452,8 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 
 .list-delete-confirm h1,
 .create-list-item-dialog h1,
-.todo-delete-confirm h1 {
+.todo-delete-confirm h1,
+.rename-list-item-dialog h1 {
   border-bottom: 1.8px solid gray;
   font-size: 2.2rem;
   padding: 8px 0;
@@ -456,7 +464,8 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 
 .list-delete-confirm .btn-group,
 .create-list-item-dialog .btn-group,
-.todo-delete-confirm .btn-group {
+.todo-delete-confirm .btn-group,
+.rename-list-item-dialog .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -464,28 +473,29 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 
 .list-delete-confirm button,
 .create-list-item-dialog button,
-.todo-delete-confirm button {
+.todo-delete-confirm button,
+.rename-list-item-dialog button {
   border: 1px solid gray;
   padding: 8px 12px;
 }
 
-.create-list-item-dialog {
+.create-list-item-dialog, .rename-list-item-dialog {
   width: 350px;
   height: 200px;
 }
 
-.create-list-item-dialog form {
+.create-list-item-dialog form, .rename-list-item-dialog form {
   width: 100%;
   display: flex;
   height: 100%;
 }
 
-.create-list-item-dialog h1 {
+.create-list-item-dialog h1, .rename-list-item-dialog h1 {
   font-size: 2.2rem;
   border-bottom: 1.2px solid gray;
 }
 
-.create-list-item-dialog input {
+.create-list-item-dialog input, .rename-list-item-dialog input {
   margin: auto 0px;
   height: 35px;
   border: none;
@@ -543,4 +553,8 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 .create-todo-item .btn-group button {
   padding: 8px 12px;
   border: 1px solid gray;
+}
+
+.hidden {
+  display: none;
 }
