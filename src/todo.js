@@ -85,7 +85,7 @@ export class ToDo {
   }
 
   createToDo(
-    listIndex,
+    listId,
     todoTitle,
     todoNotes,
     todoDueDate,
@@ -93,16 +93,16 @@ export class ToDo {
     [...subtasks],
     todoDone = false
   ) {
-    if (
-      typeof listIndex !== "number" ||
-      listIndex < 0 ||
-      listIndex >= this.#lists.length
-    ) {
-      throw new Error("Invalid index input");
+
+    let list;
+
+    try {
+      list = this.getListById(listId)
+    } catch (error) {
+      console.log(error);
     }
 
-    let list = this.#lists[listIndex];
-    list.createToDo(
+   let todoId =  list.createToDo(
       todoTitle,
       todoNotes,
       todoDueDate,
@@ -110,6 +110,8 @@ export class ToDo {
       [...subtasks],
       todoDone
     );
+
+    return todoId;
   }
 
   get dueToday() {
@@ -169,12 +171,3 @@ export class ToDo {
     return this.#prioritized;
   }
 }
-
-// create list
-// get list
-// get todos in a list
-// rename list;
-// delete list;
-
-// create a todo in a list;
-//
