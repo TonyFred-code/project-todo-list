@@ -254,7 +254,6 @@ nav .lists .create-list-item:active {
   display: grid;
   gap: 10px;
   max-height: 380px;
-  height: 380px;
   overflow-y: auto;
 }
 
@@ -381,6 +380,7 @@ nav .lists .create-list-item:active {
 .todo-item .date-subtask-view {
   font-size: 0.8em;
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -557,4 +557,12 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 
 .hidden {
   display: none;
+}
+
+.separator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: black;
 }
