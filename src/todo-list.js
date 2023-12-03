@@ -42,6 +42,6 @@ export class ToDoList {
         todoItem.addSubtask(subtasks[i]);
     }
     this.#todoList.push(todoItem);
-    return todoItem;
+    return todoItem.getItemId();
   }
 }
