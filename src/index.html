@@ -43,9 +43,11 @@
           </div>
         </div>
       </nav>
+      <div class="empty-screen hidden">
+        <p>There is no created list! Create a list and have some things to do.</p>
+      </div>
       <div
         class="current-screen"
-        data-list-index="0"
       >
         <header class="list-header">
           <h1 class="current-screen-title">PROJECT</h1>
@@ -57,7 +59,7 @@
             >
               Delete List
             </button>
-            <button type="button" class="rename-list">Rename List</button>
+            <button type="button" class="rename-list" data-target-dialog="rename-list">Rename List</button>
           </div>
         </header>
         <ul class="todo-items">
@@ -274,6 +276,35 @@
           </button>
         </div>
       </div>
+    </dialog>
+
+        <dialog class="rename-list-item-dialog" data-name="rename-list">
+      <form method="dialog">
+          <h1>Rename List</h1>
+          <p>Please enter the new list title:</p>
+          <input
+            type="text"
+            name="new-title"
+            placeholder="Enter New Title"
+            id="new-title"
+          />
+        </div>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="rename-list"
+          >
+            CANCEL
+          </button>
+          <button
+            type="submit"
+            class="rename"
+            data-target-dialog="rename-list"
+          >
+            YES
+          </button>
+      </form>
     </dialog>
   </body>
 </html>
