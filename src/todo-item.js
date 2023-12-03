@@ -8,12 +8,32 @@ export class ToDoItem {
   #priority;
   #subTasks = [];
   #done = false;
+  #id;
+
+  #createId() {
+    return Date.now();
+  }
+
+  #isString(string) {
+    return typeof string === "string";
+  }
 
   #isValidString(string) {
-    if (typeof string !== "string") return false;
-    if (string.trim() === "") return false;
+    if (!this.#isString(string) || this.#isEmptyString(string)) return false;
 
     return true;
+  }
+
+  #isEmptyString(string) {
+    return string.trim() === "";
+  }
+
+  constructor() {
+    this.#id = this.#createId();
+  }
+
+  getItemId() {
+    return this.#id;
   }
 
   get title() {
@@ -29,9 +49,11 @@ export class ToDoItem {
   }
 
   set note(noteValue) {
-    if (!this.#isValidString(noteValue)) {
+
+
+    if (!this.#isString(noteValue)) {
       throw new TypeError(
-        "Invalid noteValue. Notes must be a non-empty string"
+        "Invalid noteValue. Notes must be a string"
       );
     }
 
@@ -43,8 +65,13 @@ export class ToDoItem {
   }
 
   set dueDate(dateValue) {
-    if (!isValid(new Date(dateValue))) {
-      throw new TypeError("Invalid date value. Must be a date object or a valid date string format");
+    if (this.#isEmptyString(dateValue)) {
+      this.#dueDate = "none";
+      return;
+    } else if (!isValid(new Date(dateValue))) {
+      throw new TypeError(
+        "Invalid date value. Must be a date object or a valid date string format"
+      );
     }
 
     this.#dueDate = dateValue;
@@ -85,7 +112,7 @@ export class ToDoItem {
 
   addSubtask(title) {
     if (!this.#isValidString(title)) {
-        throw new TypeError("Invalid title input. Must be a non-empty string")
+      throw new TypeError("Invalid title input. Must be a non-empty string");
     }
 
     let subtask = new SubTaskItem();
@@ -99,9 +126,7 @@ export class ToDoItem {
       throw new Error("Cannot delete what hasn't been created");
     }
 
-    if (typeof taskIndex !== "number" ||
-    taskIndex < 0 ||
-    taskIndex >= len) {
+    if (typeof taskIndex !== "number" || taskIndex < 0 || taskIndex >= len) {
       throw new Error("Invalid index number");
     }
 
@@ -114,12 +139,11 @@ export class ToDoItem {
 
   set done(state) {
     if (state !== false && state !== true) {
-      throw new TypeError("Invalid state")
+      throw new TypeError("Invalid state");
     }
 
     this.#done = state;
   }
-
 
   toggleDone() {
     this.#done = !this.#done;
