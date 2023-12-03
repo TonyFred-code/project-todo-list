@@ -31,6 +31,22 @@ function createImg(src, alt = "") {
   return img;
 }
 
+function titleCase(sentence) {
+  if (typeof sentence !== "string" || sentence.trim() === "") {
+    throw new Error("Invalid input type: input must be a sentence");
+  }
+
+  let words = sentence.trim().split(/\s+/);
+
+  for (let i = 0; i < words.length; i++) {
+    words[i] =
+      words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+  }
+
+  let titleCasedSentence = words.join(" ");
+  return titleCasedSentence;
+}
+
 function iconCreations() {
   const allIconImg = createImg(allIconSrc);
   const todayIconImg = createImg(todayIconSrc);
@@ -61,13 +77,16 @@ const openCreateListBtn = document.querySelector(".create-list-item");
 const cancelCreateListBtn = createListDialog.querySelector(".cancel");
 const createListBtn = createListDialog.querySelector(".create");
 
-const renameListDialog = document.querySelector("dialog.rename-list-item-dialog");
+const renameListDialog = document.querySelector(
+  "dialog.rename-list-item-dialog"
+);
 const renameListForm = renameListDialog.querySelector("form");
 const openRenameListBtn = document.querySelector(".rename-list");
 const cancelRenameListBtn = renameListDialog.querySelector(".cancel");
 const renameListBtn = renameListDialog.querySelector(".rename");
 
 const createTodoDialog = document.querySelector(".create-todo-item");
+const createTodoForm = createTodoDialog.querySelector("form");
 const openCreateTodoBtn = document.querySelector("button.add-task");
 const cancelCreateTodoBtn = createTodoDialog.querySelector(".cancel");
 const createToDoBtn = createTodoDialog.querySelector("button.submit");
@@ -81,7 +100,23 @@ cancelCreateListBtn.addEventListener("click", closeDialog);
 openCreateListBtn.addEventListener("click", openDialog);
 cancelListDelete.addEventListener("click", closeDialog);
 openListDeleteBtn.addEventListener("click", openDialog);
-openCreateTodoBtn.addEventListener("click", openDialog);
+openCreateTodoBtn.addEventListener("click", (e) => {
+  const listsSelect = createTodoForm.elements["lists"];
+  const activeListId = document.querySelector(".current-screen").dataset.listId;
+  const listsCreated = TODO.lists;
+  listsSelect.textContent = "";
+  listsCreated.forEach((list) => {
+    const listName = titleCase(list.name);
+    const optElm = document.createElement("option");
+    optElm.value = list.id;
+    if (Number(list.id) === Number(activeListId)) {
+      optElm.selected = true;
+    }
+    optElm.textContent = listName;
+    listsSelect.appendChild(optElm);
+  });
+  openDialog(e);
+});
 cancelCreateTodoBtn.addEventListener("click", closeDialog);
 cancelTodoDelete.addEventListener("click", closeDialog);
 openRenameListBtn.addEventListener("click", (e) => {
@@ -90,9 +125,9 @@ openRenameListBtn.addEventListener("click", (e) => {
   if (Number.isNaN(activeListId)) return;
   let listName = TODO.getListById(activeListId).name;
   console.log(listName);
-  let newNameInput = renameListForm.elements['new-title'];
+  let newNameInput = renameListForm.elements["new-title"];
   newNameInput.value = listName;
-  openDialog(e)
+  openDialog(e);
 });
 cancelRenameListBtn.addEventListener("click", closeDialog);
 
@@ -310,7 +345,7 @@ function createEmptyListScreen() {
   const titleContainer = screen.querySelector(".current-screen-title");
   const screenCreateToDoBtn = screen.querySelector(".add-task");
   titleContainer.textContent = "";
-  screenCreateToDoBtn.dataset.activeListId = "none"
+  screenCreateToDoBtn.dataset.activeListId = "none";
   const todoItemContainer = screen.querySelector(".todo-items");
   todoItemContainer.textContent = "";
   const emptyScreen = document.querySelector(".empty-screen");
@@ -320,10 +355,9 @@ function createEmptyListScreen() {
 // deleting the current list displayed on the screen
 function deleteList(e) {
   const screen = document.querySelector(".current-screen");
-  let currentListId =
-    document.querySelector(".current-screen").dataset.listId;
-    currentListId = Number(currentListId);
-    if (Number.isNaN(currentListId)) return;
+  let currentListId = document.querySelector(".current-screen").dataset.listId;
+  currentListId = Number(currentListId);
+  if (Number.isNaN(currentListId)) return;
   console.log(currentListId);
   const containingLi = document.querySelector(
     `.list-item[data-list-id='${currentListId}']`
@@ -340,9 +374,166 @@ function deleteList(e) {
     changeScreen(lastListId);
   }
 
-
   TODO.deleteList(currentListId);
   // let pos = displayedList.indexOf(currentListId);
   // displayedList.splice(pos, 1);
   closeDialog(e);
+}
+
+// CREATING TODO ITEM
+createTodoForm.addEventListener("submit", createTodoItem);
+const todoTitle = createTodoForm.elements["title"];
+todoTitle.addEventListener("input", (e) => {
+  let title = todoTitle.value;
+
+  // validate form input;
+  if (title.trim() === "") {
+    todoTitle.setCustomValidity("Input a valid title");
+  } else if (title.length >= 20) {
+    todoTitle.setCustomValidity("Title is too long");
+  } else {
+    todoTitle.setCustomValidity("");
+  }
+});
+
+// const notes = createTodoForm.elements['notes'];
+// notes.addEventListener("input", (e) => {
+//   let note = notes.value;
+
+//      validate form input;
+//     if (note.trim() === "") {
+//       notes.setCustomValidity("Input a valid title");
+//     } else if (note.length >= 20) {
+//       notes.setCustomValidity("Title is too long");
+//     } else {
+//       notes.setCustomValidity("");
+//     }
+// })
+
+function createTodoItem(e) {
+  e.preventDefault();
+  const screen = document.querySelector(".current-screen");
+  let form = e.currentTarget;
+  const todoTitle = form.elements["title"];
+  const todoTitleValue = todoTitle.value;
+  console.log(todoTitle, todoTitle.value);
+  const todoPriority = form.elements["priority"];
+  let todoPriorityValue = todoPriority.value;
+  console.log(todoPriority, todoPriority.value);
+  const todoDueDate = form.elements["due-date"];
+  let todoDueDateValue = todoDueDate.value;
+  console.log(todoDueDate, todoDueDate.value);
+  const todoItemList = form.elements["lists"];
+  console.log(todoItemList, todoItemList.value);
+  const todoNotes = form.elements["notes"];
+  const todoNotesValue = todoNotes.value;
+  console.log(todoNotes, todoNotes.value);
+
+  if (todoTitleValue.trim() === "") {
+    todoTitle.setCustomValidity("Input a valid title");
+    todoTitle.reportValidity();
+    return;
+  }
+
+  if (todoPriorityValue === "") {
+    todoPriorityValue = "none";
+  }
+
+  console.log(todoNotesValue);
+
+  // if (todoDueDateValue === "") {
+  //   todoDueDateValue =
+  // }
+
+  const activeListId = Number(screen.dataset.listId);
+
+  const todoId = TODO.createToDo(
+    activeListId,
+    todoTitleValue,
+    todoNotesValue,
+    todoDueDateValue,
+    todoPriorityValue,
+    []
+  );
+
+  renderTodoItems(activeListId);
+
+  console.log(todoId);
+  console.log(e.currentTarget);
+}
+
+function renderTodoItems(listId) {
+  let list = TODO.getListById(Number(listId));
+  let listTodo = TODO.getListToDo(Number(listId));
+  console.log(list);
+  console.log(listTodo);
+
+  const todoItemsContainer = document.querySelector(".todo-items");
+  todoItemsContainer.textContent = "";
+
+  for (let todoItem of listTodo) {
+    console.log(todoItem);
+    const todoPriority = todoItem.priority;
+    const todoItemLi = document.createElement("li");
+    todoItemLi.classList.add("todo-item");
+    todoItemLi.dataset.priority = todoPriority;
+    // marker-label-container div and its content
+    const div1 = document.createElement("div");
+    div1.classList.add("marker-label-container");
+    const label = document.createElement("label");
+    label.classList.add("marker-container");
+    const checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    const marker = document.createElement("span");
+    marker.classList.add("marker");
+    marker.dataset.done = "false";
+    label.appendChild(checkBox);
+    label.appendChild(marker);
+    div1.appendChild(label);
+
+    // todo-details-overview div and its content
+    const div2 = document.createElement("div");
+    div2.classList.add("todo-details-overview");
+    const todoTitleDiv = document.createElement("div");
+    todoTitleDiv.classList.add("todo-title");
+    todoTitleDiv.textContent = todoItem.title;
+    // date-subtask-view div
+    const div3 = document.createElement("div");
+    div3.classList.add("date-subtask-view");
+    const span1 = document.createElement("span");
+    span1.classList.add("todo-date-view");
+
+    span1.textContent =
+      todoItem.dueDate === "none" ? "No Due Date" : todoItem.dueDate;
+    const span2 = document.createElement("span");
+    span2.classList.add("sub-tasks");
+    span2.textContent = "WIP";
+    const separator = document.createElement("span");
+    separator.classList.add("separator", "bull");
+    div3.appendChild(span1);
+    div3.appendChild(separator);
+    div3.appendChild(span2);
+
+    div2.appendChild(todoTitleDiv);
+    div2.appendChild(div3);
+
+    // buttons
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-todo");
+    deleteBtn.classList.add("delete-todo");
+    deleteBtn.dataset.targetDialog = "todo-delete-confirm";
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", openDialog);
+    const editBtn = document.createElement("button");
+    editBtn.classList.add("edit-todo");
+    editBtn.classList.add("edit-todo");
+    // editBtn.dataset.targetDialog = "todo-edit-confirm";
+    editBtn.textContent = "Edit";
+
+    todoItemLi.appendChild(div1);
+    todoItemLi.appendChild(div2);
+    todoItemLi.appendChild(deleteBtn);
+    todoItemLi.appendChild(editBtn);
+    todoItemsContainer.appendChild(todoItemLi);
+  }
 }
