@@ -74,7 +74,7 @@
               <div class="todo-title">Wash the garden</div>
               <div class="date-subtask-view">
                 <span class="todo-date-view">Thu, 16 Nov</span>
-                &bull;
+                <span class="seperator bull"></span>
                 <span class="sub-tasks">0/3</span>
               </div>
             </div>
@@ -184,8 +184,8 @@
 
         <div class="row">
           <h2 class="row-title">Priority</h2>
-          <!-- <label>
-            <input type="radio" name="priority" id="priority" value="none" />
+          <!-- <label class="hidden">
+            <input type="radio" name="priority" id="priority" value="none" checked class="hidden" />
             none
           </label> -->
           <label>
@@ -194,12 +194,12 @@
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="Medium" />
+            <input type="radio" name="priority" id="priority" value="medium" />
             Medium
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="High" />
+            <input type="radio" name="priority" id="priority" value="high" />
             High
           </label>
         </div>
@@ -222,8 +222,8 @@
         <div class="row">
           <h2 class="row-title">Notes</h2>
           <textarea
-            name="Notes"
-            id="Notes"
+            name="notes"
+            id="notes"
             cols="30"
             rows="10"
             placeholder="Add some notes!"
