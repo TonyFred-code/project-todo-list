@@ -376,6 +376,20 @@ function deleteList(e) {
 }
 
 // CREATING TODO ITEM
+createTodoDialog.addEventListener("close", (e) => {
+const todoTitle = createTodoForm.elements["title"];
+todoTitle.value = "";
+const todoPriority = createTodoForm.elements["priority"];
+for (let node of todoPriority) {
+  node.checked = false;
+}
+todoPriority.value = "";
+const todoNotes = createTodoForm.elements["notes"];
+todoNotes.value = "";
+const todoDueDate = createTodoForm.elements["due-date"];
+todoDueDate.value = "";
+})
+
 createTodoForm.addEventListener("submit", createTodoItem);
 const todoTitle = createTodoForm.elements["title"];
 todoTitle.addEventListener("input", (e) => {
@@ -391,19 +405,7 @@ todoTitle.addEventListener("input", (e) => {
   }
 });
 
-// const notes = createTodoForm.elements['notes'];
-// notes.addEventListener("input", (e) => {
-//   let note = notes.value;
 
-//      validate form input;
-//     if (note.trim() === "") {
-//       notes.setCustomValidity("Input a valid title");
-//     } else if (note.length >= 20) {
-//       notes.setCustomValidity("Title is too long");
-//     } else {
-//       notes.setCustomValidity("");
-//     }
-// })
 
 function createTodoItem(e) {
   e.preventDefault();
@@ -449,8 +451,7 @@ function createTodoItem(e) {
 
   renderTodoItems(activeListId);
 
-  console.log(todoId);
-  console.log(e.currentTarget);
+  createTodoDialog.close();
 }
 
 function renderTodoItems(listId) {
