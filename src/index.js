@@ -1,13 +1,13 @@
 import "./style.css";
 import { ToDo } from "./todo";
-// import {
-//   nextDay,
-//   lastDayOfMonth,
-//   lightFormat,
-//   daysInWeek,
-//   intlFormat,
-//   isSameYear,
-// } from "date-fns";
+import {
+  nextDay,
+  lastDayOfMonth,
+  lightFormat,
+  daysInWeek,
+  intlFormat,
+  isSameYear,
+} from "date-fns";
 import listIconSrc from "./icons/format-list-bulleted.svg";
 // todo import prioritizedIconImgSrc from './icons/';
 import overDueIconImgSrc from "./icons/layers-triple-outline.svg";
@@ -310,12 +310,7 @@ function changeScreen(listId) {
   if (listTodo.length === 0) {
     createEmptyScreen();
   } else {
-    const todoItems = document.querySelectorAll(".todo-items li");
-    // console.log(todoItems);
-    todoItems.forEach((todoItem) => {
-      let deleteTodoItem = todoItem.querySelector("button.delete-todo");
-      deleteTodoItem.addEventListener("click", openDialog);
-    });
+    renderTodoItems(listId);
   }
 
   const titleContainer = screen.querySelector(".current-screen-title");
@@ -421,9 +416,11 @@ function createTodoItem(e) {
   let todoPriorityValue = todoPriority.value;
   console.log(todoPriority, todoPriority.value);
   const todoDueDate = form.elements["due-date"];
-  let todoDueDateValue = todoDueDate.value;
+  let todoDueDateValue =
+    todoDueDate.value === "" ? "none" : `${todoDueDate.value}`;
   console.log(todoDueDate, todoDueDate.value);
   const todoItemList = form.elements["lists"];
+  const todoItemListValue = todoItemList.value;
   console.log(todoItemList, todoItemList.value);
   const todoNotes = form.elements["notes"];
   const todoNotesValue = todoNotes.value;
@@ -439,13 +436,7 @@ function createTodoItem(e) {
     todoPriorityValue = "none";
   }
 
-  console.log(todoNotesValue);
-
-  // if (todoDueDateValue === "") {
-  //   todoDueDateValue =
-  // }
-
-  const activeListId = Number(screen.dataset.listId);
+  const activeListId = Number(todoItemListValue);
 
   const todoId = TODO.createToDo(
     activeListId,
@@ -503,23 +494,24 @@ function renderTodoItems(listId) {
     const span1 = document.createElement("span");
     span1.classList.add("todo-date-view");
 
-    span1.textContent =
-      todoItem.dueDate === "none" ? "No Due Date" : todoItem.dueDate;
-    const span2 = document.createElement("span");
-    span2.classList.add("sub-tasks");
-    span2.textContent = "WIP";
-    const separator = document.createElement("span");
-    separator.classList.add("separator", "bull");
+
+    if (todoItem.dueDate === "none") {
+      span1.textContent = "NO DUE DATE";
+    } else {
+      span1.textContent = intlFormat(new Date(`${todoItem.dueDate}`), {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      });
+    }
     div3.appendChild(span1);
-    div3.appendChild(separator);
-    div3.appendChild(span2);
 
     div2.appendChild(todoTitleDiv);
     div2.appendChild(div3);
 
     // buttons
     const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-todo");
     deleteBtn.classList.add("delete-todo");
     deleteBtn.dataset.targetDialog = "todo-delete-confirm";
     deleteBtn.textContent = "Delete";
