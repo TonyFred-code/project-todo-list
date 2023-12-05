@@ -65,12 +65,12 @@ export class ToDoItem {
   }
 
   set dueDate(dateValue) {
-    if (this.#isEmptyString(dateValue)) {
+    if (this.#isEmptyString(dateValue) || dateValue === "none") {
       this.#dueDate = "none";
       return;
     } else if (!isValid(new Date(dateValue))) {
       throw new TypeError(
-        "Invalid date value. Must be a date object or a valid date string format"
+        `Invalid date value. Must be a date object or a valid date string format - ${dateValue}`
       );
     }
 
