@@ -50,13 +50,16 @@ export class ToDo {
   }
 
   getListToDo(listId) {
-    let lists = this.#lists;
-    if (lists.length === 0) {
+    if (this.#lists.length === 0) {
       throw new Error("Create a list first.");
     }
 
-    let listTodo = this.getListById(listId).todoList;
-    return listTodo;
+    let list = this.getListById(listId);
+
+
+
+    let listTodoItems = list.todoItems;
+    return listTodoItems;
   }
 
   createList(title) {
@@ -82,6 +85,12 @@ export class ToDo {
     let pos = this.#lists.indexOf(list);
 
     this.#lists.splice(pos, 1);
+  }
+
+  deleteTodoItem(listId, todoId) {
+    let list = this.getListById(listId)
+
+    list.deleteToDo(todoId);
   }
 
   createToDo(
