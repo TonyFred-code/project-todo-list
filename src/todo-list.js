@@ -15,7 +15,7 @@ creating new todos, setting todos as complete, changing todo priority
 
 */
 export class ToDoList {
-  #todoList = [];
+  #todoItems = [];
 
   #createId() {
     return Date.now();
@@ -26,8 +26,24 @@ export class ToDoList {
     this.id = this.#createId();
   }
 
-  get todoList() {
-    return this.#todoList;
+  get todoItems() {
+    return this.#todoItems;
+  }
+
+  getTodoById(id) {
+    if (this.#todoItems.length === 0) {
+      throw new Error("Create a list first.");
+    }
+
+    let todoItems = this.#todoItems;
+
+    for (let todoItem of todoItems) {
+      if (todoItem.id === id) {
+        return todoItem;
+      }
+    }
+
+    throw new Error("To-do Item not found");
   }
 
   createToDo(title, notes, dueDate, priority, [...subtasks], done = false) {
@@ -39,9 +55,22 @@ export class ToDoList {
     todoItem.priority = priority;
 
     for (let i = 0; i < subtasks.length; i++) {
-        todoItem.addSubtask(subtasks[i]);
+      todoItem.addSubtask(subtasks[i]);
     }
-    this.#todoList.push(todoItem);
-    return todoItem.getItemId();
+    this.#todoItems.push(todoItem);
+    return todoItem.id;
+  }
+
+  deleteToDo(todoId) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    let pos = this.#todoItems.indexOf(todo);
+
+    this.#todoItems.splice(pos, 1);
   }
 }
