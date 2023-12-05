@@ -44,11 +44,11 @@
         </div>
       </nav>
       <div class="empty-screen hidden">
-        <p>There is no created list! Create a list and have some things to do.</p>
+        <p>
+          There is no created list! Create a list and have some things to do.
+        </p>
       </div>
-      <div
-        class="current-screen"
-      >
+      <div class="current-screen">
         <header class="list-header">
           <h1 class="current-screen-title">PROJECT</h1>
           <div class="options">
@@ -59,7 +59,13 @@
             >
               Delete List
             </button>
-            <button type="button" class="rename-list" data-target-dialog="rename-list">Rename List</button>
+            <button
+              type="button"
+              class="rename-list"
+              data-target-dialog="rename-list"
+            >
+              Rename List
+            </button>
           </div>
         </header>
         <ul class="todo-items">
@@ -74,8 +80,6 @@
               <div class="todo-title">Wash the garden</div>
               <div class="date-subtask-view">
                 <span class="todo-date-view">Thu, 16 Nov</span>
-                <span class="seperator bull"></span>
-                <span class="sub-tasks">0/3</span>
               </div>
             </div>
             <button
@@ -206,16 +210,17 @@
 
         <div class="row">
           <h2 class="row-title">Due Date</h2>
-          <label>
+
+          <label for="due-date">
             <input type="date" name="due-date" id="due-date" />
-            Set due date
+            <span class="due-date-text">Set due date</span>
           </label>
         </div>
 
         <div class="row">
           <h2 class="row-title">List</h2>
           <select name="lists" id="lists">
-            <option value="tutorial">Tutorial</option>
+            <!-- <option value="tutorial">Tutorial</option> -->
           </select>
         </div>
 
@@ -278,32 +283,24 @@
       </div>
     </dialog>
 
-        <dialog class="rename-list-item-dialog" data-name="rename-list">
+    <dialog class="rename-list-item-dialog" data-name="rename-list">
       <form method="dialog">
-          <h1>Rename List</h1>
-          <p>Please enter the new list title:</p>
-          <input
-            type="text"
-            name="new-title"
-            placeholder="Enter New Title"
-            id="new-title"
-          />
-        </div>
+        <h1>Rename List</h1>
+        <p>Please enter the new list title:</p>
+        <input
+          type="text"
+          name="new-title"
+          placeholder="Enter New Title"
+          id="new-title"
+        />
         <div class="btn-group">
-          <button
-            type="button"
-            class="cancel"
-            data-target-dialog="rename-list"
-          >
+          <button type="button" class="cancel" data-target-dialog="rename-list">
             CANCEL
           </button>
-          <button
-            type="submit"
-            class="rename"
-            data-target-dialog="rename-list"
-          >
+          <button type="submit" class="rename" data-target-dialog="rename-list">
             YES
           </button>
+        </div>
       </form>
     </dialog>
   </body>
