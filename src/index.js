@@ -476,7 +476,9 @@ function createTodoItem(e) {
     []
   );
 
-  renderTodoItems(activeListId);
+  let shownListId = Number(screen.dataset.listId);
+
+  renderTodoItems(shownListId);
 
   createTodoDialog.close();
 }
@@ -484,6 +486,11 @@ function createTodoItem(e) {
 function renderTodoItems(listId) {
   let list = TODO.getListById(Number(listId));
   let listTodo = TODO.getListToDo(Number(listId));
+
+  if (listTodo.length === 0) {
+    createEmptyScreen();
+    return;
+  }
   console.log(list);
   console.log(listTodo);
 
