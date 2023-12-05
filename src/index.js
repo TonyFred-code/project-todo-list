@@ -557,8 +557,14 @@ function renderTodoItems(listId) {
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-todo");
     deleteBtn.dataset.targetDialog = "todo-delete-confirm";
+    deleteBtn.dataset.todoId = todoItem.id;
     deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", openDialog);
+    deleteBtn.addEventListener("click", (e) => {
+
+      confirmTodoDelete.dataset.todoId = e.currentTarget.dataset.todoId;
+
+      openDialog(e);
+    });
     const editBtn = document.createElement("button");
     editBtn.classList.add("edit-todo");
     editBtn.classList.add("edit-todo");
@@ -571,4 +577,24 @@ function renderTodoItems(listId) {
     todoItemLi.appendChild(editBtn);
     todoItemsContainer.appendChild(todoItemLi);
   }
+}
+
+
+// DELETING A TODO ITEM
+confirmTodoDelete.addEventListener("click", deleteTodo)
+
+function deleteTodo(e) {
+  const currentListId = Number(
+    document.querySelector(".current-screen").dataset.listId
+  );
+  let elm = e.currentTarget;
+  const todoId = Number(elm.dataset.todoId);
+  TODO.deleteTodoItem(currentListId, todoId)
+
+  renderTodoItems(currentListId);
+  todoDeleteConfirmDialog.close();
+}
+
+function cl(msg) {
+  console.log(msg)
 }
