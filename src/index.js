@@ -7,6 +7,9 @@ import {
   daysInWeek,
   intlFormat,
   isSameYear,
+  isToday,
+  isYesterday,
+  isTomorrow,
 } from "date-fns";
 import listIconSrc from "./icons/format-list-bulleted.svg";
 // todo import prioritizedIconImgSrc from './icons/';
@@ -377,18 +380,20 @@ function deleteList(e) {
 
 // CREATING TODO ITEM
 createTodoDialog.addEventListener("close", (e) => {
-const todoTitle = createTodoForm.elements["title"];
-todoTitle.value = "";
-const todoPriority = createTodoForm.elements["priority"];
-for (let node of todoPriority) {
-  node.checked = false;
-}
-todoPriority.value = "";
-const todoNotes = createTodoForm.elements["notes"];
-todoNotes.value = "";
-const todoDueDate = createTodoForm.elements["due-date"];
-todoDueDate.value = "";
-})
+  const todoTitle = createTodoForm.elements["title"];
+  todoTitle.value = "";
+  const todoPriority = createTodoForm.elements["priority"];
+  for (let node of todoPriority) {
+    node.checked = false;
+  }
+  todoPriority.value = "";
+  const todoNotes = createTodoForm.elements["notes"];
+  todoNotes.value = "";
+  const todoDueDate = createTodoForm.elements["due-date"];
+  todoDueDate.value = "";
+  const todoDueDateText = createTodoForm.querySelector(".due-date-text");
+  todoDueDateText.textContent = "Set Due Date";
+});
 
 createTodoForm.addEventListener("submit", createTodoItem);
 const todoTitle = createTodoForm.elements["title"];
@@ -405,7 +410,29 @@ todoTitle.addEventListener("input", (e) => {
   }
 });
 
+const todoDueDate = createTodoForm.elements["due-date"];
 
+todoDueDate.addEventListener("change", (e) => {
+  let value = todoDueDate.value;
+  if (value === "") return;
+
+  const labelText = createTodoForm.querySelector(".due-date-text");
+  let date = new Date(value);
+  if (isToday(date)) {
+    labelText.textContent = "Today";
+  } else if (isTomorrow(date)) {
+    labelText.textContent = "Tomorrow";
+  } else if (isYesterday(date)) {
+    labelText.textContent = "Yesterday";
+  } else {
+    labelText.textContent = intlFormat(date, {
+      weekday: "long",
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
+});
 
 function createTodoItem(e) {
   e.preventDefault();
@@ -495,16 +522,24 @@ function renderTodoItems(listId) {
     const span1 = document.createElement("span");
     span1.classList.add("todo-date-view");
 
-
     if (todoItem.dueDate === "none") {
       span1.textContent = "NO DUE DATE";
     } else {
-      span1.textContent = intlFormat(new Date(`${todoItem.dueDate}`), {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-      });
+      let date = new Date(todoItem.dueDate);
+      if (isToday(date)) {
+        span1.textContent = "DUE TODAY";
+      } else if (isYesterday(date)) {
+        span1.textContent = "DUE YESTERDAY";
+      } else if (isTomorrow(date)) {
+        span1.textContent = "DUE TOMORROW";
+      } else {
+        span1.textContent = `Due ${intlFormat(date, {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        })}`;
+      }
     }
     div3.appendChild(span1);
 
