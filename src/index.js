@@ -568,8 +568,13 @@ function renderTodoItems(listId) {
     const editBtn = document.createElement("button");
     editBtn.classList.add("edit-todo");
     editBtn.classList.add("edit-todo");
-    // editBtn.dataset.targetDialog = "todo-edit-confirm";
+    editBtn.dataset.targetDialog = "edit-todo-item";
     editBtn.textContent = "Edit";
+
+    editBtn.addEventListener("click", (e) => {
+
+      openDialog(e);
+    })
 
     todoItemLi.appendChild(div1);
     todoItemLi.appendChild(div2);
