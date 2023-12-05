@@ -36,6 +36,10 @@ export class ToDoItem {
     return this.#id;
   }
 
+  get id() {
+    return this.#id;
+  }
+
   get title() {
     return this.#title;
   }
