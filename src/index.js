@@ -510,6 +510,8 @@ function renderTodoItems(listId) {
     label.classList.add("marker-container");
     const checkBox = document.createElement("input");
     checkBox.type = "checkbox";
+    checkBox.dataset.todoId = todoItem.id;
+    checkBox.addEventListener("change", changeTodoDoneStat);
     const marker = document.createElement("span");
     marker.classList.add("marker");
     marker.dataset.done = "false";
@@ -560,7 +562,6 @@ function renderTodoItems(listId) {
     deleteBtn.dataset.todoId = todoItem.id;
     deleteBtn.textContent = "Delete";
     deleteBtn.addEventListener("click", (e) => {
-
       confirmTodoDelete.dataset.todoId = e.currentTarget.dataset.todoId;
 
       openDialog(e);
@@ -572,9 +573,8 @@ function renderTodoItems(listId) {
     editBtn.textContent = "Edit";
 
     editBtn.addEventListener("click", (e) => {
-
       openDialog(e);
-    })
+    });
 
     todoItemLi.appendChild(div1);
     todoItemLi.appendChild(div2);
@@ -584,9 +584,8 @@ function renderTodoItems(listId) {
   }
 }
 
-
 // DELETING A TODO ITEM
-confirmTodoDelete.addEventListener("click", deleteTodo)
+confirmTodoDelete.addEventListener("click", deleteTodo);
 
 function deleteTodo(e) {
   const currentListId = Number(
@@ -594,12 +593,19 @@ function deleteTodo(e) {
   );
   let elm = e.currentTarget;
   const todoId = Number(elm.dataset.todoId);
-  TODO.deleteTodoItem(currentListId, todoId)
+  TODO.deleteTodoItem(currentListId, todoId);
 
   renderTodoItems(currentListId);
   todoDeleteConfirmDialog.close();
 }
 
-function cl(msg) {
-  console.log(msg)
+function changeTodoDoneStat(e) {
+  const currentListId = Number(
+    document.querySelector(".current-screen").dataset.listId
+  );
+  let elm = e.currentTarget;
+  let state = elm.checked;
+  const todoId = Number(elm.dataset.todoId);
+
+  TODO.changeTodoDoneStatus(state, todoId, currentListId);
 }
