@@ -56,10 +56,75 @@ export class ToDo {
 
     let list = this.getListById(listId);
 
-
-
     let listTodoItems = list.todoItems;
     return listTodoItems;
+  }
+
+  getListTodoItem(todoId, listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    let todo;
+
+    try {
+      todo = list.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    return todo;
+  }
+
+  getListPrioritizedTodoItems(listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    let prioritizedItems = list.prioritized;
+    return prioritizedItems;
+  }
+
+  getListOverdueTodoItems(listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    let overdueItems = list.overdue;
+    return overdueItems;
+  }
+
+  getListTodoDueToday(listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    let dueToday = list.dueToday;
+    return dueToday;
+  }
+
+  getListTodoDueThisWeek(listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    let dueThisWeek = list.dueThisWeek;
+    return dueThisWeek;
   }
 
   createList(title) {
@@ -88,7 +153,7 @@ export class ToDo {
   }
 
   deleteTodoItem(listId, todoId) {
-    let list = this.getListById(listId)
+    let list = this.getListById(listId);
 
     list.deleteToDo(todoId);
   }
@@ -102,16 +167,15 @@ export class ToDo {
     [...subtasks],
     todoDone = false
   ) {
-
     let list;
 
     try {
-      list = this.getListById(listId)
+      list = this.getListById(listId);
     } catch (error) {
       console.log(error);
     }
 
-   let todoId =  list.createToDo(
+    let todoId = list.createToDo(
       todoTitle,
       todoNotes,
       todoDueDate,
@@ -123,60 +187,108 @@ export class ToDo {
     return todoId;
   }
 
-  get dueToday() {
-    let lists = this.#lists;
-    if (lists.length === 0) {
-      throw new Error("Create lists first");
+  reassignTodoItem(todoId, currentListId, targetListId) {
+    let currentList;
+    try {
+      currentList = this.getListById(currentListId);
+    } catch (err) {
+      throw err;
     }
-    // console.log(lists);
+    let targetList;
+    try {
+      targetList = this.getListById(targetListId);
+    } catch (err) {
+      throw err;
+    }
+    let todoItem;
 
-    // for (let i = 0; i < lists.length; i++) {
-    //   let list = lists[i];
-    //   let toDoList = list.todoList;
-    //   if (toDoList.length === 0) {
-    //     continue;
-    //   }
-    // }
-
-    lists.forEach((list) => {
-      list.todoList.forEach((toDo) => {
-        if (isToday(toDo.dueDate)) {
-          this.#dueToday.push(toDo);
-        }
-      });
-    });
-
-    return this.#dueToday;
-  }
-
-  get dueNextSevenDays() {
-    let today = Date.now();
-    let list = this.#lists;
-    for (let j = 0; j < 7; j++) {
-      let day = addDays(today, j);
-      list.forEach((list) => {
-        list.todoList.forEach((toDo) => {
-          if (isSameDay(day, toDo.dueDate)) {
-            this.#dueNextSevenDays.push(toDo);
-          }
-        });
-      });
+    try {
+      todoItem = currentList.getTodoById(todoId);
+    } catch (err) {
+      throw err;
     }
 
-    return this.#dueNextSevenDays;
+    targetList.createToDo(
+      todoItem.title,
+      todoItem.notes,
+      todoItem.dueDate,
+      todoItem.priority,
+      todoItem.subtasks,
+      todoItem.done
+    );
+
+    currentList.deleteTodo(todoId);
   }
 
-  get prioritized() {
-    let list = this.#lists;
+  changeTodoDoneStatus(newState, todoId, listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
 
-    list.forEach((list) => {
-      list.todoList.forEach((toDo) => {
-        if (toDo.priority !== "none") {
-          this.#prioritized.push(toDo);
-        }
-      });
-    });
-
-    return this.#prioritized;
+    try {
+      list.changeTodoDoneStatus(todoId, newState);
+    } catch (err) {
+      throw err;
+    }
   }
+
+//   get dueToday() {
+//     let lists = this.#lists;
+//     if (lists.length === 0) {
+//       throw new Error("Create lists first");
+//     }
+//     // console.log(lists);
+
+//     // for (let i = 0; i < lists.length; i++) {
+//     //   let list = lists[i];
+//     //   let toDoList = list.todoList;
+//     //   if (toDoList.length === 0) {
+//     //     continue;
+//     //   }
+//     // }
+
+//     lists.forEach((list) => {
+//       list.todoList.forEach((toDo) => {
+//         if (isToday(toDo.dueDate)) {
+//           this.#dueToday.push(toDo);
+//         }
+//       });
+//     });
+
+//     return this.#dueToday;
+//   }
+
+//   get dueNextSevenDays() {
+//     let today = Date.now();
+//     let list = this.#lists;
+//     for (let j = 0; j < 7; j++) {
+//       let day = addDays(today, j);
+//       list.forEach((list) => {
+//         list.todoList.forEach((toDo) => {
+//           if (isSameDay(day, toDo.dueDate)) {
+//             this.#dueNextSevenDays.push(toDo);
+//           }
+//         });
+//       });
+//     }
+
+//     return this.#dueNextSevenDays;
+//   }
+
+//   get prioritized() {
+//     let list = this.#lists;
+
+//     list.forEach((list) => {
+//       list.todoList.forEach((toDo) => {
+//         if (toDo.priority !== "none") {
+//           this.#prioritized.push(toDo);
+//         }
+//       });
+//     });
+
+//     return this.#prioritized;
+//   }
 }
