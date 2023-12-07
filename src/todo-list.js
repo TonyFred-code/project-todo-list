@@ -1,4 +1,5 @@
 import { ToDoItem } from "./todo-item";
+import { isToday, startOfDay, isBefore, isSameWeek } from "date-fns";
 
 // a full todo list;
 // each todo list item must have
@@ -28,6 +29,71 @@ export class ToDoList {
 
   get todoItems() {
     return this.#todoItems;
+  }
+
+  get prioritized() {
+    let todoItems = this.todoItems;
+    let prioritizedItems = [];
+
+    for (let todoItem of todoItems) {
+      if (todoItem.priority === "medium" || todoItem.priority === "high") {
+        prioritizedItems.push(todoItem);
+      }
+    }
+
+    return prioritizedItems;
+  }
+
+  get overdue() {
+    let todoItems = this.todoItems;
+    let overdueItems = [];
+
+    for (let todoItem of todoItems) {
+      let dueDate = new Date(todoItem.dueDate);
+      let today = startOfDay(Date.now());
+      if (isBefore(dueDate, today)) {
+        overdueItems.push(todoItem);
+      }
+    }
+    return overdueItems;
+  }
+
+  get dueToday() {
+    let todoItems = this.todoItems;
+    let itemsDueToday = [];
+
+    for (let todoItem of todoItems) {
+      let dueDate = todoItem.dueDate;
+
+      if (dueDate === "" || dueDate === "none") {
+        continue;
+      }
+
+      if (isToday(new Date(dueDate))) {
+        console.log(todoItem);
+        itemsDueToday.push(todoItem);
+      }
+    }
+    return itemsDueToday;
+  }
+
+  get dueThisWeek() {
+    let todoItems = this.todoItems;
+    let itemsDueThisWeek = [];
+
+    for (let todoItem of todoItems) {
+      let dueDate = new Date(todoItem.dueDate);
+      let today = Date.now()
+
+      if (dueDate === "" || dueDate === "none") {
+        continue;
+      }
+
+      if (isSameWeek(dueDate, today)) {
+        itemsDueThisWeek.push(todoItem);
+      }
+    }
+    return itemsDueThisWeek;
   }
 
   getTodoById(id) {
@@ -72,5 +138,31 @@ export class ToDoList {
     let pos = this.#todoItems.indexOf(todo);
 
     this.#todoItems.splice(pos, 1);
+  }
+
+  changeTodoTitle(todoId) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    console.log(todo);
+  }
+
+  changeTodoDoneStatus(todoId, newState) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      todo.done = newState;
+    } catch (err) {
+      throw err;
+    }
   }
 }
