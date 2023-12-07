@@ -130,10 +130,6 @@ viewOverdue.addEventListener("click", (e) => {
   renderTodoItems(listId, "overdue");
 });
 
-function getActiveListId() {
-  // let
-}
-
 function removeActiveFilter() {
   const filterBtns = filters.querySelectorAll("button");
   filterBtns.forEach((filterBtn) => {
@@ -595,6 +591,7 @@ function createTodoItem(e) {
 }
 
 function renderTodoItems(listId, filter = "all") {
+  let listName = TODO.getListById(listId).name;
   let todoItems;
 
   removeActiveFilter();
@@ -679,9 +676,37 @@ function renderTodoItems(listId, filter = "all") {
       const todoId = Number(e.currentTarget.dataset.todoId);
       let todo = TODO.getListTodoItem(todoId, currentListId);
 
-      const todoTitleView = todoDetailsViewDialog.querySelector(".todo-title");
+      const todoTitleView = todoDetailsViewDialog.querySelector(".todo-title .value");
       todoTitleView.textContent = todo.title;
+      const todoPriorityView = todoDetailsViewDialog.querySelector(".todo-priority .value");
+      todoPriorityView.textContent = titleCase(todo.priority);
+      const todoNotesView = todoDetailsViewDialog.querySelector(".todo-notes .value");
+      todoNotesView.textContent = (todo.note).trim() === "" ? "NO NOTES" : todo.note;
+      const todoDueDateView = todoDetailsViewDialog.querySelector(".todo-due-date .value");
+      if (todoItem.dueDate === "none") {
+        todoDueDateView.textContent = "NO DUE DATE";
+      } else {
+        let date = new Date(todoItem.dueDate);
+        if (isToday(date)) {
+          todoDueDateView.textContent = "DUE TODAY";
+        } else if (isYesterday(date)) {
+          todoDueDateView.textContent = "DUE YESTERDAY";
+        } else if (isTomorrow(date)) {
+          todoDueDateView.textContent = "DUE TOMORROW";
+        } else {
+          todoDueDateView.textContent = `Due ${intlFormat(date, {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          })}`;
+        }
+      }
 
+      const todoDoneStatusView = todoDetailsViewDialog.querySelector(".todo-done-status .value");
+      todoDoneStatusView.textContent = todo.done ? "COMPLETED" : "NOT COMPLETED";
+      const todoListView =  todoDetailsViewDialog.querySelector(".todo-list .value");
+      todoListView.textContent = titleCase(listName);
       openDialog(e);
     });
     const todoTitleDiv = document.createElement("div");
