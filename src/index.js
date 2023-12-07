@@ -10,22 +10,26 @@ import {
   isToday,
   isYesterday,
   isTomorrow,
+  isSameWeek,
 } from "date-fns";
 import listIconSrc from "./icons/format-list-bulleted.svg";
 // todo import prioritizedIconImgSrc from './icons/';
 import overDueIconImgSrc from "./icons/layers-triple-outline.svg";
 import todayIconSrc from "./icons/calendar-today.svg";
 import allIconSrc from "./icons/calendar-month-outline.svg";
-import upcomingIconSrc from "./icons/arrow-top-right.svg";
+import currentWeekIconSrc from "./icons/calendar-range.svg";
 // import { ta } from "date-fns/locale";
+// let today = Date.now();
+// let date =  new Date("2023-12-05");
+// console.log(new Date(date))
+// console.log(new Date(today))
+// console.log(isPast(date));
+// console.log(isSameWeek(today, date));
 
 const TODO = new ToDo();
 // create default list - tutorial
 let id = TODO.createList("Tutorial");
 // const displayedList = [];
-
-displayListItems();
-changeScreen(id);
 
 function createImg(src, alt = "") {
   const img = new Image();
@@ -53,18 +57,106 @@ function titleCase(sentence) {
 function iconCreations() {
   const allIconImg = createImg(allIconSrc);
   const todayIconImg = createImg(todayIconSrc);
-  const upcomingIconImg = createImg(upcomingIconSrc);
+  const currentWeekImg = createImg(currentWeekIconSrc);
   const overDueIconImg = createImg(overDueIconImgSrc);
 
   document.querySelector(".icon-all").appendChild(allIconImg);
   document.querySelector(".icon-today").appendChild(todayIconImg);
-  document.querySelector(".icon-upcoming").appendChild(upcomingIconImg);
+  document.querySelector(".icon-current-week").appendChild(currentWeekImg);
   document.querySelector(".icon-overdue").appendChild(overDueIconImg);
 }
 
 iconCreations();
 
+// SCREEN VIEW AND FILTERING
+const screen = document.querySelector(".current-screen");
+const filters = document.querySelector(".filters");
+const viewAll = filters.querySelector("[data-show='all']");
+const viewToday = filters.querySelector("[data-show='today']");
+const viewCurrentWeek = filters.querySelector("[data-show='current-week']");
+const viewOverdue = filters.querySelector("[data-show='overdue']");
+
+viewAll.addEventListener("click", (e) => {
+  removeActiveFilter();
+
+  addActiveFilter(e);
+  if (screen.classList.contains("hidden")) {
+    createEmptyListScreen();
+    return;
+  }
+
+  const listId = Number(screen.dataset.listId);
+  renderTodoItems(listId, "all");
+});
+
+viewToday.addEventListener("click", (e) => {
+  removeActiveFilter();
+
+  addActiveFilter(e);
+
+  if (screen.classList.contains("hidden")) {
+    createEmptyListScreen();
+    return;
+  }
+
+  const listId = Number(screen.dataset.listId);
+  renderTodoItems(listId, "today");
+});
+
+viewCurrentWeek.addEventListener("click", (e) => {
+  removeActiveFilter();
+
+  addActiveFilter(e);
+
+  if (screen.classList.contains("hidden")) {
+    createEmptyListScreen();
+    return;
+  }
+
+  const listId = Number(screen.dataset.listId);
+  renderTodoItems(listId, "current-week");
+});
+
+viewOverdue.addEventListener("click", (e) => {
+  removeActiveFilter();
+  addActiveFilter(e);
+
+  if (screen.classList.contains("hidden")) {
+    createEmptyListScreen();
+    return;
+  }
+
+  const listId = Number(screen.dataset.listId);
+  renderTodoItems(listId, "overdue");
+});
+
+function getActiveListId() {
+  // let
+}
+
+function removeActiveFilter() {
+  const filterBtns = filters.querySelectorAll("button");
+  filterBtns.forEach((filterBtn) => {
+    filterBtn.classList.remove("active");
+  });
+}
+
+function addActiveFilter(e) {
+  let elm = e.currentTarget;
+  let filter = elm.dataset.show;
+
+  let filterBtn = filters.querySelector(`[data-show='${filter}']`);
+  if (filterBtn === null) {
+    throw new Error("Invalid assignment to null");
+  }
+
+  filterBtn.classList.add("active");
+}
+
 // DIALOGS
+
+const todoDetailsViewDialog = document.querySelector(".todo-details");
+const closeDetailsView = todoDetailsViewDialog.querySelector(".close");
 
 const listDeleteConfirmDialog = document.querySelector(".list-delete-confirm");
 const confirmListDelete =
@@ -99,6 +191,7 @@ const confirmTodoDelete =
   todoDeleteConfirmDialog.querySelector("button.confirm");
 const cancelTodoDelete = todoDeleteConfirmDialog.querySelector("button.cancel");
 
+closeDetailsView.addEventListener("click", closeDialog);
 cancelCreateListBtn.addEventListener("click", closeDialog);
 openCreateListBtn.addEventListener("click", openDialog);
 cancelListDelete.addEventListener("click", closeDialog);
@@ -308,21 +401,15 @@ function changeScreen(listId) {
   emptyScreen.classList.add("hidden");
   screen.dataset.listId = listId;
 
-  const listTodo = TODO.getListToDo(listId);
+  renderTodoItems(listId, "all");
 
-  if (listTodo.length === 0) {
-    createEmptyScreen();
-  } else {
-    renderTodoItems(listId);
-  }
-
+  removeActiveFilter();
+  viewAll.classList.add("active");
   const titleContainer = screen.querySelector(".current-screen-title");
   const screenCreateToDoBtn = screen.querySelector(".add-task");
   screenCreateToDoBtn.dataset.activeListId = listId;
   titleContainer.textContent = list.name;
   addActiveListContainer(listId);
-  console.log(listTodo);
-  console.log(list);
 }
 
 function createEmptyScreen() {
@@ -467,7 +554,7 @@ function createTodoItem(e) {
 
   const activeListId = Number(todoItemListValue);
 
-  const todoId = TODO.createToDo(
+  TODO.createToDo(
     activeListId,
     todoTitleValue,
     todoNotesValue,
@@ -483,21 +570,52 @@ function createTodoItem(e) {
   createTodoDialog.close();
 }
 
-function renderTodoItems(listId) {
-  let list = TODO.getListById(Number(listId));
-  let listTodo = TODO.getListToDo(Number(listId));
+function renderTodoItems(listId, filter = "all") {
+  let todoItems;
 
-  if (listTodo.length === 0) {
+  removeActiveFilter();
+
+  switch (filter) {
+    case "all":
+      todoItems = TODO.getListToDo(Number(listId));
+      viewAll.classList.add("active");
+      break;
+
+    case "overdue":
+      todoItems = TODO.getListOverdueTodoItems(Number(listId));
+      viewOverdue.classList.add("active");
+
+      break;
+
+    case "today":
+      todoItems = TODO.getListTodoDueToday(Number(listId));
+      viewToday.classList.add("active");
+
+      break;
+
+    case "current-week":
+      todoItems = TODO.getListTodoDueThisWeek(Number(listId));
+      viewCurrentWeek.classList.add("active");
+
+      break;
+
+    default:
+      todoItems = [];
+      break;
+  }
+
+  console.log(filter, todoItems);
+
+  if (todoItems.length === 0) {
     createEmptyScreen();
     return;
   }
-  console.log(list);
-  console.log(listTodo);
+  // console.log(listTodo);
 
   const todoItemsContainer = document.querySelector(".todo-items");
   todoItemsContainer.textContent = "";
 
-  for (let todoItem of listTodo) {
+  for (let todoItem of todoItems) {
     console.log(todoItem);
     const todoPriority = todoItem.priority;
     const todoItemLi = document.createElement("li");
@@ -522,6 +640,20 @@ function renderTodoItems(listId) {
     // todo-details-overview div and its content
     const div2 = document.createElement("div");
     div2.classList.add("todo-details-overview");
+    div2.dataset.targetDialog = "todo-details";
+    div2.dataset.todoId = todoItem.id;
+    div2.addEventListener("click", (e) => {
+      const currentListId = Number(
+        document.querySelector(".current-screen").dataset.listId
+      );
+      const todoId = Number(e.currentTarget.dataset.todoId);
+      let todo = TODO.getListTodoItem(todoId, currentListId);
+
+      const todoTitleView = todoDetailsViewDialog.querySelector(".todo-title");
+      todoTitleView.textContent = todo.title;
+
+      openDialog(e);
+    });
     const todoTitleDiv = document.createElement("div");
     todoTitleDiv.classList.add("todo-title");
     todoTitleDiv.textContent = todoItem.title;
@@ -608,4 +740,11 @@ function changeTodoDoneStat(e) {
   const todoId = Number(elm.dataset.todoId);
 
   TODO.changeTodoDoneStatus(state, todoId, currentListId);
+  let todo = TODO.getListTodoItem(todoId, currentListId);
+  console.log({
+    todo,
+  });
 }
+
+displayListItems();
+changeScreen(id);
