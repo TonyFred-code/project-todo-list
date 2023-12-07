@@ -21,7 +21,8 @@
               <span class="icon-container icon-today"> </span>Today
             </button>
             <button type="button" data-show="current-week">
-              <span class="icon-container icon-current-week"> </span>Current Week
+              <span class="icon-container icon-current-week"> </span>Current
+              Week
             </button>
             <button type="button" class="active" data-show="overdue">
               <span class="icon-container icon-overdue"> </span>Overdue
@@ -256,18 +257,31 @@
 
     <dialog class="todo-details" data-name="todo-details">
       <div class="dialog-content">
-        <p class="todo-title">Title: Creating a list</p>
-        <p class="todo-priority">Priority: Medium</p>
-        <p class="todo-notes">Notes: Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure architecto tempora eveniet consequatur totam ipsa rem magnam beatae, exercitationem inventore. Dolores blanditiis quasi culpa libero accusamus quam! Blanditiis, labore a.</p>
-        <p class="todo-due-date">Due Date: </p>
-        <p class="todo-done-status">Completed</p>
-        <p class="todo-list">List: Tutorial</p>
+        <p class="todo-title">
+          <span class="heading">Title: </span><span class="value"></span>
+        </p>
+        <p class="todo-priority">
+          <span class="heading">Priority: </span><span class="value"></span>
+        </p>
+        <p class="todo-notes">
+          <span class="heading">Notes: </span><span class="value"> </span>
+        </p>
+        <p class="todo-due-date">
+          <span class="heading">Due Date: </span><span class="value"></span>
+        </p>
+        <p class="todo-done-status">
+          <span class="heading">Status: </span><span class="value"></span>
+        </p>
+        <p class="todo-list">
+          <span class="heading">List: </span><span class="value"></span>
+        </p>
         <div class="btn-group">
-          <button type="button" class="close" data-target-dialog="todo-details">CLOSE</button>
+          <button type="button" class="close" data-target-dialog="todo-details">
+            CLOSE
+          </button>
         </div>
       </div>
     </dialog>
-
 
     <dialog class="edit-todo-item" data-name="edit-todo-item">
       <form method="dialog">
