@@ -412,11 +412,35 @@ function changeScreen(listId) {
   addActiveListContainer(listId);
 }
 
-function createEmptyScreen() {
+function createEmptyScreen(filterState = "all") {
   const toDoContainer = document.querySelector(".todo-items");
   toDoContainer.textContent = "";
   const li = document.createElement("li");
-  li.textContent = "Click the button below to create todo items for this list";
+
+  switch (filterState) {
+    case "all":
+      li.textContent = `
+      You have not created any todo items. Click the round button below to do so.`;
+      break;
+
+    case "today":
+      li.textContent = `
+        You have no todo items due today. Jolly is today.`;
+      break;
+
+    case "overdue":
+      li.textContent = `
+          You have no todo items that are overdue. Great Job!!!.`;
+      break;
+
+    case "current-week":
+      li.textContent = `
+        You have no todo items due this week. Armistice`;
+      break;
+    default:
+      li.textContent += "Click the button below to create todo items";
+      break;
+  }
 
   toDoContainer.appendChild(li);
 }
@@ -579,38 +603,44 @@ function renderTodoItems(listId, filter = "all") {
     case "all":
       todoItems = TODO.getListToDo(Number(listId));
       viewAll.classList.add("active");
+      if (todoItems.length === 0) {
+        createEmptyScreen(filter);
+        return;
+      }
       break;
 
     case "overdue":
       todoItems = TODO.getListOverdueTodoItems(Number(listId));
       viewOverdue.classList.add("active");
-
+      if (todoItems.length === 0) {
+        createEmptyScreen(filter);
+        return;
+      }
       break;
 
     case "today":
       todoItems = TODO.getListTodoDueToday(Number(listId));
       viewToday.classList.add("active");
-
+      if (todoItems.length === 0) {
+        createEmptyScreen(filter);
+        return;
+      }
       break;
 
     case "current-week":
       todoItems = TODO.getListTodoDueThisWeek(Number(listId));
       viewCurrentWeek.classList.add("active");
-
+      if (todoItems.length === 0) {
+        createEmptyScreen(filter);
+        return;
+      }
       break;
 
     default:
       todoItems = [];
-      break;
+      createEmptyScreen();
+      return;
   }
-
-  console.log(filter, todoItems);
-
-  if (todoItems.length === 0) {
-    createEmptyScreen();
-    return;
-  }
-  // console.log(listTodo);
 
   const todoItemsContainer = document.querySelector(".todo-items");
   todoItemsContainer.textContent = "";
