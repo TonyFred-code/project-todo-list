@@ -144,7 +144,7 @@ nav .lists button,
 }
 
 nav .lists .list-item:hover {
-  background-color: rgba(237, 237, 237, 0.4)
+  background-color: rgba(237, 237, 237, 0.4);
 }
 
 nav .lists .list-item:active {
@@ -172,7 +172,6 @@ nav .lists .list-item {
 nav .lists .list-item.active {
   border-left: 3px inset black;
   background-color: #eeeeee;
-
 }
 
 nav .lists .list-icon {
@@ -207,8 +206,8 @@ nav .lists .create-list-item:active {
   color: #c38d9e;
 }
 
-
-.current-screen, .empty-screen {
+.current-screen,
+.empty-screen {
   grid-column: 2 / -1;
   grid-row: 2 / -1;
   margin: 20px;
@@ -267,13 +266,13 @@ nav .lists .create-list-item:active {
 }
 
 .todo-item[data-priority="high"] {
-  border-right-color: red;
+  border-right-color: rgb(255, 0, 0);
 }
 .todo-item[data-priority="medium"] {
-  border-right-color: rgb(199, 199, 142);
+  border-right-color: rgb(223, 223, 11);
 }
 .todo-item[data-priority="low"] {
-  border-right-color: gray;
+  border-right-color: rgb(89, 84, 84);
 }
 
 .todo-item[data-priority="none"] {
@@ -411,24 +410,23 @@ nav .lists .create-list-item:active {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  transform: translate(-50%, 50%);
   height: 60px;
   width: 60px;
   border-radius: 50%;
-  border: 2px solid blue;
-  background-color: blue;
+  border: 2px solid #C38D9E;
+  background-color: #C38D9E;
   color: white;
   padding: 8px;
   font-weight: bold;
 }
 
 .current-screen .add-task:hover {
-  background-color: rgba(0, 0, 255, 0.567);
-  border-color: rgba(0, 0, 255, 0.567);
+  background-color: rgba(195, 141, 158, 0.567);
+  border-color: rgba(195, 141, 158, 0.567);
 }
 
 .current-screen .add-task:active {
-  color: blue;
+  color: #C38D9E;
   background-color: white;
 }
 
@@ -437,12 +435,16 @@ dialog {
   border: 2px inset;
 }
 
-dialog.list-delete-confirm, dialog.todo-delete-confirm {
+dialog.list-delete-confirm,
+dialog.todo-delete-confirm {
   width: 300px;
 }
 
 .list-delete-confirm .dialog-content,
-.create-list-item-dialog form, .todo-delete-confirm .dialog-content, .rename-list-item-dialog form {
+.create-list-item-dialog form,
+.todo-delete-confirm .dialog-content,
+.rename-list-item-dialog form,
+.todo-details .dialog-content {
   display: flex;
   gap: 12px;
   flex-flow: column nowrap;
@@ -465,7 +467,8 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 .list-delete-confirm .btn-group,
 .create-list-item-dialog .btn-group,
 .todo-delete-confirm .btn-group,
-.rename-list-item-dialog .btn-group {
+.rename-list-item-dialog .btn-group,
+.todo-details .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -474,28 +477,33 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 .list-delete-confirm button,
 .create-list-item-dialog button,
 .todo-delete-confirm button,
-.rename-list-item-dialog button {
+.rename-list-item-dialog button,
+.todo-details button {
   border: 1px solid gray;
   padding: 8px 12px;
 }
 
-.create-list-item-dialog, .rename-list-item-dialog {
+.create-list-item-dialog,
+.rename-list-item-dialog {
   width: 350px;
   height: 200px;
 }
 
-.create-list-item-dialog form, .rename-list-item-dialog form {
+.create-list-item-dialog form,
+.rename-list-item-dialog form {
   width: 100%;
   display: flex;
   height: 100%;
 }
 
-.create-list-item-dialog h1, .rename-list-item-dialog h1 {
+.create-list-item-dialog h1,
+.rename-list-item-dialog h1 {
   font-size: 2.2rem;
   border-bottom: 1.2px solid gray;
 }
 
-.create-list-item-dialog input, .rename-list-item-dialog input {
+.create-list-item-dialog input,
+.rename-list-item-dialog input {
   margin: auto 0px;
   height: 35px;
   border: none;
@@ -529,7 +537,7 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 .create-todo-item input {
 }
 
-.create-todo-item input[type='text'] {
+.create-todo-item input[type="text"] {
   height: 25px;
   padding: 6px;
 }
@@ -553,6 +561,27 @@ dialog.list-delete-confirm, dialog.todo-delete-confirm {
 .create-todo-item .btn-group button {
   padding: 8px 12px;
   border: 1px solid gray;
+}
+
+.todo-details .dialog-content {
+  max-height: 450px;
+  overflow-y: auto;
+  width: 500px;
+  padding: 12px 18px;
+}
+
+.todo-details .dialog-content p {
+  display: flex;
+}
+
+.todo-details .value {
+}
+
+.todo-details .heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  flex-basis: 95px;
+  flex-shrink: 0;
 }
 
 .hidden {
