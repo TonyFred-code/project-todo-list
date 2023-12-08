@@ -280,60 +280,75 @@ export class ToDo {
     }
   }
 
-//   get dueToday() {
-//     let lists = this.#lists;
-//     if (lists.length === 0) {
-//       throw new Error("Create lists first");
-//     }
-//     // console.log(lists);
+  changeTodoNote(newNoteValue, todoId, listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
 
-//     // for (let i = 0; i < lists.length; i++) {
-//     //   let list = lists[i];
-//     //   let toDoList = list.todoList;
-//     //   if (toDoList.length === 0) {
-//     //     continue;
-//     //   }
-//     // }
+    try {
+      list.changeTodoNote(todoId, newNoteValue);
+    } catch (err) {
+      throw err;
+    }
+  }
 
-//     lists.forEach((list) => {
-//       list.todoList.forEach((toDo) => {
-//         if (isToday(toDo.dueDate)) {
-//           this.#dueToday.push(toDo);
-//         }
-//       });
-//     });
+  //   get dueToday() {
+  //     let lists = this.#lists;
+  //     if (lists.length === 0) {
+  //       throw new Error("Create lists first");
+  //     }
+  //     // console.log(lists);
 
-//     return this.#dueToday;
-//   }
+  //     // for (let i = 0; i < lists.length; i++) {
+  //     //   let list = lists[i];
+  //     //   let toDoList = list.todoList;
+  //     //   if (toDoList.length === 0) {
+  //     //     continue;
+  //     //   }
+  //     // }
 
-//   get dueNextSevenDays() {
-//     let today = Date.now();
-//     let list = this.#lists;
-//     for (let j = 0; j < 7; j++) {
-//       let day = addDays(today, j);
-//       list.forEach((list) => {
-//         list.todoList.forEach((toDo) => {
-//           if (isSameDay(day, toDo.dueDate)) {
-//             this.#dueNextSevenDays.push(toDo);
-//           }
-//         });
-//       });
-//     }
+  //     lists.forEach((list) => {
+  //       list.todoList.forEach((toDo) => {
+  //         if (isToday(toDo.dueDate)) {
+  //           this.#dueToday.push(toDo);
+  //         }
+  //       });
+  //     });
 
-//     return this.#dueNextSevenDays;
-//   }
+  //     return this.#dueToday;
+  //   }
 
-//   get prioritized() {
-//     let list = this.#lists;
+  //   get dueNextSevenDays() {
+  //     let today = Date.now();
+  //     let list = this.#lists;
+  //     for (let j = 0; j < 7; j++) {
+  //       let day = addDays(today, j);
+  //       list.forEach((list) => {
+  //         list.todoList.forEach((toDo) => {
+  //           if (isSameDay(day, toDo.dueDate)) {
+  //             this.#dueNextSevenDays.push(toDo);
+  //           }
+  //         });
+  //       });
+  //     }
 
-//     list.forEach((list) => {
-//       list.todoList.forEach((toDo) => {
-//         if (toDo.priority !== "none") {
-//           this.#prioritized.push(toDo);
-//         }
-//       });
-//     });
+  //     return this.#dueNextSevenDays;
+  //   }
 
-//     return this.#prioritized;
-//   }
+  //   get prioritized() {
+  //     let list = this.#lists;
+
+  //     list.forEach((list) => {
+  //       list.todoList.forEach((toDo) => {
+  //         if (toDo.priority !== "none") {
+  //           this.#prioritized.push(toDo);
+  //         }
+  //       });
+  //     });
+
+  //     return this.#prioritized;
+  //   }
 }
