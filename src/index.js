@@ -867,18 +867,26 @@ function changeTodoDoneStat(e) {
   TODO.changeTodoDoneStatus(state, todoId, currentListId);
 }
 
-
 // EDITING A TODO ITEM
 editTodoItemDialog.addEventListener("close", (e) => {
   editTodoItemForm.dataset.modified = false;
   editTodoItemForm.dataset.todoId = "";
   editTodoItemForm.dataset.listId = "";
-  editTodoItemForm.elements["new-title"].dataset.modified = false;
+
+  const todoTitle = editTodoItemForm.elements["new-title"];
+  todoTitle.value = "";
+  todoTitle.modified = false;
+  const todoPriority = editTodoItemForm.elements["new-priority"];
+  for (let node of todoPriority) {
+    node.checked = false;
+    node.dataset.modified = false;
+  }
+  todoPriority.value = "";
 });
 
 editTodoItemForm.addEventListener("submit", submitTodoEdit);
 const todoTitleEdit = editTodoItemForm.elements["new-title"];
-todoTitleEdit.addEventListener('input', (e) => {
+todoTitleEdit.addEventListener("input", (e) => {
   editTodoItemForm.dataset.modified = true;
   todoTitleEdit.dataset.modified = true;
   let title = todoTitle.value;
@@ -891,7 +899,20 @@ todoTitleEdit.addEventListener('input', (e) => {
   } else {
     todoTitle.setCustomValidity("");
   }
-})
+});
+
+const todoPriorityEdit = editTodoItemForm.elements["new-priority"];
+todoPriorityEdit.forEach((todoPriorityElm) => {
+  todoPriorityElm.addEventListener("input", (e) => {
+    todoPriorityElm.dataset.modified = true;
+    editTodoItemForm.dataset.modified = true;
+  });
+});
+// todoPriorityEdit.addEventListener("change", (e) => {
+//   todoPriorityEdit.dataset.modified = true;
+//   editTodoItemForm.dataset.modified = true;
+
+// })
 
 function submitTodoEdit(e) {
   e.preventDefault();
@@ -935,18 +956,36 @@ function submitTodoEdit(e) {
 
   if (todoTitle.dataset.modified === "true") {
     try {
-      TODO.changeTodoTitle(todoTitleValue, todoId, listId)
+      TODO.changeTodoTitle(todoTitleValue, todoId, listId);
     } catch (err) {
       console.log(err);
     }
     console.log("change here");
   }
 
+  for (let todoPriorityElm of todoPriority) {
+    if (todoPriorityElm.dataset.modified === "true") {
+      try {
+        TODO.changeTodoPriority(todoPriorityValue, todoId, listId);
+      } catch (err) {
+        console.log(err);
+      }
+      break;
+    }
+  }
+
+  // if (todoPriority.dataset.modified === "true") {
+  //   try {
+  //     TODO.changeTodoPriority(todoPriorityValue, todoId, listId);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   console.log("change here");
+  // }
+
   renderTodoItems(listId);
   // editTodoItemDialog.close();
 }
-
-
 
 displayListItems();
 changeScreen(id);
