@@ -289,30 +289,26 @@
           <h2 class="row-title">Title</h2>
           <input
             type="text"
-            name="title"
+            name="new-title"
             placeholder="Enter Title"
-            id="title"
+            id="new-title"
           />
         </div>
 
         <div class="row">
           <h2 class="row-title">Priority</h2>
-          <!-- <label class="hidden">
-            <input type="radio" name="priority" id="priority" value="none" checked class="hidden" />
-            none
-          </label> -->
           <label>
-            <input type="radio" name="priority" id="priority" value="low" />
+            <input type="radio" name="new-priority" id="new-priority" value="low" />
             Low
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="medium" />
+            <input type="radio" name="new-priority" id="new-priority" value="medium" />
             Medium
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="high" />
+            <input type="radio" name="new-priority" id="new-priority" value="high" />
             High
           </label>
         </div>
@@ -321,23 +317,22 @@
           <h2 class="row-title">Due Date</h2>
 
           <label for="due-date">
-            <input type="date" name="due-date" id="due-date" />
-            <span class="due-date-text">Set due date</span>
+            <input type="date" name="new-due-date" id="new-due-date" />
+            <span class="new-due-date-text">Set due date</span>
           </label>
         </div>
 
         <div class="row">
           <h2 class="row-title">List</h2>
-          <select name="lists" id="lists">
-            <!-- <option value="tutorial">Tutorial</option> -->
+          <select name="lists-created" id="lists-created">
           </select>
         </div>
 
         <div class="row">
           <h2 class="row-title">Notes</h2>
           <textarea
-            name="notes"
-            id="notes"
+            name="new-notes"
+            id="new-notes"
             cols="30"
             rows="10"
             placeholder="Add some notes!"
@@ -348,14 +343,14 @@
           <button
             type="button"
             class="cancel"
-            data-target-dialog="create-todo-item"
+            data-target-dialog="edit-todo-item"
           >
             CANCEL
           </button>
           <button
             type="submit"
             class="submit"
-            data-target-dialog="create-todo-item"
+            data-target-dialog="edit-todo-item"
           >
             CREATE
           </button>
