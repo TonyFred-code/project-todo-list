@@ -962,6 +962,12 @@ todoDueDateEdit.addEventListener("change", (e) => {
   }
 });
 
+const todoNoteEdit = editTodoItemForm.elements["new-notes"];
+todoNoteEdit.addEventListener("input", (e) => {
+  todoNoteEdit.dataset.modified = true;
+  editTodoItemForm.dataset.modified = true;
+});
+
 function submitTodoEdit(e) {
   e.preventDefault();
   let form = e.currentTarget;
@@ -1024,6 +1030,14 @@ function submitTodoEdit(e) {
   if ((todoDueDate.dataset.modified = "true")) {
     try {
       TODO.changeTodoDueDate(todoDueDateValue, todoId, listId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  if ((todoNotes.dataset.modified = "true")) {
+    try {
+      TODO.changeTodoNote(todoNotesValue, todoId, listId);
     } catch (err) {
       console.log(err);
     }
