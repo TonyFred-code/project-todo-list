@@ -140,7 +140,7 @@ export class ToDoList {
     this.#todoItems.splice(pos, 1);
   }
 
-  changeTodoTitle(todoId) {
+  changeTodoTitle(todoId, newTitle) {
     let todo;
     try {
       todo = this.getTodoById(todoId);
@@ -148,7 +148,11 @@ export class ToDoList {
       throw err;
     }
 
-    console.log(todo);
+    try {
+      todo.title = newTitle;
+    } catch (err) {
+      throw err;
+    }
   }
 
   changeTodoDoneStatus(todoId, newState) {
