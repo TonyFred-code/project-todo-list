@@ -199,4 +199,19 @@ export class ToDoList {
       throw err;
     }
   }
+
+  changeTodoNote(todoId, newNoteValue) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      todo.note = newNoteValue;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
