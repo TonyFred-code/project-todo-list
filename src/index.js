@@ -153,7 +153,12 @@ function addActiveFilter(e) {
 
 const editTodoItemDialog = document.querySelector(".edit-todo-item");
 const editTodoItemForm = editTodoItemDialog.querySelector("form");
+const submitTodoEditBtn = editTodoItemForm.querySelector(".submit")
 const closeTodoItemEdit = editTodoItemDialog.querySelector(".cancel");
+
+const confirmChangesDiscardDialog = document.querySelector(".confirm-changes-discard");
+const discardChangesBtn = confirmChangesDiscardDialog.querySelector(".cancel");
+const saveChangesBtn = confirmChangesDiscardDialog.querySelector(".confirm");
 
 const todoDetailsViewDialog = document.querySelector(".todo-details");
 const closeDetailsView = todoDetailsViewDialog.querySelector(".close");
@@ -191,7 +196,26 @@ const confirmTodoDelete =
   todoDeleteConfirmDialog.querySelector("button.confirm");
 const cancelTodoDelete = todoDeleteConfirmDialog.querySelector("button.cancel");
 
-closeTodoItemEdit.addEventListener("click", closeDialog);
+closeTodoItemEdit.addEventListener("click", (e) => {
+  let modified = editTodoItemForm.dataset.modified;
+
+  if (modified === "true") {
+    confirmChangesDiscardDialog.showModal();
+  } else {
+
+  closeDialog(e);
+  }
+});
+discardChangesBtn.addEventListener("click", (e) => {
+  editTodoItemDialog.close();
+  closeDialog(e);
+});
+
+saveChangesBtn.addEventListener("click", (e) => {
+  closeDialog(e);
+
+  submitTodoEditBtn.click();
+})
 closeDetailsView.addEventListener("click", closeDialog);
 cancelCreateListBtn.addEventListener("click", closeDialog);
 openCreateListBtn.addEventListener("click", openDialog);
@@ -908,6 +932,9 @@ editTodoItemDialog.addEventListener("close", (e) => {
   const todoDueDate = editTodoItemForm.elements["new-due-date"];
   todoDueDate.value = "";
   todoDueDate.dataset.modified = false;
+  const todoNote = editTodoItemForm.elements["new-notes"];
+  todoNote.value = "";
+  todoNote.modified = false;
 });
 
 editTodoItemForm.addEventListener("submit", submitTodoEdit);
