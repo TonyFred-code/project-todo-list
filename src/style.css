@@ -436,11 +436,13 @@ dialog {
 }
 
 dialog.list-delete-confirm,
-dialog.todo-delete-confirm {
+dialog.todo-delete-confirm,
+.confirm-changes-discard {
   width: 300px;
 }
 
 .list-delete-confirm .dialog-content,
+.confirm-changes-discard .dialog-content,
 .create-list-item-dialog form,
 .todo-delete-confirm .dialog-content,
 .rename-list-item-dialog form,
@@ -455,7 +457,8 @@ dialog.todo-delete-confirm {
 .list-delete-confirm h1,
 .create-list-item-dialog h1,
 .todo-delete-confirm h1,
-.rename-list-item-dialog h1 {
+.rename-list-item-dialog h1,
+.confirm-changes-discard h1 {
   border-bottom: 1.8px solid gray;
   font-size: 2.2rem;
   padding: 8px 0;
@@ -468,7 +471,8 @@ dialog.todo-delete-confirm {
 .create-list-item-dialog .btn-group,
 .todo-delete-confirm .btn-group,
 .rename-list-item-dialog .btn-group,
-.todo-details .btn-group {
+.todo-details .btn-group,
+.confirm-changes-discard .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -478,7 +482,8 @@ dialog.todo-delete-confirm {
 .create-list-item-dialog button,
 .todo-delete-confirm button,
 .rename-list-item-dialog button,
-.todo-details button {
+.todo-details button,
+.confirm-changes-discard button {
   border: 1px solid gray;
   padding: 8px 12px;
 }
