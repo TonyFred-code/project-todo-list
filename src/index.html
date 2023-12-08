@@ -292,23 +292,42 @@
             name="new-title"
             placeholder="Enter Title"
             id="new-title"
+            data-modified="false"
           />
         </div>
 
         <div class="row">
           <h2 class="row-title">Priority</h2>
           <label>
-            <input type="radio" name="new-priority" data-modified="false" id="new-priority" value="low" />
+            <input
+              type="radio"
+              name="new-priority"
+              data-modified="false"
+              id="new-priority"
+              value="low"
+            />
             Low
           </label>
 
           <label>
-            <input type="radio" name="new-priority" data-modified="false" id="new-priority" value="medium" />
+            <input
+              type="radio"
+              name="new-priority"
+              data-modified="false"
+              id="new-priority"
+              value="medium"
+            />
             Medium
           </label>
 
           <label>
-            <input type="radio" name="new-priority" data-modified="false" id="new-priority" value="high" />
+            <input
+              type="radio"
+              name="new-priority"
+              data-modified="false"
+              id="new-priority"
+              value="high"
+            />
             High
           </label>
         </div>
@@ -317,20 +336,29 @@
           <h2 class="row-title">Due Date</h2>
 
           <label for="due-date">
-            <input type="date" name="new-due-date" id="new-due-date" />
+            <input
+              type="date"
+              name="new-due-date"
+              id="new-due-date"
+              data-modified="false"
+            />
             <span class="new-due-date-text">Set due date</span>
           </label>
         </div>
 
         <div class="row">
           <h2 class="row-title">List</h2>
-          <select name="lists-created" id="lists-created">
-          </select>
+          <select
+            name="lists-created"
+            data-modified="false"
+            id="lists-created"
+          ></select>
         </div>
 
         <div class="row">
           <h2 class="row-title">Notes</h2>
           <textarea
+            data-modified="false"
             name="new-notes"
             id="new-notes"
             cols="30"
@@ -345,14 +373,14 @@
             class="cancel"
             data-target-dialog="edit-todo-item"
           >
-            CANCEL
+            CANCEL CHANGES
           </button>
           <button
             type="submit"
             class="submit"
             data-target-dialog="edit-todo-item"
           >
-            CREATE
+            SUBMIT CHANGES
           </button>
         </div>
       </form>

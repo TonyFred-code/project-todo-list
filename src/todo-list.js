@@ -184,4 +184,19 @@ export class ToDoList {
       throw err;
     }
   }
+
+  changeTodoDueDate(todoId, newDate) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      todo.dueDate = newDate;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

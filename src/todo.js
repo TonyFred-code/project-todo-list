@@ -265,6 +265,21 @@ export class ToDo {
     }
   }
 
+  changeTodoDueDate(newDueDate, todoId, listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      list.changeTodoDueDate(todoId, newDueDate);
+    } catch (err) {
+      throw err;
+    }
+  }
+
 //   get dueToday() {
 //     let lists = this.#lists;
 //     if (lists.length === 0) {
