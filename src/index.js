@@ -526,11 +526,12 @@ const todoDueDate = createTodoForm.elements["due-date"];
 
 todoDueDate.addEventListener("change", (e) => {
   let value = todoDueDate.value;
-  if (value === "") return;
 
   const labelText = createTodoForm.querySelector(".due-date-text");
   let date = new Date(value);
-  if (isToday(date)) {
+  if (value === "") {
+    labelText.textContent = "Set due date";
+  } else if (isToday(date)) {
     labelText.textContent = "Today";
   } else if (isTomorrow(date)) {
     labelText.textContent = "Tomorrow";
@@ -821,6 +822,28 @@ function renderTodoItems(listId, filter = "all") {
         listsSelect.appendChild(optElm);
       });
 
+      const todoDueDateEdit = editTodoItemForm.elements["new-due-date"];
+      let value = todoDueDateEdit.value;
+
+      const labelText = editTodoItemForm.querySelector(".new-due-date-text");
+      let date = new Date(value);
+      if (value === "") {
+        labelText.textContent = "Set due date";
+      } else if (isToday(date)) {
+        labelText.textContent = "Today";
+      } else if (isTomorrow(date)) {
+        labelText.textContent = "Tomorrow";
+      } else if (isYesterday(date)) {
+        labelText.textContent = "Yesterday";
+      } else {
+        labelText.textContent = intlFormat(date, {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        });
+      }
+
       const todoNotes = editTodoItemForm.elements["new-notes"];
       if (todoItem.note === "" || todoItem.note === "none") {
         todoNotes.value = "";
@@ -882,6 +905,9 @@ editTodoItemDialog.addEventListener("close", (e) => {
     node.dataset.modified = false;
   }
   todoPriority.value = "";
+  const todoDueDate = editTodoItemForm.elements["new-due-date"];
+  todoDueDate.value = "";
+  todoDueDate.dataset.modified = false;
 });
 
 editTodoItemForm.addEventListener("submit", submitTodoEdit);
@@ -908,11 +934,33 @@ todoPriorityEdit.forEach((todoPriorityElm) => {
     editTodoItemForm.dataset.modified = true;
   });
 });
-// todoPriorityEdit.addEventListener("change", (e) => {
-//   todoPriorityEdit.dataset.modified = true;
-//   editTodoItemForm.dataset.modified = true;
 
-// })
+const todoDueDateEdit = editTodoItemForm.elements["new-due-date"];
+todoDueDateEdit.addEventListener("change", (e) => {
+  todoDueDateEdit.dataset.modified = true;
+  editTodoItemForm.dataset.modified = true;
+
+  let value = todoDueDateEdit.value;
+
+  const labelText = editTodoItemForm.querySelector(".new-due-date-text");
+  let date = new Date(value);
+  if (value === "") {
+    labelText.textContent = "Set due date";
+  } else if (isToday(date)) {
+    labelText.textContent = "Today";
+  } else if (isTomorrow(date)) {
+    labelText.textContent = "Tomorrow";
+  } else if (isYesterday(date)) {
+    labelText.textContent = "Yesterday";
+  } else {
+    labelText.textContent = intlFormat(date, {
+      weekday: "long",
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
+});
 
 function submitTodoEdit(e) {
   e.preventDefault();
@@ -960,7 +1008,6 @@ function submitTodoEdit(e) {
     } catch (err) {
       console.log(err);
     }
-    console.log("change here");
   }
 
   for (let todoPriorityElm of todoPriority) {
@@ -974,17 +1021,16 @@ function submitTodoEdit(e) {
     }
   }
 
-  // if (todoPriority.dataset.modified === "true") {
-  //   try {
-  //     TODO.changeTodoPriority(todoPriorityValue, todoId, listId);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  //   console.log("change here");
-  // }
+  if ((todoDueDate.dataset.modified = "true")) {
+    try {
+      TODO.changeTodoDueDate(todoDueDateValue, todoId, listId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   renderTodoItems(listId);
-  // editTodoItemDialog.close();
+  editTodoItemDialog.close();
 }
 
 displayListItems();
