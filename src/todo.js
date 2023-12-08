@@ -250,6 +250,21 @@ export class ToDo {
     }
   }
 
+  changeTodoPriority(newPriority, todoId, listId) {
+    let list;
+    try {
+      list = this.getListById(listId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      list.changeTodoPriority(todoId, newPriority);
+    } catch (err) {
+      throw err;
+    }
+  }
+
 //   get dueToday() {
 //     let lists = this.#lists;
 //     if (lists.length === 0) {
