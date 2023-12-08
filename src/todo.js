@@ -1,19 +1,7 @@
 import { ToDoList } from "./todo-list";
-import {
-  toDate,
-  isToday,
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  isSameDay,
-} from "date-fns";
 
 export class ToDo {
   #lists = []; // all created tasks
-  #dueToday = []; // only tasks due today
-  #dueNextSevenDays = []; // only tasks due this particular week;
-  #prioritized = []; // tasks with a priority flag not 'none';
-  #today = Date.now();
 
   get lists() {
     return this.#lists;
@@ -210,14 +198,14 @@ export class ToDo {
 
     targetList.createToDo(
       todoItem.title,
-      todoItem.notes,
+      todoItem.note,
       todoItem.dueDate,
       todoItem.priority,
       todoItem.subtasks,
       todoItem.done
     );
 
-    currentList.deleteTodo(todoId);
+    currentList.deleteToDo(todoId);
   }
 
   changeTodoDoneStatus(newState, todoId, listId) {
@@ -294,61 +282,4 @@ export class ToDo {
       throw err;
     }
   }
-
-  //   get dueToday() {
-  //     let lists = this.#lists;
-  //     if (lists.length === 0) {
-  //       throw new Error("Create lists first");
-  //     }
-  //     // console.log(lists);
-
-  //     // for (let i = 0; i < lists.length; i++) {
-  //     //   let list = lists[i];
-  //     //   let toDoList = list.todoList;
-  //     //   if (toDoList.length === 0) {
-  //     //     continue;
-  //     //   }
-  //     // }
-
-  //     lists.forEach((list) => {
-  //       list.todoList.forEach((toDo) => {
-  //         if (isToday(toDo.dueDate)) {
-  //           this.#dueToday.push(toDo);
-  //         }
-  //       });
-  //     });
-
-  //     return this.#dueToday;
-  //   }
-
-  //   get dueNextSevenDays() {
-  //     let today = Date.now();
-  //     let list = this.#lists;
-  //     for (let j = 0; j < 7; j++) {
-  //       let day = addDays(today, j);
-  //       list.forEach((list) => {
-  //         list.todoList.forEach((toDo) => {
-  //           if (isSameDay(day, toDo.dueDate)) {
-  //             this.#dueNextSevenDays.push(toDo);
-  //           }
-  //         });
-  //       });
-  //     }
-
-  //     return this.#dueNextSevenDays;
-  //   }
-
-  //   get prioritized() {
-  //     let list = this.#lists;
-
-  //     list.forEach((list) => {
-  //       list.todoList.forEach((toDo) => {
-  //         if (toDo.priority !== "none") {
-  //           this.#prioritized.push(toDo);
-  //         }
-  //       });
-  //     });
-
-  //     return this.#prioritized;
-  //   }
 }
