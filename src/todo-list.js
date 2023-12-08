@@ -169,4 +169,19 @@ export class ToDoList {
       throw err;
     }
   }
+
+  changeTodoPriority(todoId, newPriority) {
+    let todo;
+    try {
+      todo = this.getTodoById(todoId);
+    } catch (err) {
+      throw err;
+    }
+
+    try {
+      todo.priority = newPriority;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
