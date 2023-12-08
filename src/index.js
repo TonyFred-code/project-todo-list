@@ -151,6 +151,10 @@ function addActiveFilter(e) {
 
 // DIALOGS
 
+const editTodoItemDialog = document.querySelector(".edit-todo-item");
+const editTodoItemForm = editTodoItemDialog.querySelector("form");
+const closeTodoItemEdit = editTodoItemDialog.querySelector(".cancel");
+
 const todoDetailsViewDialog = document.querySelector(".todo-details");
 const closeDetailsView = todoDetailsViewDialog.querySelector(".close");
 
@@ -187,6 +191,7 @@ const confirmTodoDelete =
   todoDeleteConfirmDialog.querySelector("button.confirm");
 const cancelTodoDelete = todoDeleteConfirmDialog.querySelector("button.cancel");
 
+closeTodoItemEdit.addEventListener("click", closeDialog);
 closeDetailsView.addEventListener("click", closeDialog);
 cancelCreateListBtn.addEventListener("click", closeDialog);
 openCreateListBtn.addEventListener("click", openDialog);
@@ -655,6 +660,7 @@ function renderTodoItems(listId, filter = "all") {
     label.classList.add("marker-container");
     const checkBox = document.createElement("input");
     checkBox.type = "checkbox";
+    checkBox.checked = todoItem.done;
     checkBox.dataset.todoId = todoItem.id;
     checkBox.addEventListener("change", changeTodoDoneStat);
     const marker = document.createElement("span");
@@ -676,13 +682,20 @@ function renderTodoItems(listId, filter = "all") {
       const todoId = Number(e.currentTarget.dataset.todoId);
       let todo = TODO.getListTodoItem(todoId, currentListId);
 
-      const todoTitleView = todoDetailsViewDialog.querySelector(".todo-title .value");
+      const todoTitleView =
+        todoDetailsViewDialog.querySelector(".todo-title .value");
       todoTitleView.textContent = todo.title;
-      const todoPriorityView = todoDetailsViewDialog.querySelector(".todo-priority .value");
+      const todoPriorityView = todoDetailsViewDialog.querySelector(
+        ".todo-priority .value"
+      );
       todoPriorityView.textContent = titleCase(todo.priority);
-      const todoNotesView = todoDetailsViewDialog.querySelector(".todo-notes .value");
-      todoNotesView.textContent = (todo.note).trim() === "" ? "NO NOTES" : todo.note;
-      const todoDueDateView = todoDetailsViewDialog.querySelector(".todo-due-date .value");
+      const todoNotesView =
+        todoDetailsViewDialog.querySelector(".todo-notes .value");
+      todoNotesView.textContent =
+        todo.note.trim() === "" ? "NO NOTES" : todo.note;
+      const todoDueDateView = todoDetailsViewDialog.querySelector(
+        ".todo-due-date .value"
+      );
       if (todoItem.dueDate === "none") {
         todoDueDateView.textContent = "NO DUE DATE";
       } else {
@@ -703,9 +716,14 @@ function renderTodoItems(listId, filter = "all") {
         }
       }
 
-      const todoDoneStatusView = todoDetailsViewDialog.querySelector(".todo-done-status .value");
-      todoDoneStatusView.textContent = todo.done ? "COMPLETED" : "NOT COMPLETED";
-      const todoListView =  todoDetailsViewDialog.querySelector(".todo-list .value");
+      const todoDoneStatusView = todoDetailsViewDialog.querySelector(
+        ".todo-done-status .value"
+      );
+      todoDoneStatusView.textContent = todo.done
+        ? "COMPLETED"
+        : "NOT COMPLETED";
+      const todoListView =
+        todoDetailsViewDialog.querySelector(".todo-list .value");
       todoListView.textContent = titleCase(listName);
       openDialog(e);
     });
@@ -756,10 +774,62 @@ function renderTodoItems(listId, filter = "all") {
     const editBtn = document.createElement("button");
     editBtn.classList.add("edit-todo");
     editBtn.classList.add("edit-todo");
+    editBtn.dataset.todoId = todoItem.id;
     editBtn.dataset.targetDialog = "edit-todo-item";
     editBtn.textContent = "Edit";
 
     editBtn.addEventListener("click", (e) => {
+      let listId = Number(screen.dataset.listId);
+      let todoId = Number(e.currentTarget.dataset.todoId);
+      let todo = TODO.getListTodoItem(todoId, listId);
+
+      const todoTitle = editTodoItemForm.elements["new-title"];
+      todoTitle.value = todo.title;
+
+      const todoPriority = editTodoItemForm.elements["new-priority"];
+
+      if (todoItem.priority === "low") {
+        todoPriority.value = "low";
+      } else if (todoItem.priority === "medium") {
+        todoPriority.value = "medium";
+      } else if (todoItem.priority === "high") {
+        todoPriority.value = "high";
+      } else {
+        todoPriority.value = "";
+      }
+
+      const todoDueDate = editTodoItemForm.elements["new-due-date"];
+
+      if (todoItem.dueDate === "none") {
+        todoDueDate.value = "";
+      } else {
+        todoDueDate.value = todoItem.dueDate;
+      }
+
+      const listsSelect = editTodoItemForm.elements["lists-created"];
+      const activeListId = screen.dataset.listId;
+      const listsCreated = TODO.lists;
+      listsSelect.textContent = "";
+      listsCreated.forEach((list) => {
+        const listName = titleCase(list.name);
+        const optElm = document.createElement("option");
+        optElm.value = list.id;
+        if (Number(list.id) === Number(activeListId)) {
+          optElm.selected = true;
+        }
+        optElm.textContent = listName;
+        listsSelect.appendChild(optElm);
+      });
+
+      const todoNotes = editTodoItemForm.elements["new-notes"];
+      if (todoItem.note === "" || todoItem.note === "none") {
+        todoNotes.value = "";
+      } else {
+        todoNotes.value = todoItem.note;
+      }
+
+      editTodoItemForm.dataset.listId = listId;
+      editTodoItemForm.dataset.todoId = todoId;
       openDialog(e);
     });
 
@@ -795,11 +865,88 @@ function changeTodoDoneStat(e) {
   const todoId = Number(elm.dataset.todoId);
 
   TODO.changeTodoDoneStatus(state, todoId, currentListId);
-  let todo = TODO.getListTodoItem(todoId, currentListId);
-  console.log({
-    todo,
-  });
 }
+
+
+// EDITING A TODO ITEM
+editTodoItemDialog.addEventListener("close", (e) => {
+  editTodoItemForm.dataset.modified = false;
+  editTodoItemForm.dataset.todoId = "";
+  editTodoItemForm.dataset.listId = "";
+  editTodoItemForm.elements["new-title"].dataset.modified = false;
+});
+
+editTodoItemForm.addEventListener("submit", submitTodoEdit);
+const todoTitleEdit = editTodoItemForm.elements["new-title"];
+todoTitleEdit.addEventListener('input', (e) => {
+  editTodoItemForm.dataset.modified = true;
+  todoTitleEdit.dataset.modified = true;
+  let title = todoTitle.value;
+
+  // validate form input;
+  if (title.trim() === "") {
+    todoTitle.setCustomValidity("Input a valid title");
+  } else if (title.length >= 20) {
+    todoTitle.setCustomValidity("Title is too long");
+  } else {
+    todoTitle.setCustomValidity("");
+  }
+})
+
+function submitTodoEdit(e) {
+  e.preventDefault();
+  let form = e.currentTarget;
+
+  let todoId, listId;
+
+  if (form.dataset.todoId === "" || form.dataset.listId === "") {
+    return;
+  } else {
+    todoId = Number(form.dataset.todoId);
+    listId = Number(form.dataset.listId);
+  }
+
+  const todoTitle = form.elements["new-title"];
+  const todoTitleValue = todoTitle.value;
+  console.log(todoTitle, todoTitle.value);
+  const todoPriority = form.elements["new-priority"];
+  let todoPriorityValue = todoPriority.value;
+  console.log(todoPriority, todoPriority.value);
+  const todoDueDate = form.elements["new-due-date"];
+  let todoDueDateValue =
+    todoDueDate.value === "" ? "none" : `${todoDueDate.value}`;
+  console.log(todoDueDate, todoDueDateValue);
+  const todoItemList = form.elements["lists-created"];
+  const todoItemListValue = Number(todoItemList.value);
+  console.log(todoItemList, todoItemListValue);
+  const todoNotes = form.elements["new-notes"];
+  const todoNotesValue = todoNotes.value;
+  console.log(todoNotes, todoNotesValue);
+
+  if (todoTitleValue.trim() === "") {
+    todoTitle.setCustomValidity("Input a valid title");
+    todoTitle.reportValidity();
+    return;
+  }
+
+  if (todoPriorityValue === "") {
+    todoPriorityValue = "none";
+  }
+
+  if (todoTitle.dataset.modified === "true") {
+    try {
+      TODO.changeTodoTitle(todoTitleValue, todoId, listId)
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("change here");
+  }
+
+  renderTodoItems(listId);
+  // editTodoItemDialog.close();
+}
+
+
 
 displayListItems();
 changeScreen(id);
