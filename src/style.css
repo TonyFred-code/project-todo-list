@@ -81,7 +81,7 @@ nav button {
   background-color: transparent;
   padding: 10px 20px;
   width: 100%;
-  transition: all 0.07s;
+  transition: all 0.06s ease-in-out;
 }
 
 nav .filters {
@@ -246,7 +246,6 @@ nav .lists .create-list-item:active {
 .current-screen .options button:active {
   background-color: #ccc;
 }
-
 
 .current-screen .todo-items {
   list-style-type: none;
@@ -414,8 +413,8 @@ nav .lists .create-list-item:active {
   height: 60px;
   width: 60px;
   border-radius: 50%;
-  border: 2px solid #C38D9E;
-  background-color: #C38D9E;
+  border: 2px solid #c38d9e;
+  background-color: #c38d9e;
   color: white;
   padding: 8px;
   font-weight: bold;
@@ -427,7 +426,7 @@ nav .lists .create-list-item:active {
 }
 
 .current-screen .add-task:active {
-  color: #C38D9E;
+  color: #c38d9e;
   background-color: white;
 }
 
@@ -517,7 +516,8 @@ dialog.todo-delete-confirm {
 
 .create-todo-item {
 }
-.create-todo-item form {
+.create-todo-item form,
+.edit-todo-item form {
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
@@ -525,41 +525,48 @@ dialog.todo-delete-confirm {
   width: 350px;
 }
 
-.create-todo-item .row {
+.create-todo-item .row,
+.edit-todo-item .row {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.create-todo-item .row-title {
+.create-todo-item .row-title,
+.edit-todo-item .row-title {
   font-size: 1.9rem;
 }
 
 .create-todo-item input {
 }
 
-.create-todo-item input[type="text"] {
+.create-todo-item input[type="text"],
+.edit-todo-item input[type="text"] {
   height: 25px;
   padding: 6px;
 }
 
-.create-todo-item select {
+.create-todo-item select,
+.edit-todo-item select {
   height: 25px;
 }
 
-.create-todo-item textarea {
+.create-todo-item textarea,
+.edit-todo-item textarea {
   resize: none;
   padding: 6px;
   height: 100px;
 }
 
-.create-todo-item .btn-group {
+.create-todo-item .btn-group,
+.edit-todo-item .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
 }
 
-.create-todo-item .btn-group button {
+.create-todo-item .btn-group button,
+.edit-todo-item .btn-group button {
   padding: 8px 12px;
   border: 1px solid gray;
 }
