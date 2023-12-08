@@ -935,6 +935,10 @@ editTodoItemDialog.addEventListener("close", (e) => {
   const todoNote = editTodoItemForm.elements["new-notes"];
   todoNote.value = "";
   todoNote.modified = false;
+
+  const listEdit = editTodoItemForm.elements['lists-created'];
+  listEdit.dataset.modified = false;
+  listEdit.textContent = "";
 });
 
 editTodoItemForm.addEventListener("submit", submitTodoEdit);
@@ -989,11 +993,19 @@ todoDueDateEdit.addEventListener("change", (e) => {
   }
 });
 
+const listEdit = editTodoItemForm.elements['lists-created'];
+listEdit.addEventListener("change", (e) => {
+  listEdit.dataset.modified = true;
+  editTodoItemForm.dataset.modified = true;
+})
+
 const todoNoteEdit = editTodoItemForm.elements["new-notes"];
 todoNoteEdit.addEventListener("input", (e) => {
   todoNoteEdit.dataset.modified = true;
   editTodoItemForm.dataset.modified = true;
 });
+
+
 
 function submitTodoEdit(e) {
   e.preventDefault();
@@ -1059,6 +1071,12 @@ function submitTodoEdit(e) {
       TODO.changeTodoDueDate(todoDueDateValue, todoId, listId);
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  if (todoItemList.dataset.modified === "true") {
+    if (listId !== todoItemListValue) {
+      TODO.reassignTodoItem(todoId, listId, todoItemListValue);
     }
   }
 
