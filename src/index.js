@@ -153,10 +153,15 @@ function addActiveFilter(e) {
 
 const editTodoItemDialog = document.querySelector(".edit-todo-item");
 const editTodoItemForm = editTodoItemDialog.querySelector("form");
-const submitTodoEditBtn = editTodoItemForm.querySelector(".submit")
+const submitTodoEditBtn = editTodoItemForm.querySelector(".submit");
 const closeTodoItemEdit = editTodoItemDialog.querySelector(".cancel");
+const discardCreateTodoChanges = document.querySelector(".discard-todo-create");
+const discardCreateChanges = discardCreateTodoChanges.querySelector(".cancel");
+const saveCreateChanges = discardCreateTodoChanges.querySelector(".confirm");
 
-const confirmChangesDiscardDialog = document.querySelector(".confirm-changes-discard");
+const confirmChangesDiscardDialog = document.querySelector(
+  ".confirm-changes-discard"
+);
 const discardChangesBtn = confirmChangesDiscardDialog.querySelector(".cancel");
 const saveChangesBtn = confirmChangesDiscardDialog.querySelector(".confirm");
 
@@ -202,8 +207,7 @@ closeTodoItemEdit.addEventListener("click", (e) => {
   if (modified === "true") {
     confirmChangesDiscardDialog.showModal();
   } else {
-
-  closeDialog(e);
+    closeDialog(e);
   }
 });
 discardChangesBtn.addEventListener("click", (e) => {
@@ -211,11 +215,20 @@ discardChangesBtn.addEventListener("click", (e) => {
   closeDialog(e);
 });
 
+discardCreateChanges.addEventListener("click", (e) => {
+  createTodoDialog.close();
+  closeDialog(e);
+});
 saveChangesBtn.addEventListener("click", (e) => {
   closeDialog(e);
 
   submitTodoEditBtn.click();
-})
+});
+saveCreateChanges.addEventListener("click", (e) => {
+  closeDialog(e);
+
+  createToDoBtn.click();
+});
 closeDetailsView.addEventListener("click", closeDialog);
 cancelCreateListBtn.addEventListener("click", closeDialog);
 openCreateListBtn.addEventListener("click", openDialog);
@@ -238,7 +251,14 @@ openCreateTodoBtn.addEventListener("click", (e) => {
   });
   openDialog(e);
 });
-cancelCreateTodoBtn.addEventListener("click", closeDialog);
+cancelCreateTodoBtn.addEventListener("click", (e) => {
+  let modified = createTodoForm.dataset.modified;
+  if (modified === "true") {
+    discardCreateTodoChanges.showModal();
+  } else {
+    closeDialog(e);
+  }
+});
 cancelTodoDelete.addEventListener("click", closeDialog);
 openRenameListBtn.addEventListener("click", (e) => {
   let screen = document.querySelector(".current-screen");
@@ -516,8 +536,10 @@ function deleteList(e) {
 
 // CREATING TODO ITEM
 createTodoDialog.addEventListener("close", (e) => {
+  createTodoForm.dataset.modified = false;
   const todoTitle = createTodoForm.elements["title"];
   todoTitle.value = "";
+  todoTitle.dataset.modified = "false";
   const todoPriority = createTodoForm.elements["priority"];
   for (let node of todoPriority) {
     node.checked = false;
@@ -532,8 +554,11 @@ createTodoDialog.addEventListener("close", (e) => {
 });
 
 createTodoForm.addEventListener("submit", createTodoItem);
+
 const todoTitle = createTodoForm.elements["title"];
 todoTitle.addEventListener("input", (e) => {
+  todoTitle.dataset.modified = "true";
+  createTodoForm.dataset.modified = true;
   let title = todoTitle.value;
 
   // validate form input;
@@ -546,10 +571,17 @@ todoTitle.addEventListener("input", (e) => {
   }
 });
 
+const todoPriority = createTodoForm.elements["priority"];
+todoPriority.forEach((todoPriorityElm) => {
+  todoPriorityElm.addEventListener("input", (e) => {
+    createTodoForm.dataset.modified = true;
+  });
+});
 const todoDueDate = createTodoForm.elements["due-date"];
 
 todoDueDate.addEventListener("change", (e) => {
   let value = todoDueDate.value;
+  createTodoForm.dataset.modified = true;
 
   const labelText = createTodoForm.querySelector(".due-date-text");
   let date = new Date(value);
@@ -569,6 +601,16 @@ todoDueDate.addEventListener("change", (e) => {
       day: "2-digit",
     });
   }
+});
+
+const todoListsSelect = createTodoForm.elements["lists"];
+todoListsSelect.addEventListener("change", (e) => {
+  createTodoForm.dataset.modified = true;
+});
+
+const todoNotes = createTodoForm.elements["notes"];
+todoNotes.addEventListener("input", (e) => {
+  createTodoForm.dataset.modified = true;
 });
 
 function createTodoItem(e) {
@@ -936,7 +978,7 @@ editTodoItemDialog.addEventListener("close", (e) => {
   todoNote.value = "";
   todoNote.modified = false;
 
-  const listEdit = editTodoItemForm.elements['lists-created'];
+  const listEdit = editTodoItemForm.elements["lists-created"];
   listEdit.dataset.modified = false;
   listEdit.textContent = "";
 });
@@ -993,19 +1035,17 @@ todoDueDateEdit.addEventListener("change", (e) => {
   }
 });
 
-const listEdit = editTodoItemForm.elements['lists-created'];
+const listEdit = editTodoItemForm.elements["lists-created"];
 listEdit.addEventListener("change", (e) => {
   listEdit.dataset.modified = true;
   editTodoItemForm.dataset.modified = true;
-})
+});
 
 const todoNoteEdit = editTodoItemForm.elements["new-notes"];
 todoNoteEdit.addEventListener("input", (e) => {
   todoNoteEdit.dataset.modified = true;
   editTodoItemForm.dataset.modified = true;
 });
-
-
 
 function submitTodoEdit(e) {
   e.preventDefault();
