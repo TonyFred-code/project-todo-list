@@ -61,6 +61,7 @@ header .logo {
 nav {
   grid-row: 2 / -1;
   background-color: #ffffff;
+  position: relative;
 }
 
 nav > div {
@@ -204,6 +205,8 @@ nav .lists .create-list-item:active {
   border-color: #c38d9e;
   color: #c38d9e;
 }
+
+
 
 .current-screen,
 .empty-screen {
@@ -437,12 +440,14 @@ dialog {
 
 dialog.list-delete-confirm,
 dialog.todo-delete-confirm,
-.confirm-changes-discard {
+.confirm-changes-discard,
+.discard-todo-create {
   width: 300px;
 }
 
 .list-delete-confirm .dialog-content,
 .confirm-changes-discard .dialog-content,
+.discard-todo-create .dialog-content,
 .create-list-item-dialog form,
 .todo-delete-confirm .dialog-content,
 .rename-list-item-dialog form,
@@ -458,7 +463,8 @@ dialog.todo-delete-confirm,
 .create-list-item-dialog h1,
 .todo-delete-confirm h1,
 .rename-list-item-dialog h1,
-.confirm-changes-discard h1 {
+.confirm-changes-discard h1,
+.discard-todo-create h1 {
   border-bottom: 1.8px solid gray;
   font-size: 2.2rem;
   padding: 8px 0;
@@ -472,7 +478,8 @@ dialog.todo-delete-confirm,
 .todo-delete-confirm .btn-group,
 .rename-list-item-dialog .btn-group,
 .todo-details .btn-group,
-.confirm-changes-discard .btn-group {
+.confirm-changes-discard .btn-group,
+.discard-todo-create .btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -483,7 +490,9 @@ dialog.todo-delete-confirm,
 .todo-delete-confirm button,
 .rename-list-item-dialog button,
 .todo-details button,
-.confirm-changes-discard button {
+.confirm-changes-discard button,
+.discard-todo-create button,
+.nav .open-nav {
   border: 1px solid gray;
   padding: 8px 12px;
 }
@@ -607,4 +616,8 @@ dialog.todo-delete-confirm,
   height: 6px;
   border-radius: 50%;
   background-color: black;
+}
+
+header .open-close-nav {
+  display: none;
 }
