@@ -68,6 +68,21 @@ function iconCreations() {
 
 iconCreations();
 
+// NAV OPERATION FOR SMALLER SCREENS
+const openCloseNavBtn = document.querySelector(".open-close-nav");
+const nav = document.querySelector("nav");
+openCloseNavBtn.addEventListener("click", (e) => {
+  let elm = e.currentTarget;
+  let state = elm.dataset.state;
+  if (state === "closed") {
+    nav.classList.add("show");
+    elm.dataset.state = "opened"
+  } else {
+    nav.classList.remove("show");
+    elm.dataset.state = "closed";
+  }
+})
+
 // SCREEN VIEW AND FILTERING
 const screen = document.querySelector(".current-screen");
 const filters = document.querySelector(".filters");
