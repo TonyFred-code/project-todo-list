@@ -1,15 +1,5 @@
 import { ToDoItem } from "./todo-item";
 import { isToday, startOfDay, isBefore, isSameWeek } from "date-fns";
-
-// a full todo list;
-// each todo list item must have
-//  - a title value;
-// #title;
-// #notes;
-// #dueDate;
-// #priority;
-// #subTasks = [];
-// #done = false;
 /*
 
 creating new todos, setting todos as complete, changing todo priority
