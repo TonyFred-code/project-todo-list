@@ -13,6 +13,11 @@
     <div id="container">
       <header class="main-header">
         <h1 class="logo">ToDoIt</h1>
+        <button
+          type="button"
+          class="open-close-nav"
+          data-state="closed"
+        ></button>
       </header>
       <nav>
         <div>
@@ -61,16 +66,12 @@
               type="button"
               class="delete-list"
               data-target-dialog="list-delete-confirm"
-            >
-              Delete List
-            </button>
+            ></button>
             <button
               type="button"
               class="rename-list"
               data-target-dialog="rename-list"
-            >
-              Rename List
-            </button>
+            ></button>
           </div>
         </header>
         <ul class="todo-items">
@@ -102,8 +103,8 @@
           class="add-task"
           data-target-dialog="create-todo-item"
         >
-          Add Task
-        </button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill='#ffffff' d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>
+      </button>
       </div>
     </div>
     <!-- || create the following dialogs -->
@@ -180,11 +181,10 @@
 
     <!-- 2. Edit List item (a) 3 -->
     <dialog class="create-todo-item" data-name="create-todo-item">
-      <form method="dialog" data-modified="false
+      <form method="dialog" data-modified="false">
         <div class="row">
           <h2 class="row-title">Title</h2>
           <input
-          data-modified="false
             type="text"
             name="title"
             placeholder="Enter Title"
@@ -235,9 +235,7 @@
 
         <div class="row">
           <h2 class="row-title">List</h2>
-          <select name="lists" id="lists">
-            <!-- <option value="tutorial">Tutorial</option> -->
-          </select>
+          <select name="lists" id="lists"></select>
         </div>
 
         <div class="row">
