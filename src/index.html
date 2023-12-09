@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A todo list app created for odin project."
+    />
     <title>ToDo List</title>
   </head>
   <body>
@@ -176,10 +180,11 @@
 
     <!-- 2. Edit List item (a) 3 -->
     <dialog class="create-todo-item" data-name="create-todo-item">
-      <form method="dialog">
+      <form method="dialog" data-modified="false
         <div class="row">
           <h2 class="row-title">Title</h2>
           <input
+          data-modified="false
             type="text"
             name="title"
             placeholder="Enter Title"
@@ -194,17 +199,27 @@
             none
           </label> -->
           <label>
-            <input type="radio" name="priority" id="priority" value="low" />
+            <input type="radio" name="priority" id="priority-low" value="low" />
             Low
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="medium" />
+            <input
+              type="radio"
+              name="priority"
+              id="priority-medium"
+              value="medium"
+            />
             Medium
           </label>
 
           <label>
-            <input type="radio" name="priority" id="priority" value="high" />
+            <input
+              type="radio"
+              name="priority"
+              id="priority-high"
+              value="high"
+            />
             High
           </label>
         </div>
@@ -303,7 +318,6 @@
               type="radio"
               name="new-priority"
               data-modified="false"
-              id="new-priority"
               value="low"
             />
             Low
@@ -314,7 +328,6 @@
               type="radio"
               name="new-priority"
               data-modified="false"
-              id="new-priority"
               value="medium"
             />
             Medium
@@ -325,7 +338,6 @@
               type="radio"
               name="new-priority"
               data-modified="false"
-              id="new-priority"
               value="high"
             />
             High
@@ -415,13 +427,10 @@
       </div>
     </dialog>
 
-
     <dialog class="confirm-changes-discard" data-name="confirm-changes-discard">
       <div class="dialog-content">
         <h1>Save Changes?</h1>
-        <p>
-          Do you want to save the changes?
-        </p>
+        <p>Do you want to save the changes?</p>
         <div class="btn-group">
           <button
             type="button"
@@ -434,6 +443,29 @@
             type="button"
             class="confirm"
             data-target-dialog="confirm-changes-discard"
+          >
+            YES
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="discard-todo-create" data-name="discard-todo-create">
+      <div class="dialog-content">
+        <h1>Save Changes?</h1>
+        <p>Do you want to save the changes?</p>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="cancel"
+            data-target-dialog="discard-todo-create"
+          >
+            NO
+          </button>
+          <button
+            type="button"
+            class="confirm"
+            data-target-dialog="discard-todo-create"
           >
             YES
           </button>
