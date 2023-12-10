@@ -718,4 +718,8 @@ header .open-close-nav {
   .current-screen .current-screen-title {
     max-width: 135px;
   }
+
+  .todo-details .dialog-content {
+    width: 300px;
+  }
 }
