@@ -388,6 +388,7 @@ nav .lists .create-list-item:active {
   padding-left: 8px;
   user-select: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .todo-item .todo-details-overview:hover {
@@ -618,8 +619,9 @@ dialog.todo-delete-confirm,
 .todo-details .dialog-content {
   max-height: 450px;
   overflow-y: auto;
-  width: 500px;
+  max-width: 500px;
   padding: 12px 18px;
+  word-break: break-all;
 }
 
 .todo-details .dialog-content p {
