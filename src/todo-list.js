@@ -7,6 +7,7 @@ creating new todos, setting todos as complete, changing todo priority
 */
 export class ToDoList {
   #todoItems = [];
+  #id
 
   #createId() {
     return Date.now();
@@ -14,7 +15,11 @@ export class ToDoList {
 
   constructor(name) {
     this.name = name;
-    this.id = this.#createId();
+    this.#id = this.#createId();
+  }
+
+  get id() {
+    return this.#id;
   }
 
   get todoItems() {
