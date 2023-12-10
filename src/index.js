@@ -610,7 +610,7 @@ todoDueDate.addEventListener("change", (e) => {
     labelText.textContent = "Yesterday";
   } else {
     labelText.textContent = intlFormat(date, {
-      weekday: "long",
+      weekday: "short",
       year: "numeric",
       month: "short",
       day: "2-digit",
@@ -830,7 +830,7 @@ function renderTodoItems(listId, filter = "all") {
         span1.textContent = "DUE TOMORROW";
       } else {
         span1.textContent = `Due ${intlFormat(date, {
-          weekday: "long",
+          weekday: "short",
           year: "numeric",
           month: "short",
           day: "2-digit",
@@ -916,7 +916,7 @@ function renderTodoItems(listId, filter = "all") {
         labelText.textContent = "Yesterday";
       } else {
         labelText.textContent = intlFormat(date, {
-          weekday: "long",
+          weekday: "short",
           year: "numeric",
           month: "short",
           day: "2-digit",
@@ -1040,7 +1040,7 @@ todoDueDateEdit.addEventListener("change", (e) => {
     labelText.textContent = "Yesterday";
   } else {
     labelText.textContent = intlFormat(date, {
-      weekday: "long",
+      weekday: "short",
       year: "numeric",
       month: "short",
       day: "2-digit",
