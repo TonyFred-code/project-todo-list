@@ -847,7 +847,6 @@ function renderTodoItems(listId, filter = "all") {
     deleteBtn.classList.add("delete-todo");
     deleteBtn.dataset.targetDialog = "todo-delete-confirm";
     deleteBtn.dataset.todoId = todoItem.id;
-    deleteBtn.textContent = "Delete";
     deleteBtn.addEventListener("click", (e) => {
       confirmTodoDelete.dataset.todoId = e.currentTarget.dataset.todoId;
 
@@ -858,7 +857,6 @@ function renderTodoItems(listId, filter = "all") {
     editBtn.classList.add("edit-todo");
     editBtn.dataset.todoId = todoItem.id;
     editBtn.dataset.targetDialog = "edit-todo-item";
-    editBtn.textContent = "Edit";
 
     editBtn.addEventListener("click", (e) => {
       let listId = Number(screen.dataset.listId);
