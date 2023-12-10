@@ -300,6 +300,8 @@ nav .lists .create-list-item:active {
 .todo-item .marker-label-container {
   position: relative;
   width: 50px;
+  -webkit-tap-highlight-color: transparent;
+
 }
 
 .todo-item .marker-container {
@@ -313,6 +315,8 @@ nav .lists .create-list-item:active {
   user-select: none;
   width: 25px;
   height: 25px;
+  -webkit-tap-highlight-color: transparent;
+
 }
 
 .todo-item .marker-container input[type="checkbox"] {
@@ -321,6 +325,8 @@ nav .lists .create-list-item:active {
   cursor: pointer;
   height: 0;
   width: 0;
+  -webkit-tap-highlight-color: transparent;
+
 }
 
 .todo-item .marker {
@@ -333,6 +339,7 @@ nav .lists .create-list-item:active {
   border-radius: 50%;
   background-color: #ffffff;
   border: 2px solid #888;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .todo-item .marker-container:hover input ~ .marker {
@@ -341,6 +348,7 @@ nav .lists .create-list-item:active {
 
 .todo-item .marker-container input:checked ~ .marker {
   background-color: green;
+  border-color: green;
 }
 
 .todo-item .marker-container .marker::after {
