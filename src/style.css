@@ -694,7 +694,18 @@ header .open-close-nav {
     grid-column: 1 / -1;
   }
 
+  .current-screen header {
+    padding: 8px 6px;
+  }
+
   .current-screen .current-screen-title {
     font-size: 2.8rem;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .current-screen .current-screen-title {
+    max-width: 135px;
   }
 }
