@@ -332,6 +332,7 @@ nav .lists .create-list-item:active {
   width: 25px;
   border-radius: 50%;
   background-color: #ffffff;
+  border: 2px solid #888;
 }
 
 .todo-item .marker-container:hover input ~ .marker {
@@ -353,8 +354,8 @@ nav .lists .create-list-item:active {
 }
 
 .todo-item .marker-container .marker::after {
-  left: 9px;
-  top: 5px;
+  left: 7.7px;
+  top: 3.2px;
   width: 5px;
   height: 10px;
   border: solid white;
@@ -389,8 +390,6 @@ nav .lists .create-list-item:active {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 300px;
-  width: 300px;
 }
 
 .todo-item .date-subtask-view {
@@ -405,12 +404,16 @@ nav .lists .create-list-item:active {
   cursor: pointer;
   align-self: center;
   margin: 8px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .todo-item .delete-todo {
+  background-image: url(./icons/trash-can-outline.svg);
 }
 
 .todo-item .edit-todo {
+  background-image: url(./icons/square-edit-outline.svg);
 }
 
 .todo-item .priority {
@@ -554,7 +557,7 @@ dialog.todo-delete-confirm,
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 350px;
+  width: 300px;
 }
 
 .create-todo-item .row,
@@ -574,8 +577,9 @@ dialog.todo-delete-confirm,
 
 .create-todo-item input[type="text"],
 .edit-todo-item input[type="text"] {
-  height: 25px;
+  height: 30px;
   padding: 6px;
+  font-size: 1.5rem;
 }
 
 .create-todo-item select,
@@ -666,12 +670,13 @@ header .open-close-nav {
   }
 
   nav {
-    width: 0;
+    display: none;
     overflow: hidden;
     transition: all 0.04s ease-in-out;
   }
 
   nav.show {
+   display: block;
     width: 100%;
     height: 100%;
     z-index: 1;
