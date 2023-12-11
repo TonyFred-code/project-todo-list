@@ -437,10 +437,10 @@ nav .lists .create-list-item:active {
 
 .current-screen .add-task {
   position: absolute;
-  bottom: 30px;
-  right: 30px;
-  height: 60px;
-  width: 60px;
+  bottom: 8px;
+  right: 18px;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   border: 2px solid #c38d9e;
   background-color: #c38d9e;
@@ -621,7 +621,7 @@ dialog.todo-delete-confirm,
   overflow-y: auto;
   max-width: 500px;
   padding: 12px 18px;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .todo-details .dialog-content p {
@@ -717,6 +717,10 @@ header .open-close-nav {
 @media screen and (max-width: 500px) {
   .current-screen .current-screen-title {
     max-width: 135px;
+  }
+
+  .current-screen .todo-items {
+    max-height: 500px;
   }
 
   .todo-details .dialog-content {
