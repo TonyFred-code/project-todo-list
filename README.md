@@ -3,7 +3,7 @@
 TODO LIST is a staple app project where a user can input and edit todo items. This was created as a project in the [JavaScript Path of The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list)
 
 ![TODO on Mobile](./src/images/mobile-view.jpg)
-![TODO on Desktop](./src/images/desktop-view.jpg)
+![TODO on Desktop](./src/images/desktop-view.png)
 
 ## Table of Contents
 
