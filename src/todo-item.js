@@ -1,12 +1,10 @@
 import { isValid } from "date-fns";
-import { SubTaskItem } from "./subtask-item";
 
 export class ToDoItem {
   #title;
   #notes;
   #dueDate;
   #priority;
-  #subTasks = [];
   #done = false;
   #id;
 
@@ -110,33 +108,6 @@ export class ToDoItem {
     this.#priority = priorityVal;
   }
 
-  get subtasks() {
-    return this.#subTasks;
-  }
-
-  addSubtask(title) {
-    if (!this.#isValidString(title)) {
-      throw new TypeError("Invalid title input. Must be a non-empty string");
-    }
-
-    let subtask = new SubTaskItem();
-    subtask.title = title;
-    this.#subTasks.push(subtask);
-  }
-
-  deleteSubtask(taskIndex) {
-    let len = this.#subTasks.length;
-    if (len === 0) {
-      throw new Error("Cannot delete what hasn't been created");
-    }
-
-    if (typeof taskIndex !== "number" || taskIndex < 0 || taskIndex >= len) {
-      throw new Error("Invalid index number");
-    }
-
-    this.#subTasks.splice(taskIndex, 1);
-  }
-
   get done() {
     return this.#done;
   }
@@ -147,17 +118,5 @@ export class ToDoItem {
     }
 
     this.#done = state;
-  }
-
-  toggleDone() {
-    this.#done = !this.#done;
-  }
-
-  markDone() {
-    this.#done = true;
-  }
-
-  markNotDone() {
-    this.#done = false;
   }
 }
