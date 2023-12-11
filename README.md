@@ -5,7 +5,6 @@ TODO LIST is a staple app project where a user can input and edit todo items. Th
 ![TODO on Mobile](./src/images/mobile-view.jpg)
 ![TODO on Desktop](./src/images/desktop-view.jpg)
 
-
 ## Table of Contents
 
 - [Demo](#demo)
