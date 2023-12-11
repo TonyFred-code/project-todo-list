@@ -1,71 +1,12 @@
 import "./style.css";
 import { ToDo } from "./todo";
-import {
-  nextDay,
-  lastDayOfMonth,
-  lightFormat,
-  daysInWeek,
-  intlFormat,
-  isSameYear,
-  isToday,
-  isYesterday,
-  isTomorrow,
-  isSameWeek,
-} from "date-fns";
+import { intlFormat, isToday, isYesterday, isTomorrow } from "date-fns";
+import { createImg } from "./createImg";
+import { titleCase } from "./titleCase";
+import { iconCreations } from "./filterIcon";
 import listIconSrc from "./icons/format-list-bulleted.svg";
-// todo import prioritizedIconImgSrc from './icons/';
-import overDueIconImgSrc from "./icons/layers-triple-outline.svg";
-import todayIconSrc from "./icons/calendar-today.svg";
-import allIconSrc from "./icons/calendar-month-outline.svg";
-import currentWeekIconSrc from "./icons/calendar-range.svg";
-// import { ta } from "date-fns/locale";
-// let today = Date.now();
-// let date =  new Date("2023-12-05");
-// console.log(new Date(date))
-// console.log(new Date(today))
-// console.log(isPast(date));
-// console.log(isSameWeek(today, date));
 
 const TODO = new ToDo();
-// create default list - tutorial
-// const displayedList = [];
-
-function createImg(src, alt = "") {
-  const img = new Image();
-  img.src = src;
-  img.alt = alt;
-  return img;
-}
-
-function titleCase(sentence) {
-  if (typeof sentence !== "string" || sentence.trim() === "") {
-    throw new Error("Invalid input type: input must be a sentence");
-  }
-
-  let words = sentence.trim().split(/\s+/);
-
-  for (let i = 0; i < words.length; i++) {
-    words[i] =
-      words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-  }
-
-  let titleCasedSentence = words.join(" ");
-  return titleCasedSentence;
-}
-
-function iconCreations() {
-  const allIconImg = createImg(allIconSrc);
-  const todayIconImg = createImg(todayIconSrc);
-  const currentWeekImg = createImg(currentWeekIconSrc);
-  const overDueIconImg = createImg(overDueIconImgSrc);
-
-  document.querySelector(".icon-all").appendChild(allIconImg);
-  document.querySelector(".icon-today").appendChild(todayIconImg);
-  document.querySelector(".icon-current-week").appendChild(currentWeekImg);
-  document.querySelector(".icon-overdue").appendChild(overDueIconImg);
-}
-
-iconCreations();
 
 // NAV OPERATION FOR SMALLER SCREENS
 const openCloseNavBtn = document.querySelector(".open-close-nav");
@@ -90,7 +31,8 @@ const viewToday = filters.querySelector("[data-show='today']");
 const viewCurrentWeek = filters.querySelector("[data-show='current-week']");
 const viewOverdue = filters.querySelector("[data-show='overdue']");
 
-viewAll.addEventListener("click", (e) => {
+// FILTERING AND ITS FUNCTIONS
+function filter(e) {
   removeActiveFilter();
 
   addActiveFilter(e);
@@ -100,49 +42,17 @@ viewAll.addEventListener("click", (e) => {
   }
 
   const listId = Number(screen.dataset.listId);
-  renderTodoItems(listId, "all");
-});
+  const filterVal = e.currentTarget.dataset.show;
+  renderTodoItems(listId, filterVal);
+}
 
-viewToday.addEventListener("click", (e) => {
-  removeActiveFilter();
+viewAll.addEventListener("click", filter);
 
-  addActiveFilter(e);
+viewToday.addEventListener("click", filter);
 
-  if (screen.classList.contains("hidden")) {
-    createEmptyListScreen();
-    return;
-  }
+viewCurrentWeek.addEventListener("click", filter);
 
-  const listId = Number(screen.dataset.listId);
-  renderTodoItems(listId, "today");
-});
-
-viewCurrentWeek.addEventListener("click", (e) => {
-  removeActiveFilter();
-
-  addActiveFilter(e);
-
-  if (screen.classList.contains("hidden")) {
-    createEmptyListScreen();
-    return;
-  }
-
-  const listId = Number(screen.dataset.listId);
-  renderTodoItems(listId, "current-week");
-});
-
-viewOverdue.addEventListener("click", (e) => {
-  removeActiveFilter();
-  addActiveFilter(e);
-
-  if (screen.classList.contains("hidden")) {
-    createEmptyListScreen();
-    return;
-  }
-
-  const listId = Number(screen.dataset.listId);
-  renderTodoItems(listId, "overdue");
-});
+viewOverdue.addEventListener("click", filter);
 
 function removeActiveFilter() {
   const filterBtns = filters.querySelectorAll("button");
@@ -163,8 +73,7 @@ function addActiveFilter(e) {
   filterBtn.classList.add("active");
 }
 
-// DIALOGS
-
+// DIALOGS SELECTORS AND FORM IN DIALOGS
 const editTodoItemDialog = document.querySelector(".edit-todo-item");
 const editTodoItemForm = editTodoItemDialog.querySelector("form");
 const submitTodoEditBtn = editTodoItemForm.querySelector(".submit");
@@ -215,6 +124,7 @@ const confirmTodoDelete =
   todoDeleteConfirmDialog.querySelector("button.confirm");
 const cancelTodoDelete = todoDeleteConfirmDialog.querySelector("button.cancel");
 
+// DIALOG EVENT LISTENERS AND THEIR FUNCTIONS
 closeTodoItemEdit.addEventListener("click", (e) => {
   let modified = editTodoItemForm.dataset.modified;
 
@@ -279,7 +189,6 @@ openRenameListBtn.addEventListener("click", (e) => {
   let activeListId = Number(screen.dataset.listId);
   if (Number.isNaN(activeListId)) return;
   let listName = TODO.getListById(activeListId).name;
-  console.log(listName);
   let newNameInput = renameListForm.elements["new-title"];
   newNameInput.value = listName;
   openDialog(e);
@@ -296,7 +205,6 @@ function openDialog(e) {
 function closeDialog(e) {
   const elm = e.currentTarget;
   const targetDialog = elm.dataset.targetDialog;
-  console.log("working", targetDialog);
   let dialog = document.querySelector(`dialog[data-name='${targetDialog}']`);
   dialog.close();
 }
@@ -304,7 +212,6 @@ function closeDialog(e) {
 // LIST ITEM CREATION
 createListDialog.addEventListener("close", () => {
   createListForm.elements["list-title"].value = "";
-  console.log("closed list creation");
 });
 
 createListForm.addEventListener("submit", createList);
@@ -324,7 +231,6 @@ listTitle.addEventListener("input", (e) => {
 
 function createList(e) {
   e.preventDefault();
-  console.log("called");
   let form = e.currentTarget;
   let listTitle = form.elements["list-title"];
 
@@ -338,7 +244,6 @@ function createList(e) {
 
   // validate form input
   if (listTitle.checkValidity()) {
-    console.log(title);
     let id = TODO.createList(title);
     displayListItems();
     updateLocalStorage();
@@ -365,7 +270,6 @@ newListTitle.addEventListener("input", (e) => {
 
 function renameList(e) {
   e.preventDefault();
-  console.log("called");
   let form = e.currentTarget;
   let listTitle = form.elements["new-title"];
   let title = listTitle.value;
@@ -437,9 +341,7 @@ function addActiveListContainer(index) {
 function displayScreen(e) {
   let listContainer = e.currentTarget;
   let listId = listContainer.dataset.listId;
-  console.log(listId);
   removeActiveListContainer();
-
   addActiveListContainer(listId);
   changeScreen(listId);
 }
@@ -451,7 +353,6 @@ function changeScreen(listId) {
   try {
     list = TODO.getListById(listId);
   } catch (error) {
-    console.log(error);
     return;
   }
 
@@ -524,11 +425,9 @@ function createEmptyListScreen() {
 
 // deleting the current list displayed on the screen
 function deleteList(e) {
-  const screen = document.querySelector(".current-screen");
   let currentListId = document.querySelector(".current-screen").dataset.listId;
   currentListId = Number(currentListId);
   if (Number.isNaN(currentListId)) return;
-  console.log(currentListId);
   const containingLi = document.querySelector(
     `.list-item[data-list-id='${currentListId}']`
   );
@@ -546,8 +445,6 @@ function deleteList(e) {
 
   TODO.deleteList(currentListId);
   updateLocalStorage();
-  // let pos = displayedList.indexOf(currentListId);
-  // displayedList.splice(pos, 1);
   closeDialog(e);
 }
 
@@ -636,20 +533,15 @@ function createTodoItem(e) {
   let form = e.currentTarget;
   const todoTitle = form.elements["title"];
   const todoTitleValue = todoTitle.value;
-  console.log(todoTitle, todoTitle.value);
   const todoPriority = form.elements["priority"];
   let todoPriorityValue = todoPriority.value;
-  console.log(todoPriority, todoPriority.value);
   const todoDueDate = form.elements["due-date"];
   let todoDueDateValue =
     todoDueDate.value === "" ? "none" : `${todoDueDate.value}`;
-  console.log(todoDueDate, todoDueDate.value);
   const todoItemList = form.elements["lists"];
   const todoItemListValue = todoItemList.value;
-  console.log(todoItemList, todoItemList.value);
   const todoNotes = form.elements["notes"];
   const todoNotesValue = todoNotes.value;
-  console.log(todoNotes, todoNotes.value);
 
   if (todoTitleValue.trim() === "") {
     todoTitle.setCustomValidity("Input a valid title");
@@ -668,8 +560,7 @@ function createTodoItem(e) {
     todoTitleValue,
     todoNotesValue,
     todoDueDateValue,
-    todoPriorityValue,
-    []
+    todoPriorityValue
   );
 
   let shownListId = Number(screen.dataset.listId);
@@ -732,7 +623,6 @@ function renderTodoItems(listId, filter = "all") {
   todoItemsContainer.textContent = "";
 
   for (let todoItem of todoItems) {
-    console.log(todoItem);
     const todoPriority = todoItem.priority;
     const todoItemLi = document.createElement("li");
     todoItemLi.classList.add("todo-item");
@@ -759,58 +649,7 @@ function renderTodoItems(listId, filter = "all") {
     div2.classList.add("todo-details-overview");
     div2.dataset.targetDialog = "todo-details";
     div2.dataset.todoId = todoItem.id;
-    div2.addEventListener("click", (e) => {
-      const currentListId = Number(
-        document.querySelector(".current-screen").dataset.listId
-      );
-      const todoId = Number(e.currentTarget.dataset.todoId);
-      let todo = TODO.getListTodoItem(todoId, currentListId);
-
-      const todoTitleView =
-        todoDetailsViewDialog.querySelector(".todo-title .value");
-      todoTitleView.textContent = todo.title;
-      const todoPriorityView = todoDetailsViewDialog.querySelector(
-        ".todo-priority .value"
-      );
-      todoPriorityView.textContent = titleCase(todo.priority);
-      const todoNotesView =
-        todoDetailsViewDialog.querySelector(".todo-notes .value");
-      todoNotesView.textContent =
-        todo.note.trim() === "" ? "NO NOTES" : todo.note;
-      const todoDueDateView = todoDetailsViewDialog.querySelector(
-        ".todo-due-date .value"
-      );
-      if (todoItem.dueDate === "none") {
-        todoDueDateView.textContent = "NO DUE DATE";
-      } else {
-        let date = new Date(todoItem.dueDate);
-        if (isToday(date)) {
-          todoDueDateView.textContent = "TODAY";
-        } else if (isYesterday(date)) {
-          todoDueDateView.textContent = "YESTERDAY";
-        } else if (isTomorrow(date)) {
-          todoDueDateView.textContent = "TOMORROW";
-        } else {
-          todoDueDateView.textContent = `${intlFormat(date, {
-            weekday: "short",
-            year: "numeric",
-            month: "short",
-            day: "2-digit",
-          })}`;
-        }
-      }
-
-      const todoDoneStatusView = todoDetailsViewDialog.querySelector(
-        ".todo-done-status .value"
-      );
-      todoDoneStatusView.textContent = todo.done
-        ? "COMPLETED"
-        : "NOT COMPLETED";
-      const todoListView =
-        todoDetailsViewDialog.querySelector(".todo-list .value");
-      todoListView.textContent = titleCase(listName);
-      openDialog(e);
-    });
+    div2.addEventListener("click", viewTodoDetails);
     const todoTitleDiv = document.createElement("div");
     todoTitleDiv.classList.add("todo-title");
     todoTitleDiv.textContent = todoItem.title;
@@ -860,82 +699,7 @@ function renderTodoItems(listId, filter = "all") {
     editBtn.dataset.todoId = todoItem.id;
     editBtn.dataset.targetDialog = "edit-todo-item";
 
-    editBtn.addEventListener("click", (e) => {
-      let listId = Number(screen.dataset.listId);
-      let todoId = Number(e.currentTarget.dataset.todoId);
-      let todo = TODO.getListTodoItem(todoId, listId);
-
-      const todoTitle = editTodoItemForm.elements["new-title"];
-      todoTitle.value = todo.title;
-
-      const todoPriority = editTodoItemForm.elements["new-priority"];
-
-      if (todoItem.priority === "low") {
-        todoPriority.value = "low";
-      } else if (todoItem.priority === "medium") {
-        todoPriority.value = "medium";
-      } else if (todoItem.priority === "high") {
-        todoPriority.value = "high";
-      } else {
-        todoPriority.value = "";
-      }
-
-      const todoDueDate = editTodoItemForm.elements["new-due-date"];
-
-      if (todoItem.dueDate === "none") {
-        todoDueDate.value = "";
-      } else {
-        todoDueDate.value = todoItem.dueDate;
-      }
-
-      const listsSelect = editTodoItemForm.elements["lists-created"];
-      const activeListId = screen.dataset.listId;
-      const listsCreated = TODO.lists;
-      listsSelect.textContent = "";
-      listsCreated.forEach((list) => {
-        const listName = titleCase(list.name);
-        const optElm = document.createElement("option");
-        optElm.value = list.id;
-        if (Number(list.id) === Number(activeListId)) {
-          optElm.selected = true;
-        }
-        optElm.textContent = listName;
-        listsSelect.appendChild(optElm);
-      });
-
-      const todoDueDateEdit = editTodoItemForm.elements["new-due-date"];
-      let value = todoDueDateEdit.value;
-
-      const labelText = editTodoItemForm.querySelector(".new-due-date-text");
-      let date = new Date(value);
-      if (value === "") {
-        labelText.textContent = "Set due date";
-      } else if (isToday(date)) {
-        labelText.textContent = "Today";
-      } else if (isTomorrow(date)) {
-        labelText.textContent = "Tomorrow";
-      } else if (isYesterday(date)) {
-        labelText.textContent = "Yesterday";
-      } else {
-        labelText.textContent = intlFormat(date, {
-          weekday: "short",
-          year: "numeric",
-          month: "short",
-          day: "2-digit",
-        });
-      }
-
-      const todoNotes = editTodoItemForm.elements["new-notes"];
-      if (todoItem.note === "" || todoItem.note === "none") {
-        todoNotes.value = "";
-      } else {
-        todoNotes.value = todoItem.note;
-      }
-
-      editTodoItemForm.dataset.listId = listId;
-      editTodoItemForm.dataset.todoId = todoId;
-      openDialog(e);
-    });
+    editBtn.addEventListener("click", openTodoEdit);
 
     todoItemLi.appendChild(div1);
     todoItemLi.appendChild(div2);
@@ -943,6 +707,133 @@ function renderTodoItems(listId, filter = "all") {
     todoItemLi.appendChild(editBtn);
     todoItemsContainer.appendChild(todoItemLi);
   }
+}
+
+function viewTodoDetails(e) {
+  const currentListId = Number(
+    document.querySelector(".current-screen").dataset.listId
+  );
+  const todoId = Number(e.currentTarget.dataset.todoId);
+  let todo = TODO.getListTodoItem(todoId, currentListId);
+  let listName = TODO.getListById(currentListId).name;
+
+  const todoTitleView =
+    todoDetailsViewDialog.querySelector(".todo-title .value");
+  todoTitleView.textContent = todo.title;
+  const todoPriorityView = todoDetailsViewDialog.querySelector(
+    ".todo-priority .value"
+  );
+  todoPriorityView.textContent = titleCase(todo.priority);
+  const todoNotesView =
+    todoDetailsViewDialog.querySelector(".todo-notes .value");
+  todoNotesView.textContent = todo.note.trim() === "" ? "NO NOTES" : todo.note;
+  const todoDueDateView = todoDetailsViewDialog.querySelector(
+    ".todo-due-date .value"
+  );
+  if (todo.dueDate === "none") {
+    todoDueDateView.textContent = "NO DUE DATE";
+  } else {
+    let date = new Date(todo.dueDate);
+    if (isToday(date)) {
+      todoDueDateView.textContent = "TODAY";
+    } else if (isYesterday(date)) {
+      todoDueDateView.textContent = "YESTERDAY";
+    } else if (isTomorrow(date)) {
+      todoDueDateView.textContent = "TOMORROW";
+    } else {
+      todoDueDateView.textContent = `${intlFormat(date, {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      })}`;
+    }
+  }
+
+  const todoDoneStatusView = todoDetailsViewDialog.querySelector(
+    ".todo-done-status .value"
+  );
+  todoDoneStatusView.textContent = todo.done ? "COMPLETED" : "NOT COMPLETED";
+  const todoListView = todoDetailsViewDialog.querySelector(".todo-list .value");
+  todoListView.textContent = titleCase(listName);
+  openDialog(e);
+}
+
+function openTodoEdit(e) {
+  let listId = Number(screen.dataset.listId);
+  let todoId = Number(e.currentTarget.dataset.todoId);
+  let todo = TODO.getListTodoItem(todoId, listId);
+
+  const todoTitle = editTodoItemForm.elements["new-title"];
+  todoTitle.value = todo.title;
+
+  const todoPriority = editTodoItemForm.elements["new-priority"];
+
+  if (todo.priority === "low") {
+    todoPriority.value = "low";
+  } else if (todo.priority === "medium") {
+    todoPriority.value = "medium";
+  } else if (todo.priority === "high") {
+    todoPriority.value = "high";
+  } else {
+    todoPriority.value = "";
+  }
+
+  const todoDueDate = editTodoItemForm.elements["new-due-date"];
+
+  if (todo.dueDate === "none") {
+    todoDueDate.value = "";
+  } else {
+    todoDueDate.value = todo.dueDate;
+  }
+
+  const listsSelect = editTodoItemForm.elements["lists-created"];
+  const activeListId = screen.dataset.listId;
+  const listsCreated = TODO.lists;
+  listsSelect.textContent = "";
+  listsCreated.forEach((list) => {
+    const listName = titleCase(list.name);
+    const optElm = document.createElement("option");
+    optElm.value = list.id;
+    if (Number(list.id) === Number(activeListId)) {
+      optElm.selected = true;
+    }
+    optElm.textContent = listName;
+    listsSelect.appendChild(optElm);
+  });
+
+  const todoDueDateEdit = editTodoItemForm.elements["new-due-date"];
+  let value = todoDueDateEdit.value;
+
+  const labelText = editTodoItemForm.querySelector(".new-due-date-text");
+  let date = new Date(value);
+  if (value === "") {
+    labelText.textContent = "Set due date";
+  } else if (isToday(date)) {
+    labelText.textContent = "Today";
+  } else if (isTomorrow(date)) {
+    labelText.textContent = "Tomorrow";
+  } else if (isYesterday(date)) {
+    labelText.textContent = "Yesterday";
+  } else {
+    labelText.textContent = intlFormat(date, {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
+
+  const todoNotes = editTodoItemForm.elements["new-notes"];
+  if (todo.note === "" || todo.note === "none") {
+    todoNotes.value = "";
+  } else {
+    todoNotes.value = todo.note;
+  }
+
+  editTodoItemForm.dataset.listId = listId;
+  editTodoItemForm.dataset.todoId = todoId;
+  openDialog(e);
 }
 
 // DELETING A TODO ITEM
@@ -1078,20 +969,19 @@ function submitTodoEdit(e) {
 
   const todoTitle = form.elements["new-title"];
   const todoTitleValue = todoTitle.value;
-  console.log(todoTitle, todoTitle.value);
+
   const todoPriority = form.elements["new-priority"];
   let todoPriorityValue = todoPriority.value;
-  console.log(todoPriority, todoPriority.value);
+
   const todoDueDate = form.elements["new-due-date"];
   let todoDueDateValue =
     todoDueDate.value === "" ? "none" : `${todoDueDate.value}`;
-  console.log(todoDueDate, todoDueDateValue);
+
   const todoItemList = form.elements["lists-created"];
   const todoItemListValue = Number(todoItemList.value);
-  console.log(todoItemList, todoItemListValue);
+
   const todoNotes = form.elements["new-notes"];
   const todoNotesValue = todoNotes.value;
-  console.log(todoNotes, todoNotesValue);
 
   if (todoTitleValue.trim() === "") {
     todoTitle.setCustomValidity("Input a valid title");
@@ -1106,18 +996,14 @@ function submitTodoEdit(e) {
   if (todoTitle.dataset.modified === "true") {
     try {
       TODO.changeTodoTitle(todoTitleValue, todoId, listId);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 
   for (let todoPriorityElm of todoPriority) {
     if (todoPriorityElm.dataset.modified === "true") {
       try {
         TODO.changeTodoPriority(todoPriorityValue, todoId, listId);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
       break;
     }
   }
@@ -1125,9 +1011,7 @@ function submitTodoEdit(e) {
   if ((todoDueDate.dataset.modified = "true")) {
     try {
       TODO.changeTodoDueDate(todoDueDateValue, todoId, listId);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 
   if (todoItemList.dataset.modified === "true") {
@@ -1139,9 +1023,7 @@ function submitTodoEdit(e) {
   if ((todoNotes.dataset.modified = "true")) {
     try {
       TODO.changeTodoNote(todoNotesValue, todoId, listId);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 
   renderTodoItems(listId);
@@ -1179,15 +1061,11 @@ function storageAvailable(type) {
 
 function updateLocalStorage() {
   if (storageAvailable("localStorage")) {
-    console.log("can use local storage");
-    // localStorage.removeItem("visited");
-    localStorage.clear();
     const lists = TODO.lists;
     for (let list of lists) {
       let listId = list.id;
       let name = list.name;
       let todoItems = list.todoItems;
-      console.log(listId);
       const listObj = {
         name,
         todoItems: [],
@@ -1216,13 +1094,6 @@ function updateLocalStorage() {
   }
 }
 
-if (!localStorage.getItem("visited")) {
-  createTutorial();
-  updateLocalStorage();
-} else {
-  preLoadFromLocalStorage();
-}
-
 function createTutorial() {
   let id = TODO.createList("Tutorial");
   // extend text found in tutorial
@@ -1231,8 +1102,8 @@ function createTutorial() {
     priority: "high",
     dueDate: "none",
     notes: `
-    Please follow through this tutorial to get an overview of this app's usage.`
-  }
+    Please follow through this tutorial to get an overview of this app's usage.`,
+  };
 
   let todoItem2 = {
     name: "Creating a list",
@@ -1240,65 +1111,105 @@ function createTutorial() {
     dueDate: "none",
     notes: `
     Lists are groupings of todo items. Todo Items can only be created after creating a list item.
-    Click on the "Add List" button in the nav to create a list. Click menu bar to open nav in mobile devices and tablets. `
-  }
+    Click on the "Add List" button in the nav to create a list. Click menu bar to open nav in mobile devices and tablets. `,
+  };
 
   let todoItem3 = {
     name: "Creating a todo item",
     priority: "high",
     dueDate: "none",
     notes: `
-    Todo Items can have a due date, priority, title and a description. You can also mark as complete. To create one, click the plus button by the bottom right of the screen. You must create a list before being able to create a todo item.`
-  }
+    Todo Items can have a due date, priority, title and a description. You can also mark as complete. To create one, click the plus button by the bottom right of the screen. You must create a list before being able to create a todo item.`,
+  };
 
   let todoItem4 = {
     name: "Deleting a list",
     priority: "high",
     dueDate: "none",
     notes: `
-    Lists when deleted will be completely removed. It will also delete every todo item under it. Click the trash can icon next to the list name on the screen to delete the icon to delete the current list. After deleting a list, a new screen will be rendered using the lists you've previously created. If there are no lists left, an empty screen will be displayed. `
-  }
+    Lists when deleted will be completely removed. It will also delete every todo item under it. Click the trash can icon next to the list name on the screen to delete the icon to delete the current list. After deleting a list, a new screen will be rendered using the lists you've previously created. If there are no lists left, an empty screen will be displayed. `,
+  };
 
- let todoItem5 = {
+  let todoItem5 = {
     name: "Deleting a todo item",
     priority: "high",
     dueDate: "none",
     notes: `
-   Todo items can be deleted by clicking the trash icon next to it. Deleting a todo is non-reversible.`
-  }
+   Todo items can be deleted by clicking the trash icon next to it. Deleting a todo is non-reversible.`,
+  };
 
   let todoItem6 = {
     name: "Editing a todo item",
     priority: "high",
     dueDate: "none",
     notes: `
-   Todo items can be edited by clicking the pen icon next to it.`
-  }
+   Todo items can be edited by clicking the pen icon next to it.`,
+  };
 
   let todoItem7 = {
     name: "Rename a List",
     priority: "high",
     dueDate: "none",
     notes: `
-   Renaming a list can be done by clicking the pen icon next to the title on the screen.`
-  }
+   Renaming a list can be done by clicking the pen icon next to the title on the screen.`,
+  };
 
+  TODO.createToDo(
+    id,
+    todoItem1.name,
+    todoItem1.notes,
+    todoItem1.dueDate,
+    todoItem1.priority
+  );
 
-  TODO.createToDo(id, todoItem1.name, todoItem1.notes, todoItem1.dueDate, todoItem1.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem2.name,
+    todoItem2.notes,
+    todoItem2.dueDate,
+    todoItem2.priority
+  );
 
-  TODO.createToDo(id, todoItem2.name, todoItem2.notes, todoItem2.dueDate, todoItem2.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem3.name,
+    todoItem3.notes,
+    todoItem3.dueDate,
+    todoItem3.priority
+  );
 
-  TODO.createToDo(id, todoItem3.name, todoItem3.notes, todoItem3.dueDate, todoItem3.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem4.name,
+    todoItem4.notes,
+    todoItem4.dueDate,
+    todoItem4.priority
+  );
 
-  TODO.createToDo(id, todoItem4.name, todoItem4.notes, todoItem4.dueDate, todoItem4.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem5.name,
+    todoItem5.notes,
+    todoItem5.dueDate,
+    todoItem5.priority
+  );
 
-  TODO.createToDo(id, todoItem5.name, todoItem5.notes, todoItem5.dueDate, todoItem5.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem7.name,
+    todoItem7.notes,
+    todoItem7.dueDate,
+    todoItem7.priority
+  );
 
-  TODO.createToDo(id, todoItem7.name, todoItem7.notes, todoItem7.dueDate, todoItem7.priority, []);
-
-  TODO.createToDo(id, todoItem6.name, todoItem6.notes, todoItem6.dueDate, todoItem6.priority, []);
+  TODO.createToDo(
+    id,
+    todoItem6.name,
+    todoItem6.notes,
+    todoItem6.dueDate,
+    todoItem6.priority
+  );
   localStorage.setItem("visited", "true");
-
 
   displayListItems();
   changeScreen(id);
@@ -1323,15 +1234,7 @@ function preLoadFromLocalStorage() {
         let dueDate = todoItem.todoDueDate;
         let doneStatus = todoItem.todoDoneStatus;
         let notes = todoItem.todoNotes;
-        TODO.createToDo(
-          listId,
-          title,
-          notes,
-          dueDate,
-          priority,
-          [],
-          doneStatus
-        );
+        TODO.createToDo(listId, title, notes, dueDate, priority, doneStatus);
       }
     }
 
@@ -1341,3 +1244,13 @@ function preLoadFromLocalStorage() {
   }
   localStorage.setItem("visited", "true");
 }
+
+
+if (!localStorage.getItem("visited")) {
+  createTutorial();
+  updateLocalStorage();
+} else {
+  preLoadFromLocalStorage();
+}
+
+iconCreations();
