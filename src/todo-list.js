@@ -1,10 +1,6 @@
 import { ToDoItem } from "./todo-item";
 import { isToday, startOfDay, isBefore, isSameWeek } from "date-fns";
-/*
 
-creating new todos, setting todos as complete, changing todo priority
-
-*/
 export class ToDoList {
   #todoItems = [];
   #id
@@ -65,7 +61,6 @@ export class ToDoList {
       }
 
       if (isToday(new Date(dueDate))) {
-        console.log(todoItem);
         itemsDueToday.push(todoItem);
       }
     }
@@ -107,17 +102,13 @@ export class ToDoList {
     throw new Error("To-do Item not found");
   }
 
-  createToDo(title, notes, dueDate, priority, [...subtasks], done = false) {
+  createToDo(title, notes, dueDate, priority, done = false) {
     let todoItem = new ToDoItem();
     todoItem.done = done;
     todoItem.title = title;
     todoItem.note = notes;
     todoItem.dueDate = dueDate;
     todoItem.priority = priority;
-
-    for (let i = 0; i < subtasks.length; i++) {
-      todoItem.addSubtask(subtasks[i]);
-    }
     this.#todoItems.push(todoItem);
     return todoItem.id;
   }
