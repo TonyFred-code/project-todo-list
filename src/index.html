@@ -75,28 +75,6 @@
           </div>
         </header>
         <ul class="todo-items">
-          <li class="todo-item" data-priority="none">
-            <div class="marker-label-container">
-              <label class="marker-container">
-                <input type="checkbox" />
-                <span class="marker" data-done="false"></span>
-              </label>
-            </div>
-            <div class="todo-details-overview">
-              <div class="todo-title">Wash the garden</div>
-              <div class="date-subtask-view">
-                <span class="todo-date-view">Thu, 16 Nov</span>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="delete-todo"
-              data-target-dialog="todo-delete-confirm"
-            >
-              Delete
-            </button>
-            <button type="button" class="edit-todo">Edit</button>
-          </li>
         </ul>
         <button
           type="button"
@@ -107,17 +85,7 @@
       </button>
       </div>
     </div>
-    <!-- || create the following dialogs -->
-    <!--
-      4. Create List Item (a) 5
-      5. Rename List Item (a) 4
 
-      (a) - takes double role;
-     -->
-
-    <!--
-      1. Delete List Item Confirmation
-      -->
     <dialog class="list-delete-confirm" data-name="list-delete-confirm">
       <div class="dialog-content">
         <h1>Confirm List Deletion</h1>
@@ -146,9 +114,7 @@
       </div>
     </dialog>
 
-    <!--
-      3. Create List Item (a)
-     -->
+
     <dialog class="create-list-item-dialog" data-name="create-list-item-dialog">
       <form method="dialog">
         <h1>Create a new List</h1>
@@ -179,7 +145,7 @@
       </form>
     </dialog>
 
-    <!-- 2. Edit List item (a) 3 -->
+
     <dialog class="create-todo-item" data-name="create-todo-item">
       <form method="dialog" data-modified="false">
         <div class="row">
@@ -194,10 +160,6 @@
 
         <div class="row">
           <h2 class="row-title">Priority</h2>
-          <!-- <label class="hidden">
-            <input type="radio" name="priority" id="priority" value="none" checked class="hidden" />
-            none
-          </label> -->
           <label>
             <input type="radio" name="priority" id="priority-low" value="low" />
             Low
@@ -267,6 +229,7 @@
         </div>
       </form>
     </dialog>
+
 
     <dialog class="todo-details" data-name="todo-details">
       <div class="dialog-content">
@@ -396,9 +359,6 @@
       </form>
     </dialog>
 
-    <!--
-      1. Delete Todo Item Confirmation
-      -->
 
     <dialog class="todo-delete-confirm" data-name="todo-delete-confirm">
       <div class="dialog-content">
@@ -471,6 +431,7 @@
       </div>
     </dialog>
 
+
     <dialog class="rename-list-item-dialog" data-name="rename-list">
       <form method="dialog">
         <h1>Rename List</h1>
@@ -493,10 +454,3 @@
     </dialog>
   </body>
 </html>
-
-<!-- <li class="list-item title" data-list-name="project">
-                <span class="icon-container list-icon"></span>
-                <span class="text">
-                  Project
-                </span>
-              </li> -->
