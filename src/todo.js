@@ -152,7 +152,6 @@ export class ToDo {
     todoNotes,
     todoDueDate,
     todoPriority,
-    [...subtasks],
     todoDone = false
   ) {
     let list;
@@ -160,7 +159,7 @@ export class ToDo {
     try {
       list = this.getListById(listId);
     } catch (error) {
-      console.log(error);
+     throw error
     }
 
     let todoId = list.createToDo(
@@ -168,7 +167,6 @@ export class ToDo {
       todoNotes,
       todoDueDate,
       todoPriority,
-      [...subtasks],
       todoDone
     );
 
@@ -201,7 +199,6 @@ export class ToDo {
       todoItem.note,
       todoItem.dueDate,
       todoItem.priority,
-      todoItem.subtasks,
       todoItem.done
     );
 
