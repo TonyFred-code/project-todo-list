@@ -28,7 +28,6 @@ import currentWeekIconSrc from "./icons/calendar-range.svg";
 
 const TODO = new ToDo();
 // create default list - tutorial
-let id = TODO.createList("Tutorial");
 // const displayedList = [];
 
 function createImg(src, alt = "") {
@@ -76,12 +75,12 @@ openCloseNavBtn.addEventListener("click", (e) => {
   let state = elm.dataset.state;
   if (state === "closed") {
     nav.classList.add("show");
-    elm.dataset.state = "opened"
+    elm.dataset.state = "opened";
   } else {
     nav.classList.remove("show");
     elm.dataset.state = "closed";
   }
-})
+});
 
 // SCREEN VIEW AND FILTERING
 const screen = document.querySelector(".current-screen");
@@ -342,6 +341,7 @@ function createList(e) {
     console.log(title);
     let id = TODO.createList(title);
     displayListItems();
+    updateLocalStorage();
     changeScreen(id);
     createListDialog.close();
   }
@@ -383,6 +383,7 @@ function renameList(e) {
     id = Number(id);
     TODO.renameList(id, title);
     displayListItems();
+    updateLocalStorage();
     changeScreen(id);
     renameListDialog.close();
   }
@@ -544,6 +545,7 @@ function deleteList(e) {
   }
 
   TODO.deleteList(currentListId);
+  updateLocalStorage();
   // let pos = displayedList.indexOf(currentListId);
   // displayedList.splice(pos, 1);
   closeDialog(e);
@@ -673,7 +675,7 @@ function createTodoItem(e) {
   let shownListId = Number(screen.dataset.listId);
 
   renderTodoItems(shownListId);
-
+  updateLocalStorage();
   createTodoDialog.close();
 }
 
@@ -783,14 +785,14 @@ function renderTodoItems(listId, filter = "all") {
       } else {
         let date = new Date(todoItem.dueDate);
         if (isToday(date)) {
-          todoDueDateView.textContent = "DUE TODAY";
+          todoDueDateView.textContent = "TODAY";
         } else if (isYesterday(date)) {
-          todoDueDateView.textContent = "DUE YESTERDAY";
+          todoDueDateView.textContent = "YESTERDAY";
         } else if (isTomorrow(date)) {
-          todoDueDateView.textContent = "DUE TOMORROW";
+          todoDueDateView.textContent = "TOMORROW";
         } else {
-          todoDueDateView.textContent = `Due ${intlFormat(date, {
-            weekday: "long",
+          todoDueDateView.textContent = `${intlFormat(date, {
+            weekday: "short",
             year: "numeric",
             month: "short",
             day: "2-digit",
@@ -955,6 +957,7 @@ function deleteTodo(e) {
   TODO.deleteTodoItem(currentListId, todoId);
 
   renderTodoItems(currentListId);
+  updateLocalStorage();
   todoDeleteConfirmDialog.close();
 }
 
@@ -1142,8 +1145,199 @@ function submitTodoEdit(e) {
   }
 
   renderTodoItems(listId);
+  updateLocalStorage();
   editTodoItemDialog.close();
 }
 
-displayListItems();
-changeScreen(id);
+// LOCAL STORAGE
+function storageAvailable(type) {
+  let storage;
+  try {
+    storage = window[type];
+    const x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === "QuotaExceededError" ||
+        // Firefox
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
+}
+
+function updateLocalStorage() {
+  if (storageAvailable("localStorage")) {
+    console.log("can use local storage");
+    // localStorage.removeItem("visited");
+    localStorage.clear();
+    const lists = TODO.lists;
+    for (let list of lists) {
+      let listId = list.id;
+      let name = list.name;
+      let todoItems = list.todoItems;
+      console.log(listId);
+      const listObj = {
+        name,
+        todoItems: [],
+      };
+
+      for (let todoItem of todoItems) {
+        let todoTitle = todoItem.title;
+        let todoDueDate = todoItem.dueDate;
+        let todoNotes = todoItem.note;
+        let todoDoneStatus = todoItem.done;
+        let todoPriority = todoItem.priority;
+        let todo = {
+          todoTitle,
+          todoDueDate,
+          todoNotes,
+          todoDoneStatus,
+          todoPriority,
+        };
+        listObj.todoItems.push(todo);
+      }
+
+      localStorage.setItem(listId, JSON.stringify(listObj));
+    }
+
+    localStorage.setItem("visited", "true");
+  }
+}
+
+if (!localStorage.getItem("visited")) {
+  createTutorial();
+  updateLocalStorage();
+} else {
+  preLoadFromLocalStorage();
+}
+
+function createTutorial() {
+  let id = TODO.createList("Tutorial");
+  // extend text found in tutorial
+  let todoItem1 = {
+    name: "Using the todo app",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+    Please follow through this tutorial to get an overview of this app's usage.`
+  }
+
+  let todoItem2 = {
+    name: "Creating a list",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+    Lists are groupings of todo items. Todo Items can only be created after creating a list item.
+    Click on the "Add List" button in the nav to create a list. Click menu bar to open nav in mobile devices and tablets. `
+  }
+
+  let todoItem3 = {
+    name: "Creating a todo item",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+    Todo Items can have a due date, priority, title and a description. You can also mark as complete. To create one, click the plus button by the bottom right of the screen. You must create a list before being able to create a todo item.`
+  }
+
+  let todoItem4 = {
+    name: "Deleting a list",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+    Lists when deleted will be completely removed. It will also delete every todo item under it. Click the trash can icon next to the list name on the screen to delete the icon to delete the current list. After deleting a list, a new screen will be rendered using the lists you've previously created. If there are no lists left, an empty screen will be displayed. `
+  }
+
+ let todoItem5 = {
+    name: "Deleting a todo item",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+   Todo items can be deleted by clicking the trash icon next to it. Deleting a todo is non-reversible.`
+  }
+
+  let todoItem6 = {
+    name: "Editing a todo item",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+   Todo items can be edited by clicking the pen icon next to it.`
+  }
+
+  let todoItem7 = {
+    name: "Rename a List",
+    priority: "high",
+    dueDate: "none",
+    notes: `
+   Renaming a list can be done by clicking the pen icon next to the title on the screen.`
+  }
+
+
+  TODO.createToDo(id, todoItem1.name, todoItem1.notes, todoItem1.dueDate, todoItem1.priority, []);
+
+  TODO.createToDo(id, todoItem2.name, todoItem2.notes, todoItem2.dueDate, todoItem2.priority, []);
+
+  TODO.createToDo(id, todoItem3.name, todoItem3.notes, todoItem3.dueDate, todoItem3.priority, []);
+
+  TODO.createToDo(id, todoItem4.name, todoItem4.notes, todoItem4.dueDate, todoItem4.priority, []);
+
+  TODO.createToDo(id, todoItem5.name, todoItem5.notes, todoItem5.dueDate, todoItem5.priority, []);
+
+  TODO.createToDo(id, todoItem7.name, todoItem7.notes, todoItem7.dueDate, todoItem7.priority, []);
+
+  TODO.createToDo(id, todoItem6.name, todoItem6.notes, todoItem6.dueDate, todoItem6.priority, []);
+  localStorage.setItem("visited", "true");
+
+
+  displayListItems();
+  changeScreen(id);
+  renderTodoItems(id);
+}
+
+function preLoadFromLocalStorage() {
+  localStorage.removeItem("visited");
+  if (localStorage.length === 0) {
+    createEmptyListScreen();
+  } else {
+    let lastId = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let { name, todoItems } = JSON.parse(localStorage.getItem(key));
+
+      let listId = TODO.createList(name);
+      lastId = listId;
+      for (let todoItem of todoItems) {
+        let title = todoItem.todoTitle;
+        let priority = todoItem.todoPriority;
+        let dueDate = todoItem.todoDueDate;
+        let doneStatus = todoItem.todoDoneStatus;
+        let notes = todoItem.todoNotes;
+        TODO.createToDo(
+          listId,
+          title,
+          notes,
+          dueDate,
+          priority,
+          [],
+          doneStatus
+        );
+      }
+    }
+
+    displayListItems();
+    changeScreen(lastId);
+    renderTodoItems(lastId);
+  }
+  localStorage.setItem("visited", "true");
+}
