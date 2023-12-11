@@ -373,12 +373,6 @@ nav .lists .create-list-item:active {
   transform: rotate(45deg);
 }
 
-.todo-item [data-done="false"] {
-}
-
-.todo-item [data-done="true"] {
-}
-
 .todo-item .todo-details-overview {
   flex: 1;
   display: flex;
@@ -430,9 +424,6 @@ nav .lists .create-list-item:active {
   background-color: red;
   border-top-right-radius: 9px;
   border-bottom-right-radius: 9px;
-}
-
-.todo-item .priority[data-priority="high"] {
 }
 
 .current-screen .add-task {
@@ -500,8 +491,6 @@ dialog.todo-delete-confirm,
   padding: 8px 0;
 }
 
-.list-delete-confirm p {
-}
 
 .list-delete-confirm .btn-group,
 .create-list-item-dialog .btn-group,
@@ -558,8 +547,6 @@ dialog.todo-delete-confirm,
   font-size: 1.9rem;
 }
 
-.create-todo-item {
-}
 .create-todo-item form,
 .edit-todo-item form {
   padding: 8px 12px;
@@ -579,9 +566,6 @@ dialog.todo-delete-confirm,
 .create-todo-item .row-title,
 .edit-todo-item .row-title {
   font-size: 1.9rem;
-}
-
-.create-todo-item input {
 }
 
 .create-todo-item input[type="text"],
@@ -626,9 +610,6 @@ dialog.todo-delete-confirm,
 
 .todo-details .dialog-content p {
   display: flex;
-}
-
-.todo-details .value {
 }
 
 .todo-details .heading {
